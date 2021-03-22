@@ -1,0 +1,6 @@
+{
+  "outputFile" : "/output.csv",
+  "transactionsPerSecond" : 1000,
+  "outOfOrder%": 0
+
+}
