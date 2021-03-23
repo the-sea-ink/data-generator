@@ -1,6 +1,9 @@
 {
   "outputFile" : "/output.csv",
   "transactionsPerSecond" : 1000,
-  "outOfOrder%": 0
+  "numberOfSensors" : 5,
+  "outOfOrder%": 0,
+  "runtimeInSeconds" : 1
+
 
 }
