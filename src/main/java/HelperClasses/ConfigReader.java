@@ -2,8 +2,11 @@ package HelperClasses;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
+import org.omg.CORBA.INTERNAL;
+
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.function.LongFunction;
 
 public class ConfigReader {
 
@@ -29,5 +32,19 @@ public class ConfigReader {
         int transactionsPerSecond = transactionsPerSecondLong.intValue();
         return transactionsPerSecond;
     }
+
+    public static int getNumberOfSensors () throws IOException, ParseException {
+        JSONObject jo = (JSONObject) configReader();
+        Long numberOfSensorsLong = (Long) jo.get("numberOfSensors");
+        int numberOfSensors = numberOfSensorsLong.intValue();
+        return numberOfSensors;
+    };
+
+    public static int getRuntime () throws IOException, ParseException {
+        JSONObject jo = (JSONObject) configReader();
+        Long runtimeLong = (Long) jo.get("runtimeInSeconds");
+        int runtime = runtimeLong.intValue();
+        return runtime;
+    };
 
 }
