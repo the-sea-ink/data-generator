@@ -6,6 +6,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -24,8 +25,12 @@ public class Generator {
             int eventID = sensor.getEventID();
             int sensorID = sensor.getSensorID();
 
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            long eventTime = timestamp.getTime();
+
             Converter.listGenerator(list, String.valueOf(eventID));
             Converter.listGenerator(list, String.valueOf(sensorID));
+            Converter.listGenerator(list, String.valueOf(eventTime));
 
             String string = Converter.stringGenerator(list);
 

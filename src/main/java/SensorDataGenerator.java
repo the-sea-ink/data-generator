@@ -1,3 +1,5 @@
+import java.sql.Timestamp;
+
 public class SensorDataGenerator {
 
     private int numberOfSensors;
@@ -23,4 +25,5 @@ public class SensorDataGenerator {
         }
         return this.currentSensor;
     };
+
 }
