@@ -2,6 +2,7 @@
 import HelperClasses.ConfigReader;
 import HelperClasses.Converter;
 import HelperClasses.Exporter;
+import HelperClasses.TimeHandler;
 import org.json.simple.parser.ParseException;
 
 import java.io.FileWriter;
@@ -15,6 +16,7 @@ public class Generator {
 
     public static void main(String[] args) throws IOException, ParseException {
 
+        TimeHandler.timeConverter();
         //init
         SensorDataGenerator sensor = new SensorDataGenerator(ConfigReader.getNumberOfSensors());
         FileWriter fileWriter = Exporter.exporterInit();
