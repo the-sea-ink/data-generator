@@ -2,11 +2,11 @@ package HelperClasses;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
-import org.omg.CORBA.INTERNAL;
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.function.LongFunction;
+
 
 public class ConfigReader {
 
@@ -46,5 +46,21 @@ public class ConfigReader {
         int runtime = runtimeLong.intValue();
         return runtime;
     };
+
+    public static Date getStartingTime () throws IOException, ParseException, java.text.ParseException {
+        JSONObject jo = (JSONObject) configReader();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        String dateStr = (String) jo.get("startingTime");
+        Date date = sdf.parse(dateStr);
+        return date;
+    }
+
+    public static Integer getTimeBetweenTransactions() throws IOException, ParseException {
+        JSONObject jo = (JSONObject) configReader();
+        Long timeBetweenTransactionsLong = (Long) jo.get("milliSecondsBetweenTransactions");
+        int timeBetweenTransactions = timeBetweenTransactionsLong.intValue();
+        return timeBetweenTransactions;
+
+    }
 
 }

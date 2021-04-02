@@ -3,8 +3,8 @@
   "transactionsPerSecond" : 1000,
   "numberOfSensors" : 5,
   "outOfOrder%": 0,
-  "runtimeInSeconds" : 1,
-  "startingTime": "2021-03-31 17:03:20.0",
+  "runtimeInSeconds" : 3,
+  "startingTime": "2021-03-31 17:03:20.004",
   "milliSecondsBetweenTransactions": 20
 
 

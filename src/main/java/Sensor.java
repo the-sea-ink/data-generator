@@ -1,12 +1,10 @@
-import java.sql.Timestamp;
-
-public class SensorDataGenerator {
+public class Sensor {
 
     private int numberOfSensors;
     private int currentSensor;
     private int eventID;
 
-    public SensorDataGenerator(int numberOfSensors){
+    public Sensor(int numberOfSensors){
         this.numberOfSensors = numberOfSensors;
         this.currentSensor = 0;
         this.eventID = 0;
