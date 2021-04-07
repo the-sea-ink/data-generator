@@ -55,12 +55,19 @@ public class ConfigReader {
         return date;
     }
 
-    public static Integer getTimeBetweenTransactions() throws IOException, ParseException {
+    public static int getTimeBetweenTransactions() throws IOException, ParseException {
         JSONObject jo = (JSONObject) configReader();
         Long timeBetweenTransactionsLong = (Long) jo.get("milliSecondsBetweenTransactions");
         int timeBetweenTransactions = timeBetweenTransactionsLong.intValue();
         return timeBetweenTransactions;
 
+    }
+
+    public static int getEventTimeColumn() throws IOException, ParseException {
+        JSONObject jo = (JSONObject) configReader();
+        Long eventTimeColumnLong = (Long) jo.get("eventTimeColumn");
+        int eventTimeColumn = eventTimeColumnLong.intValue();
+        return eventTimeColumn;
     }
 
 }

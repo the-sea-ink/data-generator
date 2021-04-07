@@ -3,18 +3,20 @@
   <component name="ChangeListManager">
     <list default="true" id="54cf2442-fff0-4993-99fe-c29dfa551f1c" name="Default Changelist" comment="">
       <change afterPath="$PROJECT_DIR$/output/output.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Stream.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Analyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Analyzer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Generator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Generator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/HelperClasses/ConfigReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/HelperClasses/ConfigReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/HelperClasses/Exporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/HelperClasses/Exporter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/HelperClasses/TimeHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/HelperClasses/TimeHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SensorDataGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Sensor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Analyzer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Analyzer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Generator.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Generator.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/HelperClasses/ConfigReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/HelperClasses/ConfigReader.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/HelperClasses/Exporter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/HelperClasses/Exporter.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/HelperClasses/TimeHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/HelperClasses/TimeHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/SensorDataGenerator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Sensor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Sensor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Stream.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Stream.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +52,14 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="editing.templates" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Analyzer">
+    <configuration name="Analyzer" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Analyzer" />
+      <module name="data-generator" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Generator" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Generator" />
       <module name="data-generator" />
@@ -58,6 +67,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.Generator" />
+      <item itemvalue="Application.Analyzer" />
+    </list>
   </component>
   <component name="ServiceViewManager">
     <option name="viewStates">
@@ -86,10 +99,11 @@
     </state>
     <state x="278" y="32" width="804" height="677" key="#Project_Structure/0.0.1366.740/1366.0.1920.1080@0.0.1366.740" timestamp="1615298288877" />
     <state x="278" y="32" key="#Project_Structure/0.0.1366.740@0.0.1366.740" timestamp="1617370191622" />
-    <state x="141" y="29" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1615298972980">
+    <state x="141" y="29" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1617631816148">
       <screen x="0" y="0" width="1366" height="740" />
     </state>
     <state x="141" y="29" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.740/1366.0.1920.1080@0.0.1366.740" timestamp="1615298972980" />
+    <state x="141" y="29" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.740@0.0.1366.740" timestamp="1617631816148" />
     <state x="415" y="157" width="529" height="428" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1615298972038">
       <screen x="0" y="0" width="1366" height="740" />
     </state>
@@ -107,26 +121,26 @@
     </state>
     <state x="457" y="114" width="439" height="513" key="FileChooserDialogImpl/0.0.1366.740/1366.0.1920.1080@0.0.1366.740" timestamp="1615382894086" />
     <state x="457" y="114" width="428" height="484" key="FileChooserDialogImpl/0.0.1366.740@0.0.1366.740" timestamp="1616416322820" />
-    <state width="1320" height="218" key="GridCell.Tab.0.bottom" timestamp="1617370491815">
+    <state width="1320" height="175" key="GridCell.Tab.0.bottom" timestamp="1617802379600">
       <screen x="0" y="0" width="1366" height="740" />
     </state>
     <state width="1320" height="218" key="GridCell.Tab.0.bottom/0.0.1366.740/1366.0.1920.1080@0.0.1366.740" timestamp="1615397545584" />
-    <state width="1320" height="218" key="GridCell.Tab.0.bottom/0.0.1366.740@0.0.1366.740" timestamp="1617370491815" />
-    <state width="1320" height="218" key="GridCell.Tab.0.center" timestamp="1617370491814">
+    <state width="1320" height="175" key="GridCell.Tab.0.bottom/0.0.1366.740@0.0.1366.740" timestamp="1617802379600" />
+    <state width="1320" height="175" key="GridCell.Tab.0.center" timestamp="1617802379599">
       <screen x="0" y="0" width="1366" height="740" />
     </state>
     <state width="1320" height="218" key="GridCell.Tab.0.center/0.0.1366.740/1366.0.1920.1080@0.0.1366.740" timestamp="1615397545584" />
-    <state width="1320" height="218" key="GridCell.Tab.0.center/0.0.1366.740@0.0.1366.740" timestamp="1617370491814" />
-    <state width="1320" height="218" key="GridCell.Tab.0.left" timestamp="1617370491813">
+    <state width="1320" height="175" key="GridCell.Tab.0.center/0.0.1366.740@0.0.1366.740" timestamp="1617802379599" />
+    <state width="1320" height="175" key="GridCell.Tab.0.left" timestamp="1617802379599">
       <screen x="0" y="0" width="1366" height="740" />
     </state>
     <state width="1320" height="218" key="GridCell.Tab.0.left/0.0.1366.740/1366.0.1920.1080@0.0.1366.740" timestamp="1615397545583" />
-    <state width="1320" height="218" key="GridCell.Tab.0.left/0.0.1366.740@0.0.1366.740" timestamp="1617370491813" />
-    <state width="1320" height="218" key="GridCell.Tab.0.right" timestamp="1617370491814">
+    <state width="1320" height="175" key="GridCell.Tab.0.left/0.0.1366.740@0.0.1366.740" timestamp="1617802379599" />
+    <state width="1320" height="175" key="GridCell.Tab.0.right" timestamp="1617802379599">
       <screen x="0" y="0" width="1366" height="740" />
     </state>
     <state width="1320" height="218" key="GridCell.Tab.0.right/0.0.1366.740/1366.0.1920.1080@0.0.1366.740" timestamp="1615397545584" />
-    <state width="1320" height="218" key="GridCell.Tab.0.right/0.0.1366.740@0.0.1366.740" timestamp="1617370491814" />
+    <state width="1320" height="175" key="GridCell.Tab.0.right/0.0.1366.740@0.0.1366.740" timestamp="1617802379599" />
     <state width="1320" height="218" key="GridCell.Tab.1.bottom" timestamp="1617370491816">
       <screen x="0" y="0" width="1366" height="740" />
     </state>
