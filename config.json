@@ -1,13 +1,11 @@
 {
   "outputFile" : "/output.csv",
-  "numberOfSensors" : 5,
-  "outOfOrder%": 0,
+
   "runtimeInSeconds" : 3,
   "startingTime": "2021-03-31 17:03:20.004",
   "milliSecondsBetweenTransactions": 500,
-  "idColumn": 1,
+
   "eventTimeColumn": 2,
-  "processingTimeColumn": 3
 
 
 }
