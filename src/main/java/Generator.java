@@ -1,6 +1,7 @@
 import HelperClasses.ConfigReader;
 import HelperClasses.Converter;
 import HelperClasses.Exporter;
+import HelperClasses.TimeHandler;
 import org.json.simple.parser.ParseException;
 import java.util.Date;
 import java.io.FileWriter;
@@ -16,13 +17,19 @@ public class Generator {
         //init stream
         Stream dataStream = new Stream();
         //init starting date
-        Date date = dataStream.getCurrentEventTime();
+        Date date;
+        Date startingTime = dataStream.getStartingTime();
         //init file writer
         FileWriter fileWriter = Exporter.exporterInit();
 
+        //Timestamp timest = new Timestamp (TimeHandler.addTimeSeconds(startingTime, ConfigReader.getRuntime()).getTime());
+        //System.out.println(timest);
 
-        for (long stop = System.nanoTime()+ TimeUnit.SECONDS.toNanos(ConfigReader.getRuntime()); stop>System.nanoTime();) {
+
+        do {
             //current event string
+            if ((TimeHandler.addTimeSeconds(startingTime, ConfigReader.getRuntime())).before(dataStream.getCurrentEventTime()) )
+                break;
             List<String> list = new ArrayList<>();
 
             int eventID = dataStream.getEventID();
@@ -39,6 +46,7 @@ public class Generator {
             Exporter.exporter(fileWriter, string);
 
         }
+        while (true);
 
 
 
