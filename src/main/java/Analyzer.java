@@ -4,6 +4,7 @@ import org.json.simple.parser.ParseException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,6 +19,9 @@ public class Analyzer {
         System.out.println("-----------------------------------------------------------");
         System.out.println("Stream duration: " + streamDuration + " milliseconds");
         System.out.println("Amount of events: " + eventCount);
+        System.out.println("Minimum delay: ");
+        System.out.println("Maximum delay: ");
+        System.out.println("Delayed percentage: ");
         System.out.println("-----------------------------------------------------------");
 
     }
@@ -55,8 +59,52 @@ public class Analyzer {
 
         return streamDurationMilliseconds;
     }
-    public static void statProvider () {}
+    public static int getMinDelay () throws IOException, ParseException, java.text.ParseException {
+        //read output
+        BufferedReader br = new BufferedReader(new FileReader("output/output.csv"));
+
+        //init event/processing time columns/values
+        int eventTimeColumn = ConfigReader.getEventTimeColumn() - 1;
+        int processingTimeColumn = ConfigReader.getProcessingTimeColumn() - 1;
+
+        String line = br.readLine();
+        String[] lineArray = line.split(",");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        String eventTimeString = lineArray[eventTimeColumn];
+        Date evenTimeDate = sdf.parse(eventTimeString);
+
+        String processingTimeString = lineArray[processingTimeColumn];
+        Date processingTimeDate = sdf.parse(processingTimeString);
+
+        Date delayDate = new Date(processingTimeDate.getTime() - evenTimeDate.getTime());
+        int minDelay = (int) (delayDate.getTime());
+
+        while ((br.readLine()) != null) {
+
+            line = br.readLine();
+            lineArray = line.split(",");
+
+            eventTimeString = lineArray[eventTimeColumn];
+            evenTimeDate = sdf.parse(eventTimeString);
+
+            processingTimeString = lineArray[processingTimeColumn];
+            processingTimeDate = sdf.parse(processingTimeString);
 
 
+            delayDate = new Date(processingTimeDate.getTime() - evenTimeDate.getTime());
+            Timestamp tsPT = new Timestamp(processingTimeDate.getTime());
+            Timestamp tsET = new Timestamp(evenTimeDate.getTime());
+            long diff = tsPT.getTime() - tsET.getTime();
+
+
+            if (diff < minDelay)
+                minDelay = (int) (delayDate.getTime());
+
+        }
+        return minDelay;
+
+    }
+    public static void getMaxDelay () {}
 
 }

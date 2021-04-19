@@ -9,15 +9,15 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class Generator {
 
     public static void main(String[] args) throws IOException, ParseException, java.text.ParseException {
         //init stream
         Stream dataStream = new Stream();
-        //init starting date
-        Date date;
+        //init starting eventTime
+        Date eventTime;
+        Date processingTime;
         Date startingTime = dataStream.getStartingTime();
         //init file writer
         FileWriter fileWriter = Exporter.exporterInit();
@@ -33,11 +33,14 @@ public class Generator {
             List<String> list = new ArrayList<>();
 
             int eventID = dataStream.getEventID();
-            date = dataStream.getCurrentEventTime();
-            Timestamp ts = new Timestamp(date.getTime());
+            eventTime = dataStream.getCurrentEventTime();
+            processingTime = Delayer.delayer(eventTime);
+            Timestamp evenTimeTimestamp = new Timestamp(eventTime.getTime());
+            Timestamp processingTimeTimestamp = new Timestamp(processingTime.getTime());
 
             Converter.listGenerator(list, String.valueOf(eventID));
-            Converter.listGenerator(list, String.valueOf(ts));
+            Converter.listGenerator(list, String.valueOf(evenTimeTimestamp));
+            Converter.listGenerator(list, String.valueOf(processingTimeTimestamp));
 
             dataStream.timeUpdater();
 
