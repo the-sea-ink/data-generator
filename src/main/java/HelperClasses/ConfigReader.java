@@ -70,4 +70,25 @@ public class ConfigReader {
         return eventTimeColumn;
     }
 
+    public static int getProcessingTimeColumn () throws IOException, ParseException {
+        JSONObject jo = (JSONObject) configReader();
+        Long processingTimeColumnLong = (long) jo.get("processingTimeColumn");
+        int processingTimeColumn = processingTimeColumnLong.intValue();
+        return processingTimeColumn;
+    }
+
+    public static int getShortestDelayInMilliseconds () throws IOException, ParseException {
+        JSONObject jo = (JSONObject) configReader();
+        Long shortestDelayInMillisecondsLong = (Long) jo.get("shortestDelayInMilliseconds");
+        int shortestDelayInMilliseconds = shortestDelayInMillisecondsLong.intValue();
+        return shortestDelayInMilliseconds;
+    }
+
+    public static int getLongestDelayInMilliseconds () throws IOException, ParseException {
+        JSONObject jo = (JSONObject) configReader();
+        Long longestDelayInMillisecondsLong = (Long) jo.get("longestDelayInMilliseconds");
+        int longestDelayInMilliseconds = longestDelayInMillisecondsLong.intValue();
+        return longestDelayInMilliseconds;
+    }
+
 }
