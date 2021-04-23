@@ -1,7 +1,4 @@
-import HelperClasses.ConfigReader;
-import HelperClasses.Converter;
-import HelperClasses.Exporter;
-import HelperClasses.TimeHandler;
+import HelperClasses.*;
 import org.json.simple.parser.ParseException;
 import java.util.Date;
 import java.io.FileWriter;
@@ -22,10 +19,6 @@ public class Generator {
         //init file writer
         FileWriter fileWriter = Exporter.exporterInit();
 
-        //Timestamp timest = new Timestamp (TimeHandler.addTimeSeconds(startingTime, ConfigReader.getRuntime()).getTime());
-        //System.out.println(timest);
-
-
         do {
             //current event string
             if ((TimeHandler.addTimeSeconds(startingTime, ConfigReader.getRuntime())).before(dataStream.getCurrentEventTime()) )
@@ -39,7 +32,9 @@ public class Generator {
             Timestamp processingTimeTimestamp = new Timestamp(processingTime.getTime());
 
             Converter.listGenerator(list, String.valueOf(eventID));
+            Converter.listGenerator(list, String.valueOf(eventTime.getTime()));
             Converter.listGenerator(list, String.valueOf(evenTimeTimestamp));
+            Converter.listGenerator(list, String.valueOf(processingTime.getTime()));
             Converter.listGenerator(list, String.valueOf(processingTimeTimestamp));
 
             dataStream.timeUpdater();

@@ -19,7 +19,7 @@ public class Analyzer {
         System.out.println("-----------------------------------------------------------");
         System.out.println("Stream duration: " + streamDuration + " milliseconds");
         System.out.println("Amount of events: " + eventCount);
-        System.out.println("Minimum delay: ");
+        System.out.println("Minimum delay: " + getMinDelay() );
         System.out.println("Maximum delay: ");
         System.out.println("Delayed percentage: ");
         System.out.println("-----------------------------------------------------------");
@@ -40,10 +40,9 @@ public class Analyzer {
         String[] firstLineArray = firstLine.split(",");
         int eventTimeColumn = ConfigReader.getEventTimeColumn()-1;
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         String startingTime = firstLineArray[eventTimeColumn];
-        Date dateStart = sdf.parse(startingTime);
-        Timestamp tsStart = new Timestamp(dateStart.getTime());
+
+        Date dateStart = new Date(Long.parseLong(startingTime));
 
         //get last line
         String lastLine = "";
@@ -51,7 +50,7 @@ public class Analyzer {
             lastLine = br.readLine();
         String[] lastLineArray = lastLine.split(",");
         String endTime = lastLineArray[eventTimeColumn];
-        Date dateEnd = sdf.parse(endTime);
+        Date dateEnd = new Date(Long.parseLong(endTime));
         Timestamp tsEnd = new Timestamp(dateEnd.getTime());
 
         Date streamDurationDate = new Date (dateEnd.getTime() - dateStart.getTime());
@@ -70,12 +69,12 @@ public class Analyzer {
         String line = br.readLine();
         String[] lineArray = line.split(",");
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
         String eventTimeString = lineArray[eventTimeColumn];
-        Date evenTimeDate = sdf.parse(eventTimeString);
+        Date evenTimeDate = new Date(Long.parseLong(eventTimeString));
 
         String processingTimeString = lineArray[processingTimeColumn];
-        Date processingTimeDate = sdf.parse(processingTimeString);
+        Date processingTimeDate = new Date(Long.parseLong(processingTimeString));
 
         Date delayDate = new Date(processingTimeDate.getTime() - evenTimeDate.getTime());
         int minDelay = (int) (delayDate.getTime());
@@ -86,10 +85,10 @@ public class Analyzer {
             lineArray = line.split(",");
 
             eventTimeString = lineArray[eventTimeColumn];
-            evenTimeDate = sdf.parse(eventTimeString);
+            evenTimeDate = new Date(Long.parseLong(eventTimeString));
 
             processingTimeString = lineArray[processingTimeColumn];
-            processingTimeDate = sdf.parse(processingTimeString);
+            processingTimeDate = new Date(Long.parseLong(processingTimeString));
 
 
             delayDate = new Date(processingTimeDate.getTime() - evenTimeDate.getTime());

@@ -4,11 +4,11 @@
   "runtimeInSeconds" : 60,
   "startingTime": "2021-03-31 17:03:20.004",
   "milliSecondsBetweenTransactions": 500,
-  "shortestDelayInMilliseconds" : 5,
+  "shortestDelayInMilliseconds" : 10,
   "longestDelayInMilliseconds" : 30,
 
   "eventTimeColumn": 2,
-  "processingTimeColumn" : 3
+  "processingTimeColumn" : 4
 
 
 }
