@@ -1,3 +1,5 @@
+package HelperClasses;
+
 import HelperClasses.ConfigReader;
 import org.json.simple.parser.ParseException;
 
