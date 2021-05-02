@@ -16,6 +16,7 @@ public class Generator {
         Date eventTime;
         Date processingTime;
         Date startingTime = dataStream.getStartingTime();
+        Delayer delayer = new Delayer();
         //init file writer
         FileWriter fileWriter = Exporter.exporterInit();
 
@@ -27,15 +28,17 @@ public class Generator {
 
             int eventID = dataStream.getEventID();
             eventTime = dataStream.getCurrentEventTime();
-            processingTime = Delayer.delayer(eventTime);
+            //processingTime = Delayer.delayerRandom(eventTime);
+
+            processingTime = delayer.delayerUserDefined(eventTime);
             Timestamp evenTimeTimestamp = new Timestamp(eventTime.getTime());
             Timestamp processingTimeTimestamp = new Timestamp(processingTime.getTime());
 
             Converter.listGenerator(list, String.valueOf(eventID));
             Converter.listGenerator(list, String.valueOf(eventTime.getTime()));
-            Converter.listGenerator(list, String.valueOf(evenTimeTimestamp));
+            //Converter.listGenerator(list, String.valueOf(evenTimeTimestamp));
             Converter.listGenerator(list, String.valueOf(processingTime.getTime()));
-            Converter.listGenerator(list, String.valueOf(processingTimeTimestamp));
+            //Converter.listGenerator(list, String.valueOf(processingTimeTimestamp));
 
             dataStream.timeUpdater();
 

@@ -91,4 +91,11 @@ public class ConfigReader {
         return longestDelayInMilliseconds;
     }
 
+    public static int getDelayPercentage () throws IOException, ParseException {
+        JSONObject jo = (JSONObject) configReader();
+        Long delayPercentageLong = (Long) jo.get("delayPercentage");
+        int delayPercentage = delayPercentageLong.intValue();
+        return delayPercentage;
+    }
+
 }
