@@ -17,6 +17,7 @@ public class Generator {
         Date processingTime;
         Date startingTime = dataStream.getStartingTime();
         Delayer delayer = new Delayer();
+        Videocard machine1 = new Videocard();
         //init file writer
         FileWriter fileWriter = Exporter.exporterInit();
 
@@ -34,12 +35,25 @@ public class Generator {
             Timestamp evenTimeTimestamp = new Timestamp(eventTime.getTime());
             Timestamp processingTimeTimestamp = new Timestamp(processingTime.getTime());
 
+            //spalte 1
             Converter.listGenerator(list, String.valueOf(eventID));
-            Converter.listGenerator(list, String.valueOf(eventTime.getTime()));
-            //Converter.listGenerator(list, String.valueOf(evenTimeTimestamp));
-            Converter.listGenerator(list, String.valueOf(processingTime.getTime()));
-            //Converter.listGenerator(list, String.valueOf(processingTimeTimestamp));
 
+            //spalte 2
+            Converter.listGenerator(list, String.valueOf(eventTime.getTime()));
+
+            //spalte 3
+            Converter.listGenerator(list, String.valueOf(processingTime.getTime()));
+
+            //spalte 4
+            Converter.listGenerator(list, String.valueOf(machine1.serialNumber));
+
+            //spalte 5
+            Converter.listGenerator(list, String.valueOf(machine1.temperature));
+
+            //spalte 5
+            Converter.listGenerator(list, String.valueOf(machine1.overheatWarning));
+
+            machine1.Updater();
             dataStream.timeUpdater();
 
             String string = Converter.stringGenerator(list);
