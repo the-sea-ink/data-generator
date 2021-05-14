@@ -10,6 +10,7 @@ import java.util.Date;
 public class Analyzer {
     //for statistics
 
+
     public static void main(String[] args) throws IOException, ParseException, java.text.ParseException {
         int eventCount = getTotalEvents();
         int streamDuration = getDurationInMilliseconds();
@@ -20,6 +21,7 @@ public class Analyzer {
         System.out.println("Minimum delay: " + getMinDelay() );
         System.out.println("Maximum delay: " + getMaxDelay());
         System.out.println("Out of oder percentage: " + outOfOrderPercentage());
+        System.out.println("Critical points: " + getCriticalPoints());
         System.out.println("-----------------------------------------------------------");
 
     }
@@ -150,6 +152,7 @@ public class Analyzer {
         //init event/processing time columns/values
         int eventTimeColumn = ConfigReader.getEventTimeColumn() - 1;
         int processingTimeColumn = ConfigReader.getProcessingTimeColumn() - 1;
+        int criticalPointColumn = ConfigReader.getCriticalPointColumn() -1;
 
         int counter = 0;
 
@@ -165,8 +168,9 @@ public class Analyzer {
 
             String eventTimeString = lineArray[eventTimeColumn];
             Date eventTimeDate = new Date(Long.parseLong(eventTimeString));
-            if (processingTimeDate.getTime() > (eventTimeDate.getTime()))
+            if (processingTimeDate.getTime() > (eventTimeDate.getTime())) {
                 counter ++;
+            }
 
             processingTimeString = lineArray[processingTimeColumn];
             processingTimeDate = new Date(Long.parseLong(processingTimeString));
@@ -175,5 +179,46 @@ public class Analyzer {
         return counter/(double)getTotalEvents();
 
     }
+    public static int getCriticalPoints() throws IOException, ParseException {
+        BufferedReader br = new BufferedReader(new FileReader("output/output.csv"));
 
+        //init event/processing time columns/values
+        int eventTimeColumn = ConfigReader.getEventTimeColumn() - 1;
+        int processingTimeColumn = ConfigReader.getProcessingTimeColumn() - 1;
+        int criticalPointColumn = ConfigReader.getCriticalPointColumn() -1;
+
+        int counter = 0;
+
+        String line = br.readLine();
+        String[] lineArray = line.split(",");
+
+        String processingTimeString = lineArray[processingTimeColumn];
+        Date processingTimeDate = new Date(Long.parseLong(processingTimeString));
+        boolean criticalPoint = Boolean.parseBoolean(lineArray[criticalPointColumn]);
+        boolean criticalPointChange = false;
+        int criticalPointChanges  = 0;
+
+        while ((line = br.readLine()) != null) {
+
+            lineArray = line.split(",");
+
+            String eventTimeString = lineArray[eventTimeColumn];
+            Date eventTimeDate = new Date(Long.parseLong(eventTimeString));
+            if (processingTimeDate.getTime() > (eventTimeDate.getTime())) {
+                criticalPoint = Boolean.parseBoolean(lineArray[criticalPointColumn]);
+                if (criticalPoint != criticalPointChange) {
+                    criticalPointChanges++;
+                    criticalPointChange = criticalPoint;
+                    System.out.println(lineArray[0]);
+                }
+                counter ++;
+            }
+
+
+            processingTimeString = lineArray[processingTimeColumn];
+            processingTimeDate = new Date(Long.parseLong(processingTimeString));
+
+        }
+        return criticalPointChanges;
+    }
 }

@@ -11,7 +11,8 @@
 
 
   "eventTimeColumn": 2,
-  "processingTimeColumn" : 3
+  "processingTimeColumn" : 3,
+  "criticalPointColumn": 6
 
 
 }
