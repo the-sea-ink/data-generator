@@ -98,4 +98,11 @@ public class ConfigReader {
         return delayPercentage;
     }
 
+    public static int getCriticalPointColumn () throws IOException, ParseException {
+        JSONObject jo = (JSONObject) configReader();
+        Long criticalPointolumnLong = (Long) jo.get("criticalPointColumn");
+        int criticalPointolumn = criticalPointolumnLong.intValue();
+        return criticalPointolumn;
+
+    }
 }

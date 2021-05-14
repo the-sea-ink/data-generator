@@ -96,7 +96,7 @@ public class Plotter extends JFrame {
 
             delays[i] = (double) diff;
             i++;
-            
+
         }
 
         HistogramDataset dataset = new HistogramDataset();
