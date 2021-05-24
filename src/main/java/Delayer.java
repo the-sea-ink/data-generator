@@ -8,8 +8,10 @@ import java.util.Date;
 public class Delayer {
 
     int oooPercentage = ConfigReader.getDelayPercentage();
-    int numberOfEvents = (int) (ConfigReader.getRuntime()*1000 / ConfigReader.getTimeBetweenTransactions() ) +1;
-    int oooEvents = (int) numberOfEvents * oooPercentage / 100;
+    int numberOfEvents = (ConfigReader.getRuntime()*1000 / ConfigReader.getTimeBetweenTransactions() ) +1;
+    int oooEvents = (int) Math.ceil(numberOfEvents * oooPercentage / 100);
+    int ioEvents = numberOfEvents - oooEvents;
+    int currentEvent = 1;
 
     public Delayer() throws IOException, ParseException {
     }
@@ -22,14 +24,16 @@ public class Delayer {
        return processingTime;
    }
 
-   public Date delayerUserDefined(Date eventTime) throws IOException, ParseException {
+   public Date delayerRandomDistribution(Date eventTime) throws IOException, ParseException {
        int minDelay = ConfigReader.getShortestDelayInMilliseconds();
        int maxDelay = ConfigReader.getLongestDelayInMilliseconds();
        int timeBetweenEvents = ConfigReader.getTimeBetweenTransactions();
        int delay;
+       //ooo event
        if (distributionCalculation()) {
            delay = (int) Math.floor(Math.random()*(maxDelay - timeBetweenEvents+1)+timeBetweenEvents);
        }
+       //io event
        else {
            delay = (int) Math.floor(Math.random()*(timeBetweenEvents - minDelay+1)+minDelay);
        }
@@ -37,12 +41,30 @@ public class Delayer {
        return processingTime;
 
    }
+   public Date delayerConceptDrift(Date eventTime) throws IOException, ParseException {
+       int minDelay = ConfigReader.getShortestDelayInMilliseconds();
+       int maxDelay = ConfigReader.getLongestDelayInMilliseconds();
+       int timeBetweenEvents = ConfigReader.getTimeBetweenTransactions();
+       int delay;
+       int conceptDriftStartingEvent = this.ioEvents/2;
+       //io events
+       if (this.currentEvent <= conceptDriftStartingEvent || this.currentEvent >= conceptDriftStartingEvent + this.oooEvents) {
+           delay = (int) Math.floor(Math.random()*(timeBetweenEvents - minDelay+1)+minDelay);
+       }
+       //ooo events
+       else {
+           delay = (int) Math.floor(Math.random()*(maxDelay - timeBetweenEvents+1)+timeBetweenEvents);
+       }
+       currentEvent ++;
+       Date processingTime = TimeHandler.addTimeMilliseconds(eventTime, delay);
+       return processingTime;
+   }
 
    public boolean distributionCalculation () {
-        int result = (int) Math.random()*numberOfEvents;
+        int result = (int) Math.floor((Math.random())*(numberOfEvents)+1);
         this.numberOfEvents --;
-        if (result <= oooEvents) {
-            oooEvents --;
+        if (result <= this.oooEvents) {
+            this.oooEvents --;
             return true;
         }
         else
