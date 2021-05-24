@@ -6,9 +6,7 @@
   "milliSecondsBetweenTransactions": 50,
   "shortestDelayInMilliseconds" : 10,
   "longestDelayInMilliseconds" : 100,
-  "delayPercentage": 70,
-
-
+  "delayPercentage": 50,
 
   "eventTimeColumn": 2,
   "processingTimeColumn" : 3,

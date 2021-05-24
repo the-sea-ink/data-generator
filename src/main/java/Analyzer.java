@@ -209,7 +209,7 @@ public class Analyzer {
                 if (criticalPoint != criticalPointChange) {
                     criticalPointChanges++;
                     criticalPointChange = criticalPoint;
-                    System.out.println(lineArray[0]);
+                    //System.out.println(lineArray[0]);
                 }
                 counter ++;
             }

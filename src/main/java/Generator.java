@@ -31,7 +31,7 @@ public class Generator {
             eventTime = dataStream.getCurrentEventTime();
             //processingTime = Delayer.delayerRandom(eventTime);
 
-            processingTime = delayer.delayerUserDefined(eventTime);
+            processingTime = delayer.delayerConceptDrift(eventTime);
             Timestamp evenTimeTimestamp = new Timestamp(eventTime.getTime());
             Timestamp processingTimeTimestamp = new Timestamp(processingTime.getTime());
 
