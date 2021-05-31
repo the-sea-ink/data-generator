@@ -17,7 +17,14 @@ public class Generator {
         Date processingTime;
         Date startingTime = dataStream.getStartingTime();
         Delayer delayer = new Delayer();
-        Videocard machine1 = new Videocard();
+        int amountOfSources = ConfigReader.getAmountOfSources();
+        List<Videocard> videoCards  = new ArrayList<>();
+        for (int i = 0; i <= amountOfSources; i++) {
+            videoCards.add(new Videocard());
+        }
+
+        int cardUpdater = 0;
+
         //init file writer
         FileWriter fileWriter = Exporter.exporterInit();
 
@@ -25,15 +32,13 @@ public class Generator {
             //current event string
             if ((TimeHandler.addTimeSeconds(startingTime, ConfigReader.getRuntime())).before(dataStream.getCurrentEventTime()) )
                 break;
+
             List<String> list = new ArrayList<>();
 
             int eventID = dataStream.getEventID();
             eventTime = dataStream.getCurrentEventTime();
-            //processingTime = Delayer.delayerRandom(eventTime);
 
-            processingTime = delayer.delayerConceptDrift(eventTime);
-            Timestamp evenTimeTimestamp = new Timestamp(eventTime.getTime());
-            Timestamp processingTimeTimestamp = new Timestamp(processingTime.getTime());
+            processingTime = delayer.delayerRandomDistribution(eventTime, videoCards.get(cardUpdater));
 
             //spalte 1
             Converter.listGenerator(list, String.valueOf(eventID));
@@ -45,26 +50,30 @@ public class Generator {
             Converter.listGenerator(list, String.valueOf(processingTime.getTime()));
 
             //spalte 4
-            Converter.listGenerator(list, String.valueOf(machine1.serialNumber));
+            Converter.listGenerator(list, String.valueOf(videoCards.get(cardUpdater).serialNumber));
 
             //spalte 5
-            Converter.listGenerator(list, String.valueOf(machine1.temperature));
+            Converter.listGenerator(list, String.valueOf(videoCards.get(cardUpdater).temperature));
 
             //spalte 5
-            Converter.listGenerator(list, String.valueOf(machine1.overheatWarning));
+            Converter.listGenerator(list, String.valueOf(videoCards.get(cardUpdater).overheatWarning));
 
-            machine1.Updater();
-            dataStream.timeUpdater();
+            videoCards.get(cardUpdater).Updater();
+
+
+            cardUpdater++;
+
+
+            if (cardUpdater >= amountOfSources) {
+                dataStream.timeUpdater();
+                cardUpdater = 0;
+            }
 
             String string = Converter.stringGenerator(list);
-
             Exporter.exporter(fileWriter, string);
 
         }
         while (true);
-
-
-
 
 
     }

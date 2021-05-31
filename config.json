@@ -1,12 +1,14 @@
 {
   "outputFile" : "/output.csv",
 
-  "runtimeInSeconds" : 20,
+  "runtimeInSeconds" : 5,
   "startingTime": "2021-03-31 17:03:20.004",
   "milliSecondsBetweenTransactions": 50,
   "shortestDelayInMilliseconds" : 10,
   "longestDelayInMilliseconds" : 100,
   "delayPercentage": 50,
+
+  "amountOfSources": 4,
 
   "eventTimeColumn": 2,
   "processingTimeColumn" : 3,
