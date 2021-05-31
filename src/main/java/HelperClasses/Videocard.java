@@ -1,4 +1,7 @@
 package HelperClasses;
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
 import java.util.Random;
 
 public class Videocard {
@@ -8,7 +11,13 @@ public class Videocard {
     public boolean overheatWarning;
     public int overheatWarningTemperature;
 
-    public Videocard() {
+    public int oooPercentage = ConfigReader.getDelayPercentage();
+    public int numberOfEvents = (ConfigReader.getRuntime()*1000 / ConfigReader.getTimeBetweenTransactions())+1;
+    public int oooEvents = (int) Math.ceil(numberOfEvents * oooPercentage / 100);
+    public int ioEvents = numberOfEvents - oooEvents;
+    public int currentEvent = 1;
+
+    public Videocard() throws IOException, ParseException {
         this.serialNumber = randomSerialNumberGenerator();
         this.temperature = 40;
         this.overheatWarning = false;

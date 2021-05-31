@@ -101,4 +101,11 @@ public class ConfigReader {
         return criticalPointolumn;
 
     }
+
+    public static int getAmountOfSources () throws IOException, ParseException {
+        JSONObject jo = (JSONObject) configReader();
+        Long amountOfSourcesLong = (Long) jo.get("amountOfSources");
+        int amountOfSources = amountOfSourcesLong.intValue();
+        return amountOfSources;
+    }
 }
