@@ -253,6 +253,7 @@ public class Analyzer {
             if (processingTimeDate.getTime() > (eventTimeDate.getTime())) {
                 criticalPoint = Boolean.parseBoolean(lineArray[criticalPointColumn]);
                 if (criticalPoint != criticalPointChange) {
+                    i = Integer.parseInt(lineArray[0]);
                     criticalPointChanges++;
                     criticalPointChange = criticalPoint;
                     //System.out.println(lineArray[0]);
@@ -264,6 +265,7 @@ public class Analyzer {
             processingTimeString = lineArray[processingTimeColumn];
             processingTimeDate = new Date(Long.parseLong(processingTimeString));
             i++;
+
 
         }
         return criticalPointChanges;
@@ -298,13 +300,14 @@ public class Analyzer {
             if (processingTimeDate.getTime() > (eventTimeDate.getTime())) {
                 criticalPoint = Boolean.parseBoolean(lineArray[criticalPointColumn]);
                 if (criticalPoint != criticalPointChange) {
+                    i = Integer.parseInt(lineArray[0]);
                     criticalPoints += i + "; ";
                     criticalPointChanges++;
                     criticalPointChange = criticalPoint;
                     //System.out.println(lineArray[0]);
                 }
                 counter ++;
-                i++;
+                //i++;
             }
 
 
