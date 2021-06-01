@@ -17,6 +17,7 @@ public class Splitter {
         BufferedReader br = new BufferedReader(new FileReader("output/output.csv"));
         String line = "";
 
+
         for (int i = 0; i < ids.length; i++) {
             line = br.readLine();
             String[] lineArray = line.split(",");
