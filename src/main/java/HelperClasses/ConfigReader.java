@@ -108,4 +108,40 @@ public class ConfigReader {
         int amountOfSources = amountOfSourcesLong.intValue();
         return amountOfSources;
     }
+
+    public static int getDelayPattern () throws IOException, ParseException {
+        JSONObject jo = (JSONObject) configReader();
+        Long delayPatternLong = (Long) jo.get("delayPattern");
+        int delayPattern = delayPatternLong.intValue();
+        return delayPattern;
+    }
+
+    public static boolean getExceptionSource () throws IOException, ParseException {
+        JSONObject jo = (JSONObject) configReader();
+        Long standOutSourceLong = (Long) jo.get("exceptionSource?");
+        boolean standoutSource = (standOutSourceLong!=0);
+        return standoutSource;
+    }
+
+    public static int getExceptionSourceNumber () throws IOException, ParseException {
+        JSONObject jo = (JSONObject) configReader();
+        Long standOutSourceNumberLong = (Long) jo.get("exceptionSourceNumber");
+        int standOutSourceNumber = standOutSourceNumberLong.intValue();
+        return standOutSourceNumber;
+    }
+
+    public static int getExceptionSourcePattern () throws IOException, ParseException {
+        JSONObject jo = (JSONObject) configReader();
+        Long exceptionSourcePatternLong =  (Long) jo.get("exceptionSourcePattern");
+        int exceptionSourcePattern = exceptionSourcePatternLong.intValue();
+        return exceptionSourcePattern;
+    }
+
+    public static int getExceptionSourceDelay () throws IOException, ParseException {
+        JSONObject jo = (JSONObject) configReader();
+        Long exceptionSourceDelayLong = (Long) jo.get("exceptionSourceDelay");
+        int exceptionSourceDelay = exceptionSourceDelayLong.intValue();
+        return exceptionSourceDelay;
+    }
+
 }
