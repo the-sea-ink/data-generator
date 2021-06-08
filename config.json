@@ -7,8 +7,14 @@
   "shortestDelayInMilliseconds" : 10,
   "longestDelayInMilliseconds" : 100,
   "delayPercentage": 50,
+  "delayPattern": 1,
 
   "amountOfSources": 4,
+  "exceptionSource?": true,
+  "exceptionSourceNumber": 2,
+  "exceptionSourcePattern": 1,
+  "exceptionSourceDelay" : 60,
+
 
   "eventTimeColumn": 2,
   "processingTimeColumn" : 3,
