@@ -1,10 +1,12 @@
 import HelperClasses.ConfigReader;
+import HelperClasses.Exporter;
 import HelperClasses.Splitter;
 import HelperClasses.Videocard;
 import org.json.simple.parser.ParseException;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -19,17 +21,37 @@ public class Analyzer {
         int eventCount = getTotalEvents();
         int streamDuration = getDurationInMilliseconds();
         int sourcesAmount = ConfigReader.getAmountOfSources();
+        FileWriter fileWriter = new FileWriter("output/analyzerOutput.csv");
+        String line = "";
 
         Splitter.split();
         System.out.println("-----------------------------------------------------------");
+
         System.out.println("Stream duration: " + streamDuration + " milliseconds");
+        line = "Stream duration:" + streamDuration +" milliseconds" + System.lineSeparator();
+        Exporter.exporter(fileWriter, line);
+
         System.out.println("Amount of events: " + eventCount);
+        line ="Amount of events: " + eventCount + System.lineSeparator();
+        Exporter.exporter(fileWriter, line);
+
         System.out.println("Minimum delay: " + getMinDelay() );
+        line = "Minimum delay: " + getMinDelay() + System.lineSeparator();
+        Exporter.exporter(fileWriter, line);
+
         System.out.println("Maximum delay: " + getMaxDelay());
+        line = "Maximum delay: " + getMaxDelay() + System.lineSeparator();
+        Exporter.exporter(fileWriter, line);
+
         for (int currentSource = 0; currentSource < sourcesAmount; currentSource ++) {
             String currentInputFile = "output/output" + currentSource +".csv";
             System.out.println("Out of oder percentage, source " + currentSource  +" : "+ outOfOrderPercentage(currentInputFile));
-            System.out.println("Critical points: " + getCriticalPointsAmount(currentInputFile) + ", at positions: " + getCriticalPoints(currentInputFile));
+            line = "Out of oder percentage, source " + currentSource  +" : "+ outOfOrderPercentage(currentInputFile) + System.lineSeparator();
+            Exporter.exporter(fileWriter, line);
+
+            System.out.println("Critical points: " + getCriticalPointsAmount(currentInputFile));
+            line = "Critical points: " + getCriticalPointsAmount(currentInputFile) + ", at positions: " + getCriticalPoints(currentInputFile) + System.lineSeparator();
+            Exporter.exporter(fileWriter, line);
 
         }
         //System.out.println("Critical points: " + getCriticalPointsAmount() + ", at positions: " + getCriticalPoints());

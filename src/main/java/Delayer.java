@@ -1,7 +1,6 @@
 import HelperClasses.ConfigReader;
 import HelperClasses.TimeHandler;
 import HelperClasses.Videocard;
-import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
 import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.util.Date;
@@ -18,6 +17,7 @@ public class Delayer {
     int maxDelay = ConfigReader.getLongestDelayInMilliseconds();
     int timeBetweenEvents = ConfigReader.getTimeBetweenTransactions();
     int delay;
+
 
     public Delayer() throws IOException, ParseException {
     }
@@ -61,13 +61,14 @@ public class Delayer {
    }
 
    public boolean distributionCalculation (Videocard videocard) {
-        int result = (int) Math.floor((Math.random())*(videocard.numberOfEvents)+1);
+        int result = (int) Math.floor((Math.random())*(videocard.numberOfEvents-1)+1);
         videocard.numberOfEvents --;
-        if (result <= videocard.oooEvents) {
+        if (result > videocard.oooEvents) {
+           return false;
+        }
+        else {
             videocard.oooEvents --;
             return true;
         }
-        else
-            return false;
    }
 }

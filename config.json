@@ -1,20 +1,19 @@
 {
   "outputFile" : "/output.csv",
 
-  "runtimeInSeconds" : 5,
+  "runtimeInSeconds" : 18,
   "startingTime": "2021-03-31 17:03:20.004",
-  "milliSecondsBetweenTransactions": 50,
+  "milliSecondsBetweenTransactions": 20,
   "shortestDelayInMilliseconds" : 10,
-  "longestDelayInMilliseconds" : 100,
-  "delayPercentage": 50,
+  "longestDelayInMilliseconds" : 80,
+  "delayPercentage": 40,
   "delayPattern": 1,
 
   "amountOfSources": 4,
-  "exceptionSource?": true,
+  "exceptionSource": true,
   "exceptionSourceNumber": 2,
   "exceptionSourcePattern": 1,
   "exceptionSourceDelay" : 60,
-
 
   "eventTimeColumn": 2,
   "processingTimeColumn" : 3,
