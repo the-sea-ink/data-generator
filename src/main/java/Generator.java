@@ -1,15 +1,18 @@
 import HelperClasses.*;
 import org.json.simple.parser.ParseException;
+import sun.net.ExtendedOptionsHelper;
+
 import java.util.Date;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Timestamp;
 
 public class Generator {
 
     public static void main(String[] args) throws IOException, ParseException, java.text.ParseException {
+        Logger log = new Logger();
         //init stream
         Stream dataStream = new Stream();
         //init starting eventTime
@@ -20,7 +23,7 @@ public class Generator {
         int amountOfSources = ConfigReader.getAmountOfSources();
         List<Videocard> videoCards  = new ArrayList<>();
         for (int i = 0; i <= amountOfSources; i++) {
-            videoCards.add(new Videocard());
+            videoCards.add(new Videocard(i));
         }
 
         int cardUpdater = 0;
@@ -74,8 +77,7 @@ public class Generator {
 
         }
         while (true);
-
-
+        log.setStreamEnd();
     }
 
 

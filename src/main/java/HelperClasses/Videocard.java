@@ -11,17 +11,27 @@ public class Videocard {
     public boolean overheatWarning;
     public int overheatWarningTemperature;
 
-    public int oooPercentage = ConfigReader.getDelayPercentage();
-    public int numberOfEvents = (ConfigReader.getRuntime()*1000 / ConfigReader.getTimeBetweenTransactions())+1;
-    public int oooEvents = (int) Math.ceil(numberOfEvents * oooPercentage / 100);
-    public int ioEvents = numberOfEvents - oooEvents;
+    public int oooPercentage;
+    public int numberOfEvents;
+    public int oooEvents;
+    public int ioEvents;
     public int currentEvent = 1;
+    public int id;
 
-    public Videocard() throws IOException, ParseException {
+    public Videocard(int id) throws IOException, ParseException {
         this.serialNumber = randomSerialNumberGenerator();
         this.temperature = 40;
         this.overheatWarning = false;
         this.overheatWarningTemperature = 50;
+        this.id = id;
+        if (ConfigReader.getExceptionSource() && this.id == ConfigReader.getExceptionSourceNumber()) {
+            this.oooPercentage = ConfigReader.getExceptionSourceDelay();
+        }
+        else
+            this.oooPercentage = ConfigReader.getDelayPercentage();
+        numberOfEvents = (ConfigReader.getRuntime()*1000 / ConfigReader.getTimeBetweenTransactions())+1;
+        oooEvents = (int) Math.ceil(numberOfEvents * oooPercentage / 100);
+        ioEvents = numberOfEvents - oooEvents;
     }
 
     public void Updater() {

@@ -118,8 +118,8 @@ public class ConfigReader {
 
     public static boolean getExceptionSource () throws IOException, ParseException {
         JSONObject jo = (JSONObject) configReader();
-        Long standOutSourceLong = (Long) jo.get("exceptionSource?");
-        boolean standoutSource = (standOutSourceLong!=0);
+        //Long standOutSourceLong = (Long) jo.get("exceptionSource");
+        boolean standoutSource = (boolean) jo.get("exceptionSource");
         return standoutSource;
     }
 
