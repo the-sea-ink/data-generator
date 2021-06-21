@@ -1,12 +1,6 @@
-Stream duration:18000 milliseconds
-Amount of events: 3604
-Minimum delay: 0
-Maximum delay: 79
-Out of oder percentage, source 0 : 0.290788013318535
-Critical points: 30, at positions: 241; 293; 725; 733; 753; 797; 809; 1601; 1629; 2397; 2429; 2433; 2449; 2581; 2665; 2809; 2897; 3153; 3165; 3189; 3201; 3233; 3241; 3253; 3257; 3429; 3505; 3529; 3557; 3581; 
-Out of oder percentage, source 1 : 0.29189789123196447
-Critical points: 7, at positions: 742; 1510; 1554; 1598; 2114; 2126; 2330; 
-Out of oder percentage, source 2 : 0.44950055493895674
-Critical points: 12, at positions: 935; 1095; 1115; 1375; 1423; 1443; 1987; 2111; 2123; 2203; 2995; 3059; 
-Out of oder percentage, source 3 : 0.27746947835738067
-Critical points: 24, at positions: 584; 664; 728; 744; 748; 1060; 1072; 1076; 1368; 1404; 1556; 2260; 2292; 2316; 2320; 2376; 2388; 2392; 2404; 2612; 3004; 3040; 3176; 3224; 
+Stream duration:10000 milliseconds
+Amount of events: 21
+Minimum delay: 105
+Maximum delay: 3557
+Out of oder percentage, source 0 : 0.42857142857142855
+Critical points: 0, at positions: 

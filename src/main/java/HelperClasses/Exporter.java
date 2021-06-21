@@ -17,4 +17,8 @@ public class Exporter {
         csvWriter.flush();
     }
 
+    public static void closeFile (FileWriter csvWriter) throws IOException {
+        csvWriter.flush();
+    }
+
 }

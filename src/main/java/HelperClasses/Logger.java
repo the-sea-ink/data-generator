@@ -15,6 +15,9 @@ public class Logger {
 
     public Logger () {
         this.generationStart = new Timestamp(System.currentTimeMillis());
+        System.out.println("-----------------------------------------------------------");
+        System.out.println("Starting stream generation...");
+
 
     }
     public void setStreamStart () {
@@ -44,6 +47,11 @@ public class Logger {
     public void exportResult () throws IOException, ParseException {
         FileWriter generatorLog = new FileWriter("output/generatorLog.csv", true);
         generatorLog.append((this.streamDurationInSeconds + ", " + this.eventsGenerated + ", "+  this.generationDuration) + System.lineSeparator());
+        System.out.println("Stream generation successful.");
+        System.out.println("Stream duration: " + this.streamDurationInSeconds + " seconds.");
+        System.out.println("Events generated: " + this.eventsGenerated + ".");
+        System.out.println("Stream generation took " + this.generationDuration + " milliseconds.");
+        System.out.println("-----------------------------------------------------------");
         generatorLog.flush();
 
     }

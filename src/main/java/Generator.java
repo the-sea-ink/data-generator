@@ -41,7 +41,8 @@ public class Generator {
             int eventID = dataStream.getEventID();
             eventTime = dataStream.getCurrentEventTime();
 
-            processingTime = delayer.delayerRandomDistribution(eventTime, videoCards.get(cardUpdater));
+            processingTime = delayer.delayer(videoCards.get(cardUpdater).pattern,eventTime, videoCards.get(cardUpdater));
+
 
             //spalte 1
             Converter.listGenerator(list, String.valueOf(eventID));
@@ -77,6 +78,7 @@ public class Generator {
 
         }
         while (true);
+
         log.setStreamEnd();
     }
 
