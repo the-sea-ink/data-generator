@@ -252,19 +252,17 @@ public class Analyzer {
         //init event/processing time columns/values
         int eventTimeColumn = ConfigReader.getEventTimeColumn() - 1;
         int processingTimeColumn = ConfigReader.getProcessingTimeColumn() - 1;
-        int criticalPointColumn = ConfigReader.getCriticalPointColumn() -1;
+        int overheatColumn = ConfigReader.getCriticalPointColumn() -1;
 
-        int counter = 0;
 
         String line = br.readLine();
         String[] lineArray = line.split(",");
 
         String processingTimeString = lineArray[processingTimeColumn];
         Date processingTimeDate = new Date(Long.parseLong(processingTimeString));
-        boolean criticalPoint = Boolean.parseBoolean(lineArray[criticalPointColumn]);
-        boolean criticalPointChange = false;
-        int criticalPointChanges  = 0;
-        int i = 2;
+        boolean overheatWarningCurr;
+        boolean overheatWarningPrev = false;
+        int criticalPointsAmount  = 0;
 
         while ((line = br.readLine()) != null) {
 
@@ -272,25 +270,21 @@ public class Analyzer {
 
             String eventTimeString = lineArray[eventTimeColumn];
             Date eventTimeDate = new Date(Long.parseLong(eventTimeString));
-            if (processingTimeDate.getTime() > (eventTimeDate.getTime())) {
-                criticalPoint = Boolean.parseBoolean(lineArray[criticalPointColumn]);
-                if (criticalPoint != criticalPointChange) {
-                    i = Integer.parseInt(lineArray[0]);
-                    criticalPointChanges++;
-                    criticalPointChange = criticalPoint;
+            overheatWarningCurr = Boolean.parseBoolean(lineArray[overheatColumn]);
+            if (processingTimeDate.getTime() > (eventTimeDate.getTime()) && overheatWarningCurr != overheatWarningPrev) {
+                    criticalPointsAmount++;
+                    overheatWarningPrev = overheatWarningCurr;
                     //System.out.println(lineArray[0]);
-                }
-                counter ++;
-            }
 
+            }
+            else
+                overheatWarningPrev = Boolean.parseBoolean(lineArray[overheatColumn]);
 
             processingTimeString = lineArray[processingTimeColumn];
             processingTimeDate = new Date(Long.parseLong(processingTimeString));
-            i++;
-
 
         }
-        return criticalPointChanges;
+        return criticalPointsAmount;
     }
     public static String getCriticalPoints(String inputFile) throws IOException, ParseException {
         String criticalPoints = "";
@@ -299,19 +293,16 @@ public class Analyzer {
         //init event/processing time columns/values
         int eventTimeColumn = ConfigReader.getEventTimeColumn() - 1;
         int processingTimeColumn = ConfigReader.getProcessingTimeColumn() - 1;
-        int criticalPointColumn = ConfigReader.getCriticalPointColumn() -1;
-
-        int counter = 0;
+        int overheatColumn = ConfigReader.getCriticalPointColumn() -1;
 
         String line = br.readLine();
         String[] lineArray = line.split(",");
 
         String processingTimeString = lineArray[processingTimeColumn];
         Date processingTimeDate = new Date(Long.parseLong(processingTimeString));
-        boolean criticalPoint = Boolean.parseBoolean(lineArray[criticalPointColumn]);
-        boolean criticalPointChange = false;
-        int criticalPointChanges  = 0;
-        int i = 1;
+        boolean overheatWarningCurr;
+        boolean overheatWarningPrev = false;
+        int i;
 
         while ((line = br.readLine()) != null) {
 
@@ -319,19 +310,15 @@ public class Analyzer {
 
             String eventTimeString = lineArray[eventTimeColumn];
             Date eventTimeDate = new Date(Long.parseLong(eventTimeString));
-            if (processingTimeDate.getTime() > (eventTimeDate.getTime())) {
-                criticalPoint = Boolean.parseBoolean(lineArray[criticalPointColumn]);
-                if (criticalPoint != criticalPointChange) {
-                    i = Integer.parseInt(lineArray[0]);
-                    criticalPoints += i + "; ";
-                    criticalPointChanges++;
-                    criticalPointChange = criticalPoint;
+            overheatWarningCurr = Boolean.parseBoolean(lineArray[overheatColumn]);
+            if (processingTimeDate.getTime() > (eventTimeDate.getTime()) && overheatWarningCurr != overheatWarningPrev) {
+                i = Integer.parseInt(lineArray[0]);
+                criticalPoints += i + "; ";
+                overheatWarningPrev = overheatWarningCurr;
                     //System.out.println(lineArray[0]);
-                }
-                counter ++;
-                //i++;
             }
-
+            else
+                overheatWarningPrev = Boolean.parseBoolean(lineArray[overheatColumn]);
 
             processingTimeString = lineArray[processingTimeColumn];
             processingTimeDate = new Date(Long.parseLong(processingTimeString));

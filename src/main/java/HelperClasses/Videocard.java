@@ -11,12 +11,14 @@ public class Videocard {
     public boolean overheatWarning;
     public int overheatWarningTemperature;
 
+    public boolean outlier;
     public int oooPercentage;
     public int numberOfEvents;
     public int oooEvents;
     public int ioEvents;
     public int currentEvent = 1;
     public int id;
+    public int pattern;
 
     public Videocard(int id) throws IOException, ParseException {
         this.serialNumber = randomSerialNumberGenerator();
@@ -24,11 +26,16 @@ public class Videocard {
         this.overheatWarning = false;
         this.overheatWarningTemperature = 50;
         this.id = id;
-        if (ConfigReader.getExceptionSource() && this.id == ConfigReader.getExceptionSourceNumber()) {
-            this.oooPercentage = ConfigReader.getExceptionSourceDelay();
-        }
-        else
+        if (ConfigReader.getOutlierOoo(this.id+1) != -1) {
+            this.oooPercentage = ConfigReader.getOutlierOoo(this.id+1);
+        }else {
             this.oooPercentage = ConfigReader.getDelayPercentage();
+        }
+        if (ConfigReader.getOutlierPattern(this.id +1) != -1){
+            this.pattern = ConfigReader.getOutlierPattern(this.id +1);
+        }else{
+            this.pattern = ConfigReader.getDelayPattern();
+        }
         numberOfEvents = (ConfigReader.getRuntime()*1000 / ConfigReader.getTimeBetweenTransactions())+1;
         oooEvents = (int) Math.ceil(numberOfEvents * oooPercentage / 100);
         ioEvents = numberOfEvents - oooEvents;

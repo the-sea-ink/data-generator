@@ -1,5 +1,6 @@
 package HelperClasses;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 import java.text.SimpleDateFormat;
@@ -12,7 +13,7 @@ public class ConfigReader {
 
     public static Object configReader() throws IOException, ParseException {
         Object obj = new JSONParser().parse(new FileReader("config.json"));
-        JSONObject jo = (JSONObject) obj;
+        //JSONObject jo = (JSONObject) obj;
         return obj;
 
     }
@@ -142,6 +143,43 @@ public class ConfigReader {
         Long exceptionSourceDelayLong = (Long) jo.get("exceptionSourceDelay");
         int exceptionSourceDelay = exceptionSourceDelayLong.intValue();
         return exceptionSourceDelay;
+    }
+
+    public static int getOutlierOoo (int sourceID) throws IOException, ParseException {
+        JSONObject jo = (JSONObject) configReader();
+        JSONArray arr = (JSONArray) jo.get("outliers");
+        for (int i = 0; i < arr.size(); i++ ) {
+            JSONObject line = (JSONObject) arr.get(i);
+            Long outlierLong = Long.valueOf( (Long) line.get("sourceID"));
+            int outlier = outlierLong.intValue();
+            if(outlier == sourceID) {
+                Long oooPercLong = Long.valueOf((Long)line.get("oooPercentage"));
+                return oooPercLong.intValue();
+            }
+        }
+        return -1;
+    }
+
+    public static int getOutlierPattern (int sourceID) throws IOException, ParseException {
+        JSONObject jo = (JSONObject) configReader();
+        JSONArray arr = (JSONArray) jo.get("outliers");
+        for (int i = 0; i < arr.size(); i++ ) {
+            JSONObject line = (JSONObject) arr.get(i);
+            Long outlierLong = Long.valueOf((Long) line.get("sourceID"));
+            int outlier = outlierLong.intValue();
+            if(outlier == sourceID) {
+                Long pattern = Long.valueOf((Long)line.get("pattern"));
+                return pattern.intValue();
+            }
+        }
+        return -1;
+    }
+
+    public static int getConnectionLossDuration () throws IOException, ParseException {
+        JSONObject jo = (JSONObject) configReader();
+        Long connectionLossDurationInSecondsLong = (Long) jo.get("connectionLossDurationInSeconds");
+        int connectionLossDurationInSeconds = connectionLossDurationInSecondsLong.intValue();
+        return connectionLossDurationInSeconds;
     }
 
 }
