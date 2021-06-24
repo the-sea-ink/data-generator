@@ -4,7 +4,7 @@ This is a TU Berlin Bachelor's Thesis "Out-of-Order Data Stream Generator".
 
 ## Setup
 
-## Config File Setup
+### Config File Setup
 In order to be able to use the tool properly it is necessary to setup the configuration file. 
 It contains following fields:
 
