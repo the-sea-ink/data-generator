@@ -5,7 +5,7 @@ This is a TU Berlin Bachelor's Thesis "Out-of-Order Data Stream Generator".
 ## Setup
 ### Installation
 ```
-$ git clone git@github.com:GMAP/DSPBench.git
+$ git clone git@github.com....git
 $ mvn clean install package -P <profile>
   ```
 
