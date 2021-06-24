@@ -3,6 +3,11 @@
 This is a TU Berlin Bachelor's Thesis "Out-of-Order Data Stream Generator". 
 
 ## Setup
+### Installation
+'''
+$ git clone git@github.com:GMAP/DSPBench.git
+$ mvn clean install package -P <profile>
+  '''
 
 ### Config File Setup
 In order to be able to use the tool properly it is necessary to setup the configuration file. 
