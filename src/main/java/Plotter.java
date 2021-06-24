@@ -30,7 +30,7 @@ public class Plotter extends JFrame {
         Splitter.split();
         scatterChartDelays();
         histogram();
-        scatterChartEventAndProcTimes(0);
+        //scatterChartEventAndProcTimes(0);
 
     }
 
@@ -106,6 +106,8 @@ public class Plotter extends JFrame {
                 true,
                 false
         );
+        chart.getXYPlot().getRenderer().setSeriesShape( 0, new Rectangle2D.Double( -1.0, -1.0, 1.0, 5.0 ) );
+        chart.getXYPlot().getRenderer().setSeriesShape( 1, new Rectangle2D.Double( -1.0, -1.0, 1.0, 5.0 ) );
 
         ChartUtils.saveChartAsPNG(new File(title + ".png"), chart, 450, 400);
     }
