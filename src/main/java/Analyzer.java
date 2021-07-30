@@ -1,17 +1,11 @@
 import HelperClasses.ConfigReader;
 import HelperClasses.Exporter;
 import HelperClasses.Splitter;
-import HelperClasses.Videocard;
 import org.json.simple.parser.ParseException;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class Analyzer {
     //for statistics
@@ -34,25 +28,38 @@ public class Analyzer {
         System.out.println("Amount of events: " + eventCount);
         line ="Amount of events: " + eventCount + System.lineSeparator();
         Exporter.exporter(fileWriter, line);
+        System.out.println();
 
-        System.out.println("Minimum delay: " + getMinDelay() );
-        line = "Minimum delay: " + getMinDelay() + System.lineSeparator();
-        Exporter.exporter(fileWriter, line);
-
-        System.out.println("Maximum delay: " + getMaxDelay());
-        line = "Maximum delay: " + getMaxDelay() + System.lineSeparator();
-        Exporter.exporter(fileWriter, line);
 
         for (int currentSource = 0; currentSource < sourcesAmount; currentSource ++) {
             String currentInputFile = "output/output" + currentSource +".csv";
-            System.out.println("Out of oder percentage, source " + currentSource  +" : "+ outOfOrderPercentage(currentInputFile));
-            line = "Out of oder percentage, source " + currentSource  +" : "+ outOfOrderPercentage(currentInputFile) + System.lineSeparator();
+
+            System.out.println("Source " + (currentSource +1) + ": ");
+
+            System.out.println("Minimum delay: " + getMinDelay() );
+            line = "Minimum delay: " + getMinDelay() + System.lineSeparator();
+            Exporter.exporter(fileWriter, line);
+
+            System.out.println("Maximum delay: " + getMaxDelay(currentInputFile));
+            line = "Maximum delay: " + getMaxDelay(currentInputFile) + System.lineSeparator();
+            Exporter.exporter(fileWriter, line);
+
+            if (ConfigReader.getOutlierPattern(currentSource+1) == 3 || ConfigReader.getDelayPattern() == 3 ){
+                line = "Out of oder percentage: " + outOfOrderPercentage(currentInputFile) +
+                        ", connection loss duration: " + getMaxDelay(currentInputFile);
+            }
+
+            else{
+                line = "Out of oder percentage: " + outOfOrderPercentage(currentInputFile);
+            }
+            System.out.println(line);
+
             Exporter.exporter(fileWriter, line);
 
             System.out.println("Critical points: " + getCriticalPointsAmount(currentInputFile));
             line = "Critical points: " + getCriticalPointsAmount(currentInputFile) + ", at positions: " + getCriticalPoints(currentInputFile) + System.lineSeparator();
             Exporter.exporter(fileWriter, line);
-
+            System.out.println();
         }
         //System.out.println("Critical points: " + getCriticalPointsAmount() + ", at positions: " + getCriticalPoints());
         System.out.println("-----------------------------------------------------------");
@@ -140,8 +147,8 @@ public class Analyzer {
         return minDelay;
 
     }
-    public static int getMaxDelay () throws IOException, ParseException {
-        BufferedReader br = new BufferedReader(new FileReader("output/output.csv"));
+    public static int getMaxDelay (String inputFile) throws IOException, ParseException {
+        BufferedReader br = new BufferedReader(new FileReader(inputFile));
 
         //init event/processing time columns/values
         int eventTimeColumn = ConfigReader.getEventTimeColumn() - 1;
@@ -181,34 +188,6 @@ public class Analyzer {
 
         }
         return maxDelay;
-
-    }
-    public static List<Integer> getCardIDs () throws IOException, ParseException {
-        int sources = ConfigReader.getAmountOfSources();
-        int sourcesCounter = 0;
-
-        BufferedReader br = new BufferedReader(new FileReader("output/output.csv"));
-
-        int idColumn = 3;
-
-        String line = br.readLine();
-        String[] lineArray = line.split(",");
-
-        String idString = lineArray[idColumn];
-        int id = Integer.parseInt(idString);
-        List<Integer> cardIDs  = new ArrayList<>();
-        cardIDs.add(id);
-        while ((line = br.readLine()) != null) {
-
-            lineArray = line.split(",");
-
-            idString = lineArray[idColumn];
-            id = Integer.parseInt(idString);
-            cardIDs.add(id);
-
-        }
-
-        return cardIDs;
 
     }
     public static double outOfOrderPercentage (String inputFile) throws IOException, ParseException {

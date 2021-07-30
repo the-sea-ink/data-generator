@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class Plotter extends JFrame {
+public class Visualizer extends JFrame {
 
 
     public static void main(String[] args) throws IOException, ParseException {

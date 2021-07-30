@@ -1,17 +1,21 @@
 import HelperClasses.*;
 import org.json.simple.parser.ParseException;
-import sun.net.ExtendedOptionsHelper;
 
 import java.util.Date;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.Timestamp;
 
 public class Generator {
 
     public static void main(String[] args) throws IOException, ParseException, java.text.ParseException {
+        /*
+        {"sourceID":1, "pattern":1, "oooPercentage" : 50},
+        {"sourceID":2, "pattern":2, "oooPercentage" : 50},
+        {"sourceID":3, "pattern":3, "connectionLossDurationInSeconds" : 5 }
+         */
+
         Logger log = new Logger();
         //init stream
         Stream dataStream = new Stream();
@@ -19,19 +23,20 @@ public class Generator {
         Date eventTime;
         Date processingTime;
         Date startingTime = dataStream.getStartingTime();
-        Delayer delayer = new Delayer();
+
         int amountOfSources = ConfigReader.getAmountOfSources();
-        List<Videocard> videoCards  = new ArrayList<>();
+        List<InsulinSensor> insulinSensors  = new ArrayList<>();
         for (int i = 0; i <= amountOfSources; i++) {
-            videoCards.add(new Videocard(i));
+            insulinSensors.add(new InsulinSensor(i));
         }
 
-        int cardUpdater = 0;
+        int sensorID = 0;
 
         //init file writer
         FileWriter fileWriter = Exporter.exporterInit();
 
         do {
+            Delayer delayer = new Delayer();
             //current event string
             if ((TimeHandler.addTimeSeconds(startingTime, ConfigReader.getRuntime())).before(dataStream.getCurrentEventTime()) )
                 break;
@@ -41,7 +46,7 @@ public class Generator {
             int eventID = dataStream.getEventID();
             eventTime = dataStream.getCurrentEventTime();
 
-            processingTime = delayer.delayer(videoCards.get(cardUpdater).pattern,eventTime, videoCards.get(cardUpdater));
+            processingTime = delayer.delayer(insulinSensors.get(sensorID).pattern,eventTime, insulinSensors.get(sensorID), sensorID);
 
 
             //spalte 1
@@ -54,23 +59,23 @@ public class Generator {
             Converter.listGenerator(list, String.valueOf(processingTime.getTime()));
 
             //spalte 4
-            Converter.listGenerator(list, String.valueOf(videoCards.get(cardUpdater).serialNumber));
+            Converter.listGenerator(list, String.valueOf(insulinSensors.get(sensorID).serialNumber));
 
             //spalte 5
-            Converter.listGenerator(list, String.valueOf(videoCards.get(cardUpdater).temperature));
+            Converter.listGenerator(list, String.valueOf(insulinSensors.get(sensorID).glucoseAmount));
 
             //spalte 5
-            Converter.listGenerator(list, String.valueOf(videoCards.get(cardUpdater).overheatWarning));
+            Converter.listGenerator(list, String.valueOf(insulinSensors.get(sensorID).highGluckoseWarning));
 
-            videoCards.get(cardUpdater).Updater();
-
-
-            cardUpdater++;
+            insulinSensors.get(sensorID).Updater();
 
 
-            if (cardUpdater >= amountOfSources) {
+            sensorID++;
+
+
+            if (sensorID >= amountOfSources) {
                 dataStream.timeUpdater();
-                cardUpdater = 0;
+                sensorID = 0;
             }
 
             String string = Converter.stringGenerator(list);

@@ -22,4 +22,4 @@ It contains following fields:
 ## Components
 ### Generator
 ### Analyzer
-### Plotter 
+### Visualizer 

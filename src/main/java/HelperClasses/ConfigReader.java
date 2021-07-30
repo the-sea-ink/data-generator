@@ -152,7 +152,8 @@ public class ConfigReader {
             JSONObject line = (JSONObject) arr.get(i);
             Long outlierLong = Long.valueOf( (Long) line.get("sourceID"));
             int outlier = outlierLong.intValue();
-            if(outlier == sourceID) {
+            Long pattern = Long.valueOf((Long)line.get("pattern"));
+            if(outlier == sourceID && pattern !=3 ) {
                 Long oooPercLong = Long.valueOf((Long)line.get("oooPercentage"));
                 return oooPercLong.intValue();
             }
@@ -170,6 +171,22 @@ public class ConfigReader {
             if(outlier == sourceID) {
                 Long pattern = Long.valueOf((Long)line.get("pattern"));
                 return pattern.intValue();
+            }
+        }
+        return -1;
+    }
+
+    public static int getOutlierConnectionLoss (int sourceID) throws IOException, ParseException {
+        JSONObject jo = (JSONObject) configReader();
+        JSONArray arr = (JSONArray) jo.get("outliers");
+        for (int i = 0; i < arr.size(); i++ ) {
+            JSONObject line = (JSONObject) arr.get(i);
+            Long outlierLong = Long.valueOf( (Long) line.get("sourceID"));
+            int outlier = outlierLong.intValue();
+            Long pattern = Long.valueOf((Long)line.get("pattern"));
+            if(outlier == sourceID && pattern == 3 ) {
+                Long connectionLossLong = Long.valueOf((Long)line.get("connectionLossDurationInSeconds"));
+                return connectionLossLong.intValue();
             }
         }
         return -1;
