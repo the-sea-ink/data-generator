@@ -33,7 +33,7 @@ public class Splitter {
                 int id = Integer.parseInt(lineArray[3]);
                 if (id == ids[currentSource]) {
                     line = line + System.lineSeparator();
-                    Exporter.exporter(fileWriter, line);
+                    Connector.exporter(fileWriter, line);
                 }
             }
 
