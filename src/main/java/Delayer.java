@@ -1,6 +1,5 @@
 import HelperClasses.ConfigReader;
 import HelperClasses.TimeHandler;
-import HelperClasses.InsulinSensor;
 import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.util.Date;
@@ -101,7 +100,7 @@ public class Delayer {
        //io events before
        if (insulinSensor.currentEvent <= conceptDriftStartingEvent) {
            delay = (int) (Math.random()*(timeBetweenEvents - minDelay+1)+minDelay);
-           delay = 200;
+           //delay = 200;
 
        }
        //state 1
@@ -109,12 +108,12 @@ public class Delayer {
            if (this.currentGradualDriftEventOoo > 0){
                //oo
                delay = (int) (Math.random()*(maxDelay - timeBetweenEvents+1)+timeBetweenEvents);
-               delay = 400;
+               //delay = 400;
                this.currentGradualDriftEventOoo --;
            }else if (this.currentGradualDriftEventOoo == 0 && this.currentGradualDriftEventIo > 0){
                //io
                delay = (int) (Math.random()*(timeBetweenEvents - minDelay+1)+minDelay);
-               delay = 200;
+               //delay = 200;
                this.currentGradualDriftEventIo --;
            }
        }
@@ -123,12 +122,12 @@ public class Delayer {
            //io
            if (this.currentGradualDriftEventIo < this.gradualDriftHelper) {
                delay = (int) (Math.random()*(timeBetweenEvents - minDelay+1)+minDelay);
-               delay = 200;
+               //delay = 200;
 
                this.currentGradualDriftEventIo ++;
            }else if (this.currentGradualDriftEventIo == this.gradualDriftHelper && this.currentGradualDriftEventOoo < this.gradualDriftHelper) {
                delay = (int) (Math.random()*(maxDelay - timeBetweenEvents+1)+timeBetweenEvents);
-               delay = 400;
+               //delay = 400;
 
                this.currentGradualDriftEventOoo ++;
            }
@@ -136,13 +135,13 @@ public class Delayer {
        //io events after
        else if (insulinSensor.currentEvent >= conceptDriftStartingEvent + insulinSensor.oooEvents) {
            delay = (int) (Math.random()*(timeBetweenEvents - minDelay+1)+minDelay);
-           delay = 200;
+           //delay = 200;
 
        }
        //ooo events
        else {
            delay = (int) (Math.random()*(maxDelay - timeBetweenEvents+1)+timeBetweenEvents);
-           delay = 400;
+           //delay = 400;
 
        }
 

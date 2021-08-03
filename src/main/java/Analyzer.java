@@ -1,5 +1,5 @@
 import HelperClasses.ConfigReader;
-import HelperClasses.Exporter;
+import HelperClasses.Connector;
 import HelperClasses.Splitter;
 import org.json.simple.parser.ParseException;
 
@@ -8,11 +8,9 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 public class Analyzer {
-    //for statistics
-
 
     public static void main(String[] args) throws IOException, ParseException, java.text.ParseException {
-        int eventCount = getTotalEvents();
+        int eventCount = getTotalEvents("output/output.csv");
         int streamDuration = getDurationInMilliseconds();
         int sourcesAmount = ConfigReader.getAmountOfSources();
         FileWriter fileWriter = new FileWriter("output/analyzerOutput.csv");
@@ -22,12 +20,12 @@ public class Analyzer {
         System.out.println("-----------------------------------------------------------");
 
         System.out.println("Stream duration: " + streamDuration + " milliseconds");
-        line = "Stream duration:" + streamDuration +" milliseconds" + System.lineSeparator();
-        Exporter.exporter(fileWriter, line);
+        line = "Total stream duration:" + streamDuration +" milliseconds" + System.lineSeparator();
+        Connector.exporter(fileWriter, line);
 
         System.out.println("Amount of events: " + eventCount);
-        line ="Amount of events: " + eventCount + System.lineSeparator();
-        Exporter.exporter(fileWriter, line);
+        line ="Total amount of events: " + eventCount + System.lineSeparator();
+        Connector.exporter(fileWriter, line);
         System.out.println();
 
 
@@ -35,14 +33,14 @@ public class Analyzer {
             String currentInputFile = "output/output" + currentSource +".csv";
 
             System.out.println("Source " + (currentSource +1) + ": ");
-
+            System.out.println("Amount of events: " + getTotalEvents(currentInputFile));
             System.out.println("Minimum delay: " + getMinDelay() );
             line = "Minimum delay: " + getMinDelay() + System.lineSeparator();
-            Exporter.exporter(fileWriter, line);
+            Connector.exporter(fileWriter, line);
 
             System.out.println("Maximum delay: " + getMaxDelay(currentInputFile));
             line = "Maximum delay: " + getMaxDelay(currentInputFile) + System.lineSeparator();
-            Exporter.exporter(fileWriter, line);
+            Connector.exporter(fileWriter, line);
 
             if (ConfigReader.getOutlierPattern(currentSource+1) == 3 || ConfigReader.getDelayPattern() == 3 ){
                 line = "Out of oder percentage: " + outOfOrderPercentage(currentInputFile) +
@@ -54,19 +52,19 @@ public class Analyzer {
             }
             System.out.println(line);
 
-            Exporter.exporter(fileWriter, line);
+            Connector.exporter(fileWriter, line);
 
             System.out.println("Critical points: " + getCriticalPointsAmount(currentInputFile));
             line = "Critical points: " + getCriticalPointsAmount(currentInputFile) + ", at positions: " + getCriticalPoints(currentInputFile) + System.lineSeparator();
-            Exporter.exporter(fileWriter, line);
+            Connector.exporter(fileWriter, line);
             System.out.println();
         }
         //System.out.println("Critical points: " + getCriticalPointsAmount() + ", at positions: " + getCriticalPoints());
         System.out.println("-----------------------------------------------------------");
 
     }
-    public static int getTotalEvents() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader("output/output.csv"));
+    public static int getTotalEvents(String inputFile) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(inputFile));
         int count = 0;
         while((br.readLine()) != null)
             count++;
@@ -222,7 +220,7 @@ public class Analyzer {
 
             }
 
-        return counter/(double)getTotalEvents()*ConfigReader.getAmountOfSources();
+        return counter/(double)getTotalEvents("output/output.csv")*ConfigReader.getAmountOfSources();
 
     }
     public static int getCriticalPointsAmount(String inputFile) throws IOException, ParseException {

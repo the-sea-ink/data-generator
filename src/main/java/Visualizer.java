@@ -25,12 +25,18 @@ import java.util.List;
 
 public class Visualizer extends JFrame {
 
+    public static int source = 0;
 
     public static void main(String[] args) throws IOException, ParseException {
         Splitter.split();
+        if (args.length > 0) {
+            source = Integer.parseInt(args[0]);
+        }
+        else source = 0;
+
         scatterChartDelays();
-        histogram();
-        //scatterChartEventAndProcTimes(0);
+        histogram(source);
+        scatterChartEventAndProcTimes(0);
 
     }
 
@@ -91,6 +97,8 @@ public class Visualizer extends JFrame {
                 i++;
 
             }
+
+
             dataset.addSeries(dataSeries.get(currentSource));
 
         }
@@ -112,12 +120,15 @@ public class Visualizer extends JFrame {
         ChartUtils.saveChartAsPNG(new File(title + ".png"), chart, 450, 400);
     }
 
-    public static void histogram() throws IOException, ParseException {
-        int size = Analyzer.getTotalEvents();
+    public static void histogram(int source) throws IOException, ParseException {
+        String inputFile = "output/output.csv";
+        if (source != 0)
+            inputFile = "output/output" + source + ".csv";
+        int size = Analyzer.getTotalEvents(inputFile);
         double[] delays = new double[size-1];
 
         //read output
-        BufferedReader br = new BufferedReader(new FileReader("output/output.csv"));
+        BufferedReader br = new BufferedReader(new FileReader(inputFile));
 
         //init event/processing time columns/values
         int eventTimeColumn = ConfigReader.getEventTimeColumn() - 1;
@@ -132,7 +143,7 @@ public class Visualizer extends JFrame {
         String processingTimeString = lineArray[processingTimeColumn];
         Date processingTimeDate = new Date(Long.parseLong(processingTimeString));
 
-        int i = 0;
+        int lineNum = 0;
 
         while ((line = br.readLine()) != null) {
 
@@ -149,29 +160,29 @@ public class Visualizer extends JFrame {
             Timestamp tsET = new Timestamp(evenTimeDate.getTime());
             long diff = tsPT.getTime() - tsET.getTime();
 
-            delays[i] = (double) diff;
-            i++;
+            delays[lineNum] = (double) diff;
+            lineNum++;
 
         }
 
         HistogramDataset dataset = new HistogramDataset();
-        dataset.addSeries(ConfigReader.getDelayPercentage() + "% out-of-order", delays, 50);
+        dataset.addSeries(ConfigReader.getOutlierOoo(source) + "% out-of-order", delays, 50);
 
-        JFreeChart histogram = ChartFactory.createHistogram("Processing time delay in milliseconds - distribution",
-                "delays", "frequency", dataset);
+        JFreeChart histogram = ChartFactory.createHistogram("Distribution of processing time delay in milliseconds",
+                "delay", "frequency", dataset);
 
-        ChartUtils.saveChartAsPNG(new File(ConfigReader.getDelayPercentage() + "% out-of-order histogram.png"), histogram, 450, 400);
+        ChartUtils.saveChartAsPNG(new File(ConfigReader.getOutlierOoo(source) + "% out-of-order histogram.png"), histogram, 450, 400);
     }
 
     public static void scatterChartEventAndProcTimes (int source) throws IOException, ParseException {
 
-        String title = "Times - ";
+        String title;
         if (ConfigReader.getDelayPattern() == 1)
-            title += "Random Distribution";
+            title = "Scatter Chart - Random Distribution";
         else if (ConfigReader.getDelayPattern() == 2)
-            title += "Concept Drift";
+            title = "Scatter Chart - Concept Drift";
         else
-            title += "Connection Loss";
+            title = "Scatter Chart - Connection Loss";
 
 
         XYSeriesCollection dataset = new XYSeriesCollection();
@@ -192,7 +203,7 @@ public class Visualizer extends JFrame {
 
         chart.getXYPlot().setRenderer(new XYLineAndShapeRenderer(false, true));
 
-        String axisName = "String";
+        String axisName = "";
         String[] names = new String[2];
         names[0] = "Processing Time";
         names[1] = "Event Time";

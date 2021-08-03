@@ -33,7 +33,7 @@ public class Generator {
         int sensorID = 0;
 
         //init file writer
-        FileWriter fileWriter = Exporter.exporterInit();
+        FileWriter fileWriter = Connector.exporterInit();
 
         do {
             Delayer delayer = new Delayer();
@@ -79,7 +79,7 @@ public class Generator {
             }
 
             String string = Converter.stringGenerator(list);
-            Exporter.exporter(fileWriter, string);
+            Connector.exporter(fileWriter, string);
 
         }
         while (true);

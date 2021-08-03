@@ -90,14 +90,14 @@ public class ConfigReader {
 
     public static int getDelayPercentage () throws IOException, ParseException {
         JSONObject jo = (JSONObject) configReader();
-        Long delayPercentageLong = (Long) jo.get("delayPercentage");
+        Long delayPercentageLong = (Long) jo.get("oooPercentage");
         int delayPercentage = delayPercentageLong.intValue();
         return delayPercentage;
     }
 
     public static int getCriticalPointColumn () throws IOException, ParseException {
         JSONObject jo = (JSONObject) configReader();
-        Long criticalPointolumnLong = (Long) jo.get("criticalPointColumn");
+        Long criticalPointolumnLong = (Long) jo.get("warningColumn");
         int criticalPointolumn = criticalPointolumnLong.intValue();
         return criticalPointolumn;
 
@@ -158,7 +158,7 @@ public class ConfigReader {
                 return oooPercLong.intValue();
             }
         }
-        return -1;
+        return getDelayPercentage();
     }
 
     public static int getOutlierPattern (int sourceID) throws IOException, ParseException {
