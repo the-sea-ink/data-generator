@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.Date;
 
 public class Delayer {
-
+    int id;
     int minDelay = ConfigReader.getShortestDelayInMilliseconds();
     int maxDelay = ConfigReader.getLongestDelayInMilliseconds();
     int timeBetweenEvents = ConfigReader.getTimeBetweenTransactions();
@@ -21,42 +21,77 @@ public class Delayer {
     int currentGradualDriftEventIo = -1;
     int gradualDriftHelper = 1;
     boolean init = false;
-    
-    public Delayer() throws IOException, ParseException {
-    }
+    int preGauss = -1;
+    int conceptDriftStartingEvent = -1;
+    int networkAnomalyDuration;
 
-    public  Date delayer(int i, Date eventTime, InsulinSensor insulinSensor, int sourceID) throws IOException, ParseException {
-        if (i == 1)
-            return delayerRandomDistribution(eventTime, insulinSensor);
-        else if (i == 2)
-            return delayerConceptDrift(eventTime, insulinSensor);
+    public boolean outlier;
+    public double oooPercentage;
+    public int oooEvents;
+    public int ioEvents;
+    public int pattern;
+
+    public int amountOfEventsToProcess;
+
+    public Delayer(int id, int amountOfEventsToProcess) throws IOException, ParseException {
+        this.id = id;
+        if (ConfigReader.getOutlierPattern(this.id ) != -1){
+            this.outlier = true;
+            this.pattern = ConfigReader.getOutlierPattern(this.id);
+        }else{
+            this.pattern = ConfigReader.getDelayPattern();
+        }
+
+        if (ConfigReader.getOutlierOoo(this.id) != -1 && this.pattern == 1) {
+            this.oooPercentage = ConfigReader.getOutlierOoo(this.id);
+        }else if ( this.pattern == 1) {
+            this.oooPercentage = ConfigReader.getDelayPercentage();
+        }
+
+        if (ConfigReader.getOutlierNetworkAnomalyDuration(this.id) ==-1)
+            this.networkAnomalyDuration = ConfigReader.getNetworkAnomalyDuration();
         else
-            return delayerConnectionLoss(eventTime, insulinSensor, sourceID);
+            this.networkAnomalyDuration = ConfigReader.getOutlierNetworkAnomalyDuration(this.id);
+
+        if ((this.pattern == 3 || this.pattern == 2) && this.outlier) {
+            this.oooPercentage =  (this.networkAnomalyDuration / (double) ConfigReader.getStreamDuration()) * 100;
+        }else if (this.pattern == 3 ||  this.pattern == 2) {
+            this.oooPercentage =  (this.networkAnomalyDuration / (double)  ConfigReader.getStreamDuration()) * 100;
+        }
+
+
+        this.amountOfEventsToProcess = amountOfEventsToProcess;
+        this.oooEvents = (int) Math.ceil((double) amountOfEventsToProcess * (double) oooPercentage / 100);
+        this.ioEvents = amountOfEventsToProcess - oooEvents;
+
     }
 
-    public Date delayerRandomDistribution(Date eventTime, InsulinSensor insulinSensor) throws IOException, ParseException {
-
+    public int delayerRandomDistribution(Boolean ooo) {
        //ooo event
-       if (distributionCalculation(insulinSensor)) {
-           delay = (int) Math.floor(Math.random()*(maxDelay - timeBetweenEvents+1)+timeBetweenEvents);
+       if (ooo) {
+           delay = (int) Math.floor(Math.random()*(maxDelay - minDelay+1)+minDelay);
        }
        //io event
        else {
            delay = (int) Math.floor(Math.random()*(timeBetweenEvents - minDelay+1)+minDelay);
        }
-       Date processingTime = TimeHandler.addTimeMilliseconds(eventTime, delay);
-       return processingTime;
+
+       return delay;
 
    }
 
-    public Date delayerConceptDrift(Date eventTime, InsulinSensor insulinSensor) throws IOException, ParseException {
-        int preGauss = gaussNumberCalc(insulinSensor);
-        int conceptDriftStartingEvent;
+    public Event conceptDrift(Event event, InsulinSensor insulinSensor) throws IOException, ParseException
+    {
+        if (preGauss == -1 && conceptDriftStartingEvent == -1) {
+            preGauss = gaussNumberCalc(insulinSensor);
+            if (this.ioEvents/2 <= preGauss)
+                conceptDriftStartingEvent = 1;
+            else {
+                conceptDriftStartingEvent = (this.ioEvents/2 - preGauss);
+                System.out.println(conceptDriftStartingEvent);
+            }
 
-        if (insulinSensor.ioEvents/2 <= preGauss)
-            conceptDriftStartingEvent = 1;
-        else
-            conceptDriftStartingEvent = (insulinSensor.ioEvents/2 - preGauss);
+        }
 
         //übergang zum state 1
         if (insulinSensor.currentEvent == conceptDriftStartingEvent) {
@@ -64,12 +99,11 @@ public class Delayer {
 
         }
         //übergang zum state 2
-        if (insulinSensor.currentEvent == conceptDriftStartingEvent + (insulinSensor.oooEvents)) {
+        if (insulinSensor.currentEvent == conceptDriftStartingEvent + (this.oooEvents)) {
             this.init = false;
             this.currentGradualDriftEventOoo = 0;
             this.currentGradualDriftEventIo = 0;
         }
-
 
         //check state
        if (conceptDriftState == 1 && !this.init) {
@@ -133,7 +167,7 @@ public class Delayer {
            }
        }
        //io events after
-       else if (insulinSensor.currentEvent >= conceptDriftStartingEvent + insulinSensor.oooEvents) {
+       else if (insulinSensor.currentEvent >= conceptDriftStartingEvent + this.oooEvents) {
            delay = (int) (Math.random()*(timeBetweenEvents - minDelay+1)+minDelay);
            //delay = 200;
 
@@ -145,63 +179,53 @@ public class Delayer {
 
        }
 
-       insulinSensor.currentEvent ++;
-
-
-
-       Date processingTime = TimeHandler.addTimeMilliseconds(eventTime, delay);
-       return processingTime;
+       event.processingTime = TimeHandler.addTimeMilliseconds(event.eventTime, delay);
+       //System.out.println(amountOfEventsToProcess);
+       amountOfEventsToProcess--;
+       return event;
    }
 
-    public Date delayerConnectionLoss (Date eventTime, InsulinSensor insulinSensor, int sourceID) throws IOException, ParseException {
-        int conceptDriftStartingEvent = insulinSensor.ioEvents/2;
-        int connectionLoss;
-        if (ConfigReader.getDelayPattern() == 3)
-            connectionLoss = ConfigReader.getConnectionLossDuration();
-        else
-            connectionLoss = ConfigReader.getOutlierConnectionLoss(sourceID+1);
-        Date processingTime;
-        //io events
-        if (insulinSensor.currentEvent <= conceptDriftStartingEvent || insulinSensor.currentEvent >= conceptDriftStartingEvent + insulinSensor.oooEvents) {
-            delay =  (int) Math.floor(Math.random()*(timeBetweenEvents - minDelay+1)+minDelay);
-            processingTime = TimeHandler.addTimeMilliseconds(eventTime, delay);
+    public Event connectionLoss(Event event, InsulinSensor insulinSensor) throws IOException, ParseException {
+        int conceptDriftStartingEvent = this.ioEvents/2;
+
+        //io events before and after
+        if (insulinSensor.currentEvent <= conceptDriftStartingEvent || insulinSensor.currentEvent >= conceptDriftStartingEvent + this.oooEvents) {
+            this.delay =  (int) Math.floor(Math.random()*(timeBetweenEvents - minDelay+1)+minDelay);
+            event.processingTime = TimeHandler.addTimeMilliseconds(event.eventTime, delay);
 
         }
         //ooo events
-        else if (!firstConnectionLossCheck) {
+        else if (!this.firstConnectionLossCheck) {
+            System.out.println(this.id);
             firstConnectionLossCheck = true;
-            this.connectionLossDate = eventTime;
-            this.connectionRecoveryDate = TimeHandler.addTimeMilliseconds(eventTime, connectionLoss*1000);
-            delay = (int) Math.floor(Math.random()*(maxDelay - minDelay+1)+minDelay);
-            processingTime = TimeHandler.addTimeMilliseconds(this.connectionRecoveryDate, delay);
-
+            this.connectionLossDate = event.eventTime;
+            this.connectionRecoveryDate = TimeHandler.addTimeMilliseconds(event.eventTime, this.networkAnomalyDuration *1000);
+            this.delay = (int) Math.floor(Math.random()*(maxDelay - minDelay+1)+minDelay);
+            event.processingTime = TimeHandler.addTimeMilliseconds(this.connectionRecoveryDate, delay);
         }else {
             delay = (int) Math.floor(Math.random()*(maxDelay - minDelay+1)+minDelay);
-            if (eventTime.getTime() < this.connectionRecoveryDate.getTime())
-                processingTime = TimeHandler.addTimeMilliseconds(this.connectionRecoveryDate, delay);
+            if (event.eventTime.getTime() < this.connectionRecoveryDate.getTime())
+                event.processingTime = TimeHandler.addTimeMilliseconds(this.connectionRecoveryDate, delay);
             else
-                processingTime = TimeHandler.addTimeMilliseconds(eventTime, delay);
-
+                event.processingTime = TimeHandler.addTimeMilliseconds(event.eventTime, delay);
         }
-        insulinSensor.currentEvent ++;
-
-        return processingTime;
+        return event;
     }
 
-   public boolean distributionCalculation (InsulinSensor insulinSensor) {
-        int result = (int) Math.ceil((Math.random())*(insulinSensor.numberOfEvents));
-        insulinSensor.numberOfEvents --;
-        if (result > insulinSensor.oooEvents) {
-           return false;
+    public boolean distributionCalculation() {
+        int result = (int) Math.ceil((Math.random())*(this.amountOfEventsToProcess));
+        this.amountOfEventsToProcess--;
+        if (result > oooEvents) {
+            return false;
         }
         else {
-            insulinSensor.oooEvents --;
+            oooEvents --;
             return true;
         }
-   }
+    }
 
    public void stateOneCalculation (InsulinSensor insulinSensor) {
-        this.gaussNumber = (int) Math.ceil((insulinSensor.oooEvents*0.10));
+        this.gaussNumber = (int) Math.ceil((this.oooEvents*0.10));
         this.gradualDriftEventsAmountStateOne = gaussCalculation(this.gaussNumber);
         this.gradualDriftEventsAmountStateTwo = gradualDriftEventsAmountStateOne;
         this.currentGradualDriftEventOoo = this.gradualDriftEventsAmountStateOne;
@@ -209,7 +233,8 @@ public class Delayer {
    }
 
    public int  gaussNumberCalc(InsulinSensor insulinSensor) {
-       return (int) Math.ceil((insulinSensor.oooEvents*0.10));
+       return (int) Math.ceil((this.oooEvents*0.10));
+
    }
 
    public int gaussCalculation (int driftAmount) {

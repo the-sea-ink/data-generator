@@ -2,72 +2,97 @@ import HelperClasses.ConfigReader;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
-import java.util.Random;
+import java.util.Date;
 
 public class InsulinSensor {
 
     public int serialNumber;
-    public double glucoseAmount;
+    public double value;
     public boolean highGluckoseWarning;
-    public int glucoseWarningAmount;
+    public double glucoseWarningAmount;
     public int highestGluckoseAmount;
+    public int oversugared = 0;
 
-    public boolean outlier;
-    public int oooPercentage;
-    public int numberOfEvents;
-    public int oooEvents;
-    public int ioEvents;
+    public int amountOfEventsToGenerate;
     public int currentEvent = 1;
+    public int eventIDOutputFile = 1;
     public int id;
-    public int pattern;
+
+
+    private Date currentTime;
+    private int timeBetweenEvents;
+
+    private int amountOfSensors;
 
     public InsulinSensor(int id) throws IOException, ParseException {
-        this.glucoseAmount = 5.0;
+        this.value = 4.0;
         this.highGluckoseWarning = false;
-        this.glucoseWarningAmount = 20;
-        this.highestGluckoseAmount = 22;
+        this.glucoseWarningAmount = 13.8;
+        this.highestGluckoseAmount = 15;
         this.id = id;
         this.serialNumber = this.id +1;
-        if (ConfigReader.getOutlierOoo(this.id+1) != -1) {
-            this.oooPercentage = ConfigReader.getOutlierOoo(this.id+1);
-        }else {
-            this.oooPercentage = ConfigReader.getDelayPercentage();
+
+        amountOfEventsToGenerate = (ConfigReader.getStreamDuration()*1000 / ConfigReader.getTimeBetweenTransactions())+1;
+
+        eventIDOutputFile = this.id;
+        try {
+            currentTime = ConfigReader.getStartingTime();
+            timeBetweenEvents = ConfigReader.getTimeBetweenTransactions();
+            amountOfSensors = ConfigReader.getAmountOfSources();
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
         }
-        if (ConfigReader.getOutlierPattern(this.id +1) != -1){
-            this.pattern = ConfigReader.getOutlierPattern(this.id +1);
-        }else{
-            this.pattern = ConfigReader.getDelayPattern();
-        }
-        numberOfEvents = (ConfigReader.getRuntime()*1000 / ConfigReader.getTimeBetweenTransactions())+1;
-        oooEvents = (int) Math.ceil((double) numberOfEvents * (double) oooPercentage / 100);
-        ioEvents = numberOfEvents - oooEvents;
     }
 
-    public void Updater() {
+    public void updateValues() {
         glucoseUpdater();
         lowGlucoseUpdater();
     }
 
 
     public double glucoseRandomizer() {
-        return  (Math.random() + 1.5);
+        return  (Math.random() + 0.9);
     }
 
     public void glucoseUpdater() {
-        if ((glucoseRandomizer()<2 || this.glucoseAmount <=5) && this.glucoseAmount < this.highestGluckoseAmount ) {
-            this.glucoseAmount += glucoseRandomizer();
-            this.glucoseAmount = Math.floor(this.glucoseAmount * 100) / 100;
+        if ((glucoseRandomizer()<1.5 || this.value <=4) && this.value < this.highestGluckoseAmount  && this.oversugared < 2) {
+            this.value += glucoseRandomizer();
+            this.value = Math.floor(this.value * 100) / 100;
         }else {
-            this.glucoseAmount -= glucoseRandomizer();
-            this.glucoseAmount = Math.floor(this.glucoseAmount * 100) / 100;
+            this.value -= glucoseRandomizer();
+            this.value = Math.floor(this.value * 100) / 100;
+        }
+        if (this.value >= this.glucoseWarningAmount) {
+            this.oversugared ++;
+        } else {
+            this.oversugared = 0;
         }
     }
 
+
+
     public void lowGlucoseUpdater() {
-        if (this.glucoseAmount >= this.highestGluckoseAmount)
+        if (this.value >= this.glucoseWarningAmount)
             highGluckoseWarning = true;
         else
             highGluckoseWarning = false;
+    }
+
+    public Event generateNewEvent() {
+        Event newEvent = new Event(currentTime,this, value, highGluckoseWarning);
+        currentTime = new Date (this.currentTime.getTime() + timeBetweenEvents);
+        newEvent.id = eventIDOutputFile;
+        eventIDOutputFile = eventIDOutputFile + amountOfSensors;
+        currentEvent++;
+        amountOfEventsToGenerate--;
+        updateValues();
+        return newEvent;
+    }
+
+    public boolean finished(){
+        if (this.amountOfEventsToGenerate == 0)
+            return true;
+        return false;
+
     }
 }

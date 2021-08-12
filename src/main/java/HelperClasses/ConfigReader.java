@@ -37,7 +37,7 @@ public class ConfigReader {
         return numberOfSensors;
     };
 
-    public static int getRuntime () throws IOException, ParseException {
+    public static int getStreamDuration() throws IOException, ParseException {
         JSONObject jo = (JSONObject) configReader();
         Long runtimeLong = (Long) jo.get("runtimeInSeconds");
         int runtime = runtimeLong.intValue();
@@ -54,7 +54,7 @@ public class ConfigReader {
 
     public static int getTimeBetweenTransactions() throws IOException, ParseException {
         JSONObject jo = (JSONObject) configReader();
-        Long timeBetweenTransactionsLong = (Long) jo.get("milliSecondsBetweenTransactions");
+        Long timeBetweenTransactionsLong = (Long) jo.get("milliSecondsBetweenEvents");
         int timeBetweenTransactions = timeBetweenTransactionsLong.intValue();
         return timeBetweenTransactions;
 
@@ -98,9 +98,8 @@ public class ConfigReader {
     public static int getCriticalPointColumn () throws IOException, ParseException {
         JSONObject jo = (JSONObject) configReader();
         Long criticalPointolumnLong = (Long) jo.get("warningColumn");
-        int criticalPointolumn = criticalPointolumnLong.intValue();
-        return criticalPointolumn;
-
+        int criticalPointColumn = criticalPointolumnLong.intValue();
+        return criticalPointColumn;
     }
 
     public static int getAmountOfSources () throws IOException, ParseException {
@@ -176,7 +175,7 @@ public class ConfigReader {
         return -1;
     }
 
-    public static int getOutlierConnectionLoss (int sourceID) throws IOException, ParseException {
+    public static int getOutlierNetworkAnomalyDuration(int sourceID) throws IOException, ParseException {
         JSONObject jo = (JSONObject) configReader();
         JSONArray arr = (JSONArray) jo.get("outliers");
         for (int i = 0; i < arr.size(); i++ ) {
@@ -185,16 +184,16 @@ public class ConfigReader {
             int outlier = outlierLong.intValue();
             Long pattern = Long.valueOf((Long)line.get("pattern"));
             if(outlier == sourceID && pattern == 3 ) {
-                Long connectionLossLong = Long.valueOf((Long)line.get("connectionLossDurationInSeconds"));
+                Long connectionLossLong = Long.valueOf((Long)line.get("networkAnomalyDurationInSeconds"));
                 return connectionLossLong.intValue();
             }
         }
         return -1;
     }
 
-    public static int getConnectionLossDuration () throws IOException, ParseException {
+    public static int getNetworkAnomalyDuration() throws IOException, ParseException {
         JSONObject jo = (JSONObject) configReader();
-        Long connectionLossDurationInSecondsLong = (Long) jo.get("connectionLossDurationInSeconds");
+        Long connectionLossDurationInSecondsLong = (Long) jo.get("networkAnomalyDurationInSeconds");
         int connectionLossDurationInSeconds = connectionLossDurationInSecondsLong.intValue();
         return connectionLossDurationInSeconds;
     }

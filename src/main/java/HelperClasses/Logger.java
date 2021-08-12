@@ -38,18 +38,16 @@ public class Logger {
     }
 
     public int setStreamDurationInSeconds() throws IOException, ParseException {
-        return ConfigReader.getRuntime();
+        return ConfigReader.getStreamDuration();
     }
     public int setGeneratedEvents () throws IOException, ParseException {
-        return ConfigReader.getRuntime()*1000/ConfigReader.getTimeBetweenTransactions()*ConfigReader.getAmountOfSources() + ConfigReader.getAmountOfSources();
+        return ConfigReader.getStreamDuration()*1000/ConfigReader.getTimeBetweenTransactions()*ConfigReader.getAmountOfSources() + ConfigReader.getAmountOfSources();
     }
 
     public void exportResult () throws IOException, ParseException {
         FileWriter generatorLog = new FileWriter("output/generatorLog.csv", true);
         generatorLog.append((this.streamDurationInSeconds + ", " + this.eventsGenerated + ", "+  this.generationDuration) + System.lineSeparator());
         System.out.println("Stream generation successful.");
-        System.out.println("Stream duration: " + this.streamDurationInSeconds + " seconds.");
-        System.out.println("Events generated: " + this.eventsGenerated + ".");
         System.out.println("Stream generation took " + this.generationDuration + " milliseconds.");
         System.out.println("-----------------------------------------------------------");
         generatorLog.flush();
