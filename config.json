@@ -1,21 +1,19 @@
 {
   "outputFile" : "/output.csv",
 
-  "runtimeInSeconds" : 2000,
+  "runtimeInSeconds" : 100,
   "startingTime": "2021-03-31 17:03:20.004",
-  "milliSecondsBetweenTransactions": 250,
-  "shortestDelayInMilliseconds" : 0,
+  "milliSecondsBetweenEvents": 250,
+  "shortestDelayInMilliseconds" : 1,
   "longestDelayInMilliseconds" : 400,
-  "oooPercentage": 50,
   "delayPattern": 1,
-  "connectionLossDurationInSeconds" : 4,
+  "oooPercentage": 50,
+  "networkAnomalyDurationInSeconds": 10,
 
-  "amountOfSources": 4,
-  
+  "amountOfSources": 1,
   "outliers" : [
-    {"sourceID":2, "pattern":2, "oooPercentage" : 80},
-    {"sourceID":3, "pattern":1, "oooPercentage" : 20},
-    {"sourceID":3, "pattern":3, "connectionLossDurationInSeconds" : 10 }
+    {"sourceID":2 ,   "pattern" :1 ,   "oooPercentage": 20},
+    {"sourceID":3 ,   "pattern" :1 ,   "oooPercentage": 60}
   ],
 
   "eventTimeColumn": 2,

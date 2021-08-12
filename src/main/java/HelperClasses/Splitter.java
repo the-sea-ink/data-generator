@@ -11,18 +11,10 @@ public class Splitter {
 
     public static void split () throws IOException, ParseException {
         int sourcesAmount = ConfigReader.getAmountOfSources();
-        int currentSource = 0;
-        int ids[] = new int[sourcesAmount];
+        int currentSource;
 
         BufferedReader br = new BufferedReader(new FileReader("output/output.csv"));
         String line = "";
-
-
-        for (int i = 0; i < ids.length; i++) {
-            line = br.readLine();
-            String[] lineArray = line.split(",");
-            ids[i] = Integer.parseInt(lineArray[3]);
-        }
 
         for (currentSource = 0; currentSource < sourcesAmount; currentSource ++) {
             BufferedReader buffreader = new BufferedReader(new FileReader("output/output.csv"));
@@ -31,7 +23,7 @@ public class Splitter {
             while ((line = buffreader.readLine()) != null) {
                 String[] lineArray = line.split(",");
                 int id = Integer.parseInt(lineArray[3]);
-                if (id == ids[currentSource]) {
+                if (id == currentSource+1) {
                     line = line + System.lineSeparator();
                     Connector.exporter(fileWriter, line);
                 }

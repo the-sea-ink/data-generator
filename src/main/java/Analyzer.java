@@ -1,8 +1,8 @@
 import HelperClasses.ConfigReader;
 import HelperClasses.Connector;
 import HelperClasses.Splitter;
+import HelperClasses.ReverseLineInputStream;
 import org.json.simple.parser.ParseException;
-
 import java.io.*;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -19,43 +19,44 @@ public class Analyzer {
         Splitter.split();
         System.out.println("-----------------------------------------------------------");
 
-        System.out.println("Stream duration: " + streamDuration + " milliseconds");
-        line = "Total stream duration:" + streamDuration +" milliseconds" + System.lineSeparator();
-        Connector.exporter(fileWriter, line);
+        line = "Stream duration: " + streamDuration/1000 + " seconds = " + streamDuration + " milliseconds";
+        System.out.println(line);
+        Connector.exporter(fileWriter, line + System.lineSeparator());
 
-        System.out.println("Amount of events: " + eventCount);
-        line ="Total amount of events: " + eventCount + System.lineSeparator();
-        Connector.exporter(fileWriter, line);
+        line ="Total amount of events: " + eventCount;
+        System.out.println(line);
+        Connector.exporter(fileWriter, line+ System.lineSeparator());
         System.out.println();
-
 
         for (int currentSource = 0; currentSource < sourcesAmount; currentSource ++) {
             String currentInputFile = "output/output" + currentSource +".csv";
 
-            System.out.println("Source " + (currentSource +1) + ": ");
-            System.out.println("Amount of events: " + getTotalEvents(currentInputFile));
-            System.out.println("Minimum delay: " + getMinDelay() );
-            line = "Minimum delay: " + getMinDelay() + System.lineSeparator();
-            Connector.exporter(fileWriter, line);
-
-            System.out.println("Maximum delay: " + getMaxDelay(currentInputFile));
-            line = "Maximum delay: " + getMaxDelay(currentInputFile) + System.lineSeparator();
-            Connector.exporter(fileWriter, line);
+            line = "Source " + (currentSource +1) + ": ";
+            System.out.println(line);
+            Connector.exporter(fileWriter, line + System.lineSeparator());
+            line = "Amount of events: " + getTotalEvents(currentInputFile);
+            System.out.println(line);
+            Connector.exporter(fileWriter, line + System.lineSeparator());
+            line = "Minimum delay: " + getMinDelay() ;
+            System.out.println(line);
+            Connector.exporter(fileWriter, line + System.lineSeparator());
+            line ="Maximum delay: " + getMaxDelay(currentInputFile);
+            System.out.println(line);
+            Connector.exporter(fileWriter, line+System.lineSeparator());
 
             if (ConfigReader.getOutlierPattern(currentSource+1) == 3 || ConfigReader.getDelayPattern() == 3 ){
-                line = "Out of oder percentage: " + outOfOrderPercentage(currentInputFile) +
+                line = "Out of order percentage: " + outOfOrderPercentage(currentInputFile) +
                         ", connection loss duration: " + getMaxDelay(currentInputFile);
             }
 
             else{
-                line = "Out of oder percentage: " + outOfOrderPercentage(currentInputFile);
+                line = "Out of order percentage: " + outOfOrderPercentage(currentInputFile);
             }
             System.out.println(line);
-
             Connector.exporter(fileWriter, line);
 
-            System.out.println("Critical points: " + getCriticalPointsAmount(currentInputFile));
             line = "Critical points: " + getCriticalPointsAmount(currentInputFile) + ", at positions: " + getCriticalPoints(currentInputFile) + System.lineSeparator();
+            System.out.println("Critical points: " + getCriticalPointsAmount(currentInputFile));
             Connector.exporter(fileWriter, line);
             System.out.println();
         }
@@ -165,7 +166,6 @@ public class Analyzer {
         int maxDelay = (int) (delayDate.getTime());
 
         while ((line = br.readLine()) != null) {
-
             lineArray = line.split(",");
 
             eventTimeString = lineArray[eventTimeColumn];
@@ -181,8 +181,11 @@ public class Analyzer {
             long diff = tsPT.getTime() - tsET.getTime();
 
 
-            if (diff > maxDelay)
+            if (diff > maxDelay) {
                 maxDelay = (int) (delayDate.getTime());
+            }
+
+
 
         }
         return maxDelay;
@@ -191,114 +194,76 @@ public class Analyzer {
     public static double outOfOrderPercentage (String inputFile) throws IOException, ParseException {
         int counter = 0;
 
-        int eventTimeColumn = ConfigReader.getEventTimeColumn() - 1;
-        int processingTimeColumn = ConfigReader.getProcessingTimeColumn() - 1;
-        int criticalPointColumn = ConfigReader.getCriticalPointColumn() -1;
-
-        BufferedReader br = new BufferedReader(new FileReader(inputFile));
+        BufferedReader br = new BufferedReader (new InputStreamReader (new ReverseLineInputStream(new File(inputFile))));
 
         String line = br.readLine();
-        String[] lineArray = line.split(",");
-
-        String processingTimeString = lineArray[processingTimeColumn];
-        Date processingTimeDate = new Date(Long.parseLong(processingTimeString));
+        Event lastEvent = Event.parseFromString(line);
+        Date minProcessingTime = lastEvent.processingTime;
 
         while ((line = br.readLine()) != null) {
-
-            lineArray = line.split(",");
-
-            String eventTimeString = lineArray[eventTimeColumn];
-            Date eventTimeDate = new Date(Long.parseLong(eventTimeString));
-
-
-            if (processingTimeDate.getTime() > (eventTimeDate.getTime())) {
-                counter ++;
-            }
-
-            processingTimeString = lineArray[processingTimeColumn];
-            processingTimeDate = new Date(Long.parseLong(processingTimeString));
-
+            Event currentEvent = Event.parseFromString(line);
+            if (minProcessingTime.before(currentEvent.processingTime))
+                ///ooo event
+                counter++;
+            else
+                minProcessingTime = currentEvent.processingTime;
             }
 
         return counter/(double)getTotalEvents("output/output.csv")*ConfigReader.getAmountOfSources();
 
     }
+
     public static int getCriticalPointsAmount(String inputFile) throws IOException, ParseException {
-        BufferedReader br = new BufferedReader(new FileReader(inputFile));
-
-        //init event/processing time columns/values
-        int eventTimeColumn = ConfigReader.getEventTimeColumn() - 1;
-        int processingTimeColumn = ConfigReader.getProcessingTimeColumn() - 1;
-        int overheatColumn = ConfigReader.getCriticalPointColumn() -1;
-
-
-        String line = br.readLine();
-        String[] lineArray = line.split(",");
-
-        String processingTimeString = lineArray[processingTimeColumn];
-        Date processingTimeDate = new Date(Long.parseLong(processingTimeString));
-        boolean overheatWarningCurr;
-        boolean overheatWarningPrev = false;
+        BufferedReader br = new BufferedReader (new InputStreamReader (new ReverseLineInputStream(new File(inputFile))));
         int criticalPointsAmount  = 0;
+        int i;
+        String line = br.readLine();
+
+        Event lastEvent = Event.parseFromString(line);
+        Date minProcessingTime = lastEvent.processingTime;
+        boolean sensorWarning = lastEvent.sensorWarning;
 
         while ((line = br.readLine()) != null) {
-
-            lineArray = line.split(",");
-
-            String eventTimeString = lineArray[eventTimeColumn];
-            Date eventTimeDate = new Date(Long.parseLong(eventTimeString));
-            overheatWarningCurr = Boolean.parseBoolean(lineArray[overheatColumn]);
-            if (processingTimeDate.getTime() > (eventTimeDate.getTime()) && overheatWarningCurr != overheatWarningPrev) {
-                    criticalPointsAmount++;
-                    overheatWarningPrev = overheatWarningCurr;
-                    //System.out.println(lineArray[0]);
-
+            Event currentEvent = Event.parseFromString(line);
+            if (minProcessingTime.before(currentEvent.processingTime) && currentEvent.sensorWarning!=sensorWarning) {
+                ///ooo event & critical point
+                criticalPointsAmount++;
             }
-            else
-                overheatWarningPrev = Boolean.parseBoolean(lineArray[overheatColumn]);
 
-            processingTimeString = lineArray[processingTimeColumn];
-            processingTimeDate = new Date(Long.parseLong(processingTimeString));
+            else{
+                minProcessingTime = currentEvent.processingTime;
+            }
+            sensorWarning = currentEvent.sensorWarning;
 
         }
+
         return criticalPointsAmount;
     }
+
     public static String getCriticalPoints(String inputFile) throws IOException, ParseException {
+        BufferedReader br = new BufferedReader (new InputStreamReader (new ReverseLineInputStream(new File(inputFile))));
         String criticalPoints = "";
-        BufferedReader br = new BufferedReader(new FileReader(inputFile));
-
-        //init event/processing time columns/values
-        int eventTimeColumn = ConfigReader.getEventTimeColumn() - 1;
-        int processingTimeColumn = ConfigReader.getProcessingTimeColumn() - 1;
-        int overheatColumn = ConfigReader.getCriticalPointColumn() -1;
-
-        String line = br.readLine();
-        String[] lineArray = line.split(",");
-
-        String processingTimeString = lineArray[processingTimeColumn];
-        Date processingTimeDate = new Date(Long.parseLong(processingTimeString));
-        boolean overheatWarningCurr;
-        boolean overheatWarningPrev = false;
         int i;
+        String line = br.readLine();
+
+
+        Event lastEvent = Event.parseFromString(line);
+        Date minProcessingTime = lastEvent.processingTime;
+        boolean sensorWarning = lastEvent.sensorWarning;
 
         while ((line = br.readLine()) != null) {
-
-            lineArray = line.split(",");
-
-            String eventTimeString = lineArray[eventTimeColumn];
-            Date eventTimeDate = new Date(Long.parseLong(eventTimeString));
-            overheatWarningCurr = Boolean.parseBoolean(lineArray[overheatColumn]);
-            if (processingTimeDate.getTime() > (eventTimeDate.getTime()) && overheatWarningCurr != overheatWarningPrev) {
+            String[] lineArray = line.split(",");
+            Event currentEvent = Event.parseFromString(line);
+            if (minProcessingTime.before(currentEvent.processingTime) && currentEvent.sensorWarning!=sensorWarning) {
+                ///ooo event & critical point
                 i = Integer.parseInt(lineArray[0]);
                 criticalPoints += i + "; ";
-                overheatWarningPrev = overheatWarningCurr;
-                    //System.out.println(lineArray[0]);
             }
-            else
-                overheatWarningPrev = Boolean.parseBoolean(lineArray[overheatColumn]);
 
-            processingTimeString = lineArray[processingTimeColumn];
-            processingTimeDate = new Date(Long.parseLong(processingTimeString));
+            else{
+                minProcessingTime = currentEvent.processingTime;
+            }
+            sensorWarning = currentEvent.sensorWarning;
 
         }
 
