@@ -64,6 +64,7 @@ public class Analyzer {
     }
     public static int getTotalEvents(String inputFile) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(inputFile));
+        br.readLine();
         int count = 0;
         while((br.readLine()) != null)
             count++;
@@ -72,6 +73,8 @@ public class Analyzer {
     }
     public static int getDurationInMilliseconds() throws IOException, ParseException, java.text.ParseException {
         BufferedReader br = new BufferedReader(new FileReader("output/output.csv"));
+        //skip header row
+        br.readLine();
         //get first line
         String firstLine = br.readLine();
         String[] firstLineArray = firstLine.split(",");
@@ -102,7 +105,8 @@ public class Analyzer {
     public static int getMinDelay () throws IOException, ParseException, java.text.ParseException {
         //read output
         BufferedReader br = new BufferedReader(new FileReader("output/output.csv"));
-
+        //skip header row
+        br.readLine();
         //init event/processing time columns/values
         int eventTimeColumn = ConfigReader.getEventTimeColumn() - 1;
         int processingTimeColumn = ConfigReader.getProcessingTimeColumn() - 1;
@@ -210,7 +214,6 @@ public class Analyzer {
         return counter/(double)getTotalEvents("output/output.csv")*ConfigReader.getAmountOfSources();
 
     }
-
     public static int getCriticalPointsAmount(String inputFile) throws IOException, ParseException {
         BufferedReader br = new BufferedReader (new InputStreamReader (new ReverseLineInputStream(new File(inputFile))));
         int criticalPointsAmount  = 0;
@@ -237,7 +240,6 @@ public class Analyzer {
 
         return criticalPointsAmount;
     }
-
     public static String getCriticalPoints(String inputFile) throws IOException, ParseException {
         BufferedReader br = new BufferedReader (new InputStreamReader (new ReverseLineInputStream(new File(inputFile))));
         String criticalPoints = "";

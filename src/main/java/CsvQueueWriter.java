@@ -53,6 +53,11 @@ public class CsvQueueWriter implements Runnable {
 
     @Override
     public void run() {
+        try {
+            csvWriter.write("eventID, eventTime, processingTime, sensorID, sensorValue, sensorWarning" + System.lineSeparator());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         while(true){
             while(!eventsToWrite.isEmpty()){
                 try {

@@ -1,7 +1,7 @@
 {
   "outputFile" : "/output.csv",
 
-  "runtimeInSeconds" : 1000000,
+  "runtimeInSeconds" : 100,
   "startingTime": "2021-03-31 17:03:20.004",
   "milliSecondsBetweenEvents": 250,
   "shortestDelayInMilliseconds" : 1,
@@ -10,7 +10,7 @@
   "oooPercentage": 50,
   "networkAnomalyDurationInSeconds": 10,
 
-  "amountOfSources": 30,
+  "amountOfSources": 8,
   "outliers" : [
     {"sourceID":2 ,   "pattern" :1 ,   "oooPercentage": 20},
     {"sourceID":3 ,   "pattern" :1 ,   "oooPercentage": 60}
