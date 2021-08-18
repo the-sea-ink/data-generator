@@ -15,17 +15,17 @@ public class DataGen {
 
         int amountOfSources = ConfigReader.getAmountOfSources();
         String outputFile = "output/output.csv";
-        new File(outputFile).delete();
+        CsvQueueWriter csvWriter = new CsvQueueWriter(outputFile, amountOfSources);
 
         List<Generator> generators = new ArrayList<>();
-
+        new Thread(csvWriter).start();
         for (int i = 1; i < amountOfSources+1; i++) {
             InsulinSensor newSensor = new InsulinSensor(i);
             Delayer newDelayer = new Delayer(i, newSensor.amountOfEventsToGenerate);
-            generators.add(new Generator(newSensor, newDelayer, outputFile));
+            generators.add(new Generator(newSensor, newDelayer, csvWriter));
         }
 
-        boolean multithreaded = false;
+        boolean multithreaded = true;
 
         long startTime = System.nanoTime();
 

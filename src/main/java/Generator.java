@@ -10,18 +10,17 @@ public class Generator implements Runnable {
 
     InsulinSensor inputSensor;
     Delayer delayer;
-    FileWriter csvWriter;
+    CsvQueueWriter csvWriter;
 
-    public Generator(InsulinSensor inputSensor, Delayer delayer,  String outputFile) throws IOException {
+    public Generator(InsulinSensor inputSensor, Delayer delayer,  CsvQueueWriter csvWriter) throws IOException {
         this.inputSensor = inputSensor;
         this.delayer = delayer;
-        csvWriter = new FileWriter(outputFile, true);
+        this.csvWriter = csvWriter;
     }
 
     private void generateRandomDistribution() throws IOException {
 
         List<Event> oooEvents = new ArrayList<>();
-
         while(!inputSensor.finished()){
             Event currentEvent = inputSensor.generateNewEvent();
             boolean ooo = delayer.distributionCalculation();
@@ -38,32 +37,35 @@ public class Generator implements Runnable {
                 delayedEvent.processingTime =  TimeHandler.addTimeMilliseconds(currentEvent.processingTime, delay);
             }
 
-            for (Event delayedEvent : oooEvents){
-                csvWriter.write(delayedEvent.toString());
+            //csvWriter.queueEvents(oooEvents);
+            List<String> eventStrings = new ArrayList<>();
+            for (Event event : oooEvents){
+                eventStrings.add(event.toString());
             }
-            csvWriter.write(currentEvent.toString());
+            csvWriter.queueEventsStrings(eventStrings);
+
+            //csvWriter.queueEvent(currentEvent);
+            csvWriter.queueEventStrings(currentEvent.toString());
 
             oooEvents.clear();
         }
-        csvWriter.flush();
+        csvWriter.notifySensorIsDone();
     }
 
     private void generateConceptDrift() throws IOException, ParseException {
         while(!inputSensor.finished()){
             Event currentEvent = inputSensor.generateNewEvent();
             delayer.conceptDrift(currentEvent, inputSensor);
-            csvWriter.write(currentEvent.toString());
+            csvWriter.queueEventStrings(currentEvent.toString());
         }
-        csvWriter.flush();
     }
 
     private void generateConnectionLost() throws IOException, ParseException {
         while(!inputSensor.finished()){
             Event currentEvent = inputSensor.generateNewEvent();
             delayer.connectionLoss(currentEvent, inputSensor);
-            csvWriter.write(currentEvent.toString());
+            csvWriter.queueEventStrings(currentEvent.toString());
         }
-        csvWriter.flush();
     }
 
     @Override
