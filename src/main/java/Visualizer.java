@@ -35,7 +35,7 @@ public class Visualizer extends JFrame {
 
         scatterChartDelays();
         histogram(source);
-        scatterChartEventAndProcTimes(0);
+        scatterChartEventAndProcTimes(source);
 
     }
 
@@ -128,6 +128,8 @@ public class Visualizer extends JFrame {
 
         //read output
         BufferedReader br = new BufferedReader(new FileReader(inputFile));
+        if (inputFile.equals("output/output.csv"))
+            br.readLine();
 
         //init event/processing time columns/values
         int eventTimeColumn = ConfigReader.getEventTimeColumn() - 1;

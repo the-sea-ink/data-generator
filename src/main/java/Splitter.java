@@ -12,11 +12,13 @@ public class Splitter {
         int sourcesAmount = ConfigReader.getAmountOfSources();
         int currentSource;
 
-        BufferedReader br = new BufferedReader(new FileReader("output/output.csv"));
+        BufferedReader br = new BufferedReader(new FileReader(ConfigReader.getOutputFile()));
         String line = "";
 
         for (currentSource = 0; currentSource < sourcesAmount; currentSource ++) {
-            BufferedReader buffreader = new BufferedReader(new FileReader("output/output.csv"));
+            BufferedReader buffreader = new BufferedReader(new FileReader(ConfigReader.getOutputFile()));
+            //skip header row
+            buffreader.readLine();
             FileWriter fileWriter = new FileWriter("output/output" + currentSource + ".csv");
 
             while ((line = buffreader.readLine()) != null) {
