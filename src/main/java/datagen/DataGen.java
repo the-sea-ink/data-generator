@@ -1,12 +1,14 @@
+package datagen;
+
 import HelperClasses.*;
 import org.json.simple.parser.ParseException;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class DataGen {
 
@@ -21,13 +23,15 @@ public class DataGen {
         List<Generator> generators = new ArrayList<>();
         Thread writingThread = new Thread(csvWriter);
         writingThread.setPriority(Thread.MAX_PRIORITY);
+        List<InsulinSensor> sensors = new ArrayList<>();
         for (int i = 1; i < amountOfSources+1; i++) {
             InsulinSensor newSensor = new InsulinSensor(i);
             Delayer newDelayer = new Delayer(i, newSensor.amountOfEventsToGenerate);
             generators.add(new Generator(newSensor, newDelayer, csvWriter));
+            sensors.add(newSensor);
         }
-
-        boolean multithreaded = true;
+        log.setSensors(sensors);
+        boolean multithreaded = false;
 
         long startTime = System.nanoTime();
         if (multithreaded){
@@ -37,6 +41,8 @@ public class DataGen {
                 executor.execute(gen);
             }
             executor.shutdown();
+            if(!executor.awaitTermination(60, TimeUnit.MINUTES))
+                executor.shutdownNow();
         } else {
             writingThread.start();
             Thread thread = new Thread(){
@@ -53,7 +59,6 @@ public class DataGen {
         }
 
         long endTime = System.nanoTime();
-
         log.setStreamEnd();
     }
 

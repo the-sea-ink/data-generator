@@ -1,3 +1,5 @@
+package datagen;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,7 +12,7 @@ public class CsvQueueWriter implements Runnable {
 
     //FileWriter csvWriter;
     BufferedWriter csvWriter;
-    //private ConcurrentLinkedQueue<Event> eventsToWrite;
+    //private ConcurrentLinkedQueue<datagen.Event> eventsToWrite;
     private ConcurrentLinkedQueue<String> eventsToWrite;
     private AtomicInteger activeSensors;
 
@@ -31,12 +33,12 @@ public class CsvQueueWriter implements Runnable {
         this.activeSensors.decrementAndGet();
     }
 
-    /*public void queueEvent(Event event){
+    /*public void queueEvent(datagen.Event event){
         this.eventsToWrite.add(event);
     }
 
-    public void queueEvents(List<Event> events){
-        for (Event event : events){
+    public void queueEvents(List<datagen.Event> events){
+        for (datagen.Event event : events){
             this.eventsToWrite.add(event);
         }
     }*/
