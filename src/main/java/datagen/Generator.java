@@ -1,7 +1,8 @@
+package datagen;
+
 import HelperClasses.TimeHandler;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,14 +38,12 @@ public class Generator implements Runnable {
                 delayedEvent.processingTime =  TimeHandler.addTimeMilliseconds(currentEvent.processingTime, delay);
             }
 
-            //csvWriter.queueEvents(oooEvents);
             List<String> eventStrings = new ArrayList<>();
             for (Event event : oooEvents){
                 eventStrings.add(event.toString());
             }
             csvWriter.queueEventsStrings(eventStrings);
 
-            //csvWriter.queueEvent(currentEvent);
             csvWriter.queueEventStrings(currentEvent.toString());
 
             oooEvents.clear();

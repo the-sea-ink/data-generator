@@ -1,3 +1,5 @@
+package datagen;
+
 import HelperClasses.ConfigReader;
 import HelperClasses.Logger;
 import org.json.simple.parser.ParseException;

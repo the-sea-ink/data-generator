@@ -1,6 +1,9 @@
+package datagen;
+
 import javax.swing.JFrame;
 
 import HelperClasses.ConfigReader;
+import datagen.Analyzer;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.SymbolAxis;
@@ -27,15 +30,16 @@ public class Visualizer extends JFrame {
     public static int source = 0;
 
     public static void main(String[] args) throws IOException, ParseException {
-        Splitter.split();
+        //datagen.Splitter.split();
         if (args.length > 0) {
             source = Integer.parseInt(args[0]);
         }
         else source = 0;
 
-        scatterChartDelays();
-        histogram(source);
-        scatterChartEventAndProcTimes(source);
+        //scatterChartDelays();
+        //histogram(source);
+        //scatterChartEventAndProcTimes(source);
+        threadPool();
 
     }
 
@@ -99,13 +103,11 @@ public class Visualizer extends JFrame {
 
 
             dataset.addSeries(dataSeries.get(currentSource));
-
         }
-
 
         JFreeChart chart = ChartFactory.createScatterPlot(
                 title,
-                "Event ID",
+                "datagen.Event ID",
                 "Delay",
                 dataset,
                 PlotOrientation.VERTICAL,
@@ -188,7 +190,7 @@ public class Visualizer extends JFrame {
 
         XYSeriesCollection dataset = new XYSeriesCollection();
 
-        XYSeries series1 = new XYSeries("Event Time");
+        XYSeries series1 = new XYSeries("datagen.Event Time");
         XYSeries series2 = new XYSeries("Processing Time");
 
         String currentInputFile = "output/output" + source +".csv";
@@ -207,7 +209,7 @@ public class Visualizer extends JFrame {
         String axisName = "";
         String[] names = new String[2];
         names[0] = "Processing Time";
-        names[1] = "Event Time";
+        names[1] = "datagen.Event Time";
         SymbolAxis axis = new SymbolAxis(axisName, names);
         chart.getXYPlot().setRangeAxis(axis);
 
@@ -257,5 +259,80 @@ public class Visualizer extends JFrame {
 
         ChartUtils.saveChartAsPNG(new File(title + ".png"), chart, 450, 400);
 
+    }
+
+    public static void threadPool() throws IOException {
+        String title = "Name";
+
+        XYSeries firstSeries= new XYSeries("Thread pool");
+        firstSeries.add(0, 0);
+        firstSeries.add(1, 4.576);
+        firstSeries.add(2, 6.604);
+        firstSeries.add(3, 8.121);
+        firstSeries.add(4, 10.511);
+        firstSeries.add(6,15.623);
+        firstSeries.add(8,19.422);
+        firstSeries.add(10,24.960);
+
+        XYSeries secondSeries= new XYSeries("No thread pool");
+        secondSeries.add(0, 0);
+        secondSeries.add(1, 4.547);
+        secondSeries.add(2, 7.704);
+        secondSeries.add(3, 11.291);
+        secondSeries.add(4, 13.950);
+        secondSeries.add(6,20.164);
+        secondSeries.add(8,27.065);
+        secondSeries.add(10,33.456);
+
+        XYSeries thirdSeries= new XYSeries("Thread pool no writing");
+        thirdSeries.add(0, 0);
+        thirdSeries.add(1, 2.396);
+        thirdSeries.add(2, 3.922);
+        thirdSeries.add(3, 6.078);
+        thirdSeries.add(4, 9.929);
+        thirdSeries.add(6,13.973);
+        thirdSeries.add(8,18.070);
+        thirdSeries.add(10,24.024);
+
+        XYSeries fourthSet= new XYSeries("Thread pool no writing");
+        fourthSet.add(0, 0);
+        fourthSet.add(1, 34.312);
+        fourthSet.add(2, 25.108);
+        fourthSet.add(3, 22.780);
+        fourthSet.add(4, 24.690);
+        fourthSet.add(5, 23.841);
+        fourthSet.add(6,22.983);
+        fourthSet.add(7, 24.136);
+        fourthSet.add(8,23.080);
+        fourthSet.add(9, 23.087);
+        fourthSet.add(10,24.960);
+        fourthSet.add(11,23.089);
+        fourthSet.add(12,23.951);
+        fourthSet.add(13,23.333);
+        fourthSet.add(20, 23.300);
+
+
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        //dataset.addSeries(firstSeries);
+        //dataset.addSeries(secondSeries);
+        //dataset.addSeries(thirdSeries);
+        dataset.addSeries(fourthSet);
+
+        JFreeChart chart = ChartFactory.createScatterPlot(
+                title,
+                "Amount of sources",
+                "Duration in seconds",
+                dataset,
+                PlotOrientation.VERTICAL,
+                true,
+                true,
+                false
+        );
+        XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) chart.getXYPlot().getRenderer();
+
+        renderer.setDefaultLinesVisible(true);
+        renderer.setDefaultShapesFilled(true);
+        renderer.setDefaultShapesVisible(true);
+        ChartUtils.saveChartAsPNG(new File(title + ".png"), chart, 450, 400);
     }
 }
