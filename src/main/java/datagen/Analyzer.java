@@ -1,11 +1,6 @@
-<<<<<<< HEAD:src/main/java/datagen/Analyzer.java
 package datagen;
 
 import HelperClasses.*;
-=======
-import HelperClasses.ConfigReader;
-import HelperClasses.ReverseLineInputStream;
->>>>>>> parent of 3b2448f (package added):src/main/java/Analyzer.java
 import org.json.simple.parser.ParseException;
 import java.io.*;
 import java.sql.Timestamp;

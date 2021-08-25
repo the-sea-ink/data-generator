@@ -1,8 +1,5 @@
-<<<<<<< HEAD:src/main/java/HelperClasses/CsvQueueWriter.java
 package HelperClasses;
 
-=======
->>>>>>> parent of 3b2448f (package added):src/main/java/CsvQueueWriter.java
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,11 +12,7 @@ public class CsvQueueWriter implements Runnable {
 
     //FileWriter csvWriter;
     BufferedWriter csvWriter;
-<<<<<<< HEAD:src/main/java/HelperClasses/CsvQueueWriter.java
     //private ConcurrentLinkedQueue<HelperClasses.Event> eventsToWrite;
-=======
-    //private ConcurrentLinkedQueue<Event> eventsToWrite;
->>>>>>> parent of 3b2448f (package added):src/main/java/CsvQueueWriter.java
     private ConcurrentLinkedQueue<String> eventsToWrite;
     private AtomicInteger activeSensors;
 
@@ -40,21 +33,12 @@ public class CsvQueueWriter implements Runnable {
         this.activeSensors.decrementAndGet();
     }
 
-<<<<<<< HEAD:src/main/java/HelperClasses/CsvQueueWriter.java
     /*public void queueEvent(HelperClasses.Event event){
         this.eventsToWrite.add(event);
     }
 
     public void queueEvents(List<HelperClasses.Event> events){
         for (HelperClasses.Event event : events){
-=======
-    /*public void queueEvent(Event event){
-        this.eventsToWrite.add(event);
-    }
-
-    public void queueEvents(List<Event> events){
-        for (Event event : events){
->>>>>>> parent of 3b2448f (package added):src/main/java/CsvQueueWriter.java
             this.eventsToWrite.add(event);
         }
     }*/

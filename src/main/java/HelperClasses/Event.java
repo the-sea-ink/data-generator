@@ -1,10 +1,6 @@
-<<<<<<< HEAD:src/main/java/HelperClasses/Event.java
 package HelperClasses;
 
 import datagen.InsulinSensor;
-=======
-import HelperClasses.ConfigReader;
->>>>>>> parent of 3b2448f (package added):src/main/java/Event.java
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;

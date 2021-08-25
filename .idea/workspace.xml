@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="54cf2442-fff0-4993-99fe-c29dfa551f1c" name="Default Changelist" comment="">
-<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/output/analyzerOutput.csv" beforeDir="false" afterPath="$PROJECT_DIR$/output/analyzerOutput.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/output/generatorLog.csv" beforeDir="false" afterPath="$PROJECT_DIR$/output/generatorLog.csv" afterDir="false" />
@@ -11,37 +10,6 @@
       <change beforePath="$PROJECT_DIR$/output/output1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/output/output1.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/output/output2.csv" beforeDir="false" afterPath="$PROJECT_DIR$/output/output2.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/output/output3.csv" beforeDir="false" afterPath="$PROJECT_DIR$/output/output3.csv" afterDir="false" />
-=======
-      <change afterPath="$PROJECT_DIR$/50% out-of-order histogram.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Random Distribution.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Scatter Chart - Random Distribution.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output/analyzerOutput.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output/generatorLog.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output/output.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output/output0.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output/output1.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output/output2.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output/output3.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output/output4.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output/output5.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output/output6.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output/output7.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Analyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Analyzer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Connector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Connector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/CsvQueueWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CsvQueueWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/DataGen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/DataGen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Splitter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Splitter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Visualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Visualizer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/old_implementation" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Analyzer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Analyzer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Connector$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Connector$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Connector.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Connector.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/CsvQueueWriter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/CsvQueueWriter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Splitter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Splitter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Visualizer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Visualizer.class" afterDir="false" />
->>>>>>> parent of 3b2448f (package added)
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,38 +64,30 @@
       <recent name="" />
     </key>
   </component>
-<<<<<<< HEAD
   <component name="RunManager" selected="Application.Analyzer">
-=======
-  <component name="RunManager" selected="Application.Visualizer">
->>>>>>> parent of 3b2448f (package added)
     <configuration name="Analyzer" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="Analyzer" />
+      <option name="MAIN_CLASS_NAME" value="datagen.Analyzer" />
       <module name="data-generator" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <configuration name="Connector" type="Application" factoryName="Application">
-<<<<<<< HEAD
       <option name="MAIN_CLASS_NAME" value="HelperClasses.Connector" />
-=======
-      <option name="MAIN_CLASS_NAME" value="Connector" />
->>>>>>> parent of 3b2448f (package added)
       <module name="data-generator" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <configuration name="DataGen" type="Application" factoryName="Application" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="DataGen" />
+      <option name="MAIN_CLASS_NAME" value="datagen.DataGen" />
       <module name="data-generator" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <configuration name="Visualizer" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="Visualizer" />
+      <option name="MAIN_CLASS_NAME" value="datagen.Visualizer" />
       <module name="data-generator" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -170,7 +130,6 @@
       <screen x="0" y="0" width="1366" height="740" />
     </state>
     <state x="141" y="29" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.740/1366.0.1920.1080@0.0.1366.740" timestamp="1629210794737" />
-    <state x="141" y="29" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.740@0.0.1366.740" timestamp="1620734212243" />
     <state x="387" y="176" width="586" height="390" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1628527534050">
       <screen x="0" y="0" width="1366" height="740" />
     </state>
@@ -196,7 +155,6 @@
       <screen x="0" y="0" width="1366" height="740" />
     </state>
     <state x="416" y="120" width="528" height="502" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1366.740/1366.0.1920.1080@0.0.1366.740" timestamp="1629021450629" />
-<<<<<<< HEAD
     <state x="727" y="60" key="#xdebugger.evaluate" timestamp="1629895651969">
       <screen x="0" y="0" width="1366" height="740" />
     </state>
@@ -244,58 +202,12 @@
       <screen x="0" y="0" width="1366" height="740" />
     </state>
     <state width="1320" height="218" key="GridCell.Tab.1.right/0.0.1366.740/1366.0.1920.1080@0.0.1366.740" timestamp="1629929560391" />
-=======
-    <state x="238" y="0" width="883" height="740" key="CommitChangelistDialog2" timestamp="1629313424359">
-      <screen x="0" y="0" width="1366" height="740" />
-    </state>
-    <state x="238" y="0" width="883" height="740" key="CommitChangelistDialog2/0.0.1366.740/1366.0.1920.1080@0.0.1366.740" timestamp="1629313424359" />
-    <state width="1320" height="210" key="GridCell.Tab.0.bottom" timestamp="1629312835675">
-      <screen x="0" y="0" width="1366" height="740" />
-    </state>
-    <state width="1320" height="210" key="GridCell.Tab.0.bottom/0.0.1366.740/1366.0.1920.1080@0.0.1366.740" timestamp="1629312835675" />
-    <state width="1320" height="210" key="GridCell.Tab.0.bottom/0.0.1366.740@0.0.1366.740" timestamp="1624536234315" />
-    <state width="1320" height="210" key="GridCell.Tab.0.center" timestamp="1629312835675">
-      <screen x="0" y="0" width="1366" height="740" />
-    </state>
-    <state width="1320" height="210" key="GridCell.Tab.0.center/0.0.1366.740/1366.0.1920.1080@0.0.1366.740" timestamp="1629312835675" />
-    <state width="1320" height="210" key="GridCell.Tab.0.center/0.0.1366.740@0.0.1366.740" timestamp="1624536234315" />
-    <state width="1320" height="210" key="GridCell.Tab.0.left" timestamp="1629312835675">
-      <screen x="0" y="0" width="1366" height="740" />
-    </state>
-    <state width="1320" height="210" key="GridCell.Tab.0.left/0.0.1366.740/1366.0.1920.1080@0.0.1366.740" timestamp="1629312835675" />
-    <state width="1320" height="210" key="GridCell.Tab.0.left/0.0.1366.740@0.0.1366.740" timestamp="1624536234314" />
-    <state width="1320" height="210" key="GridCell.Tab.0.right" timestamp="1629312835675">
-      <screen x="0" y="0" width="1366" height="740" />
-    </state>
-    <state width="1320" height="210" key="GridCell.Tab.0.right/0.0.1366.740/1366.0.1920.1080@0.0.1366.740" timestamp="1629312835675" />
-    <state width="1320" height="210" key="GridCell.Tab.0.right/0.0.1366.740@0.0.1366.740" timestamp="1624536234315" />
-    <state width="1320" height="218" key="GridCell.Tab.1.bottom" timestamp="1629112382706">
-      <screen x="0" y="0" width="1366" height="740" />
-    </state>
-    <state width="1320" height="218" key="GridCell.Tab.1.bottom/0.0.1366.740/1366.0.1920.1080@0.0.1366.740" timestamp="1629112382706" />
-    <state width="1320" height="218" key="GridCell.Tab.1.bottom/0.0.1366.740@0.0.1366.740" timestamp="1623229193984" />
-    <state width="1320" height="218" key="GridCell.Tab.1.center" timestamp="1629112382706">
-      <screen x="0" y="0" width="1366" height="740" />
-    </state>
-    <state width="1320" height="218" key="GridCell.Tab.1.center/0.0.1366.740/1366.0.1920.1080@0.0.1366.740" timestamp="1629112382706" />
-    <state width="1320" height="218" key="GridCell.Tab.1.center/0.0.1366.740@0.0.1366.740" timestamp="1623229193983" />
-    <state width="1320" height="218" key="GridCell.Tab.1.left" timestamp="1629112382706">
-      <screen x="0" y="0" width="1366" height="740" />
-    </state>
-    <state width="1320" height="218" key="GridCell.Tab.1.left/0.0.1366.740/1366.0.1920.1080@0.0.1366.740" timestamp="1629112382706" />
-    <state width="1320" height="218" key="GridCell.Tab.1.left/0.0.1366.740@0.0.1366.740" timestamp="1623229193983" />
-    <state width="1320" height="218" key="GridCell.Tab.1.right" timestamp="1629112382706">
-      <screen x="0" y="0" width="1366" height="740" />
-    </state>
-    <state width="1320" height="218" key="GridCell.Tab.1.right/0.0.1366.740/1366.0.1920.1080@0.0.1366.740" timestamp="1629112382706" />
->>>>>>> parent of 3b2448f (package added)
     <state width="1320" height="218" key="GridCell.Tab.1.right/0.0.1366.740@0.0.1366.740" timestamp="1623229193983" />
     <state x="216" y="29" width="928" height="684" key="Maven.ArtifactSearchDialog" timestamp="1628545451526">
       <screen x="0" y="0" width="1366" height="740" />
     </state>
     <state x="216" y="29" width="928" height="684" key="Maven.ArtifactSearchDialog/0.0.1366.740/1366.0.1920.1080@0.0.1366.740" timestamp="1628545451526" />
     <state x="216" y="29" width="928" height="684" key="Maven.ArtifactSearchDialog/0.0.1366.740@0.0.1366.740" timestamp="1624286323369" />
-<<<<<<< HEAD
     <state width="685" height="371" key="XDebugger.FullValuePopup" timestamp="1629894470561">
       <screen x="0" y="0" width="1366" height="740" />
     </state>
@@ -304,12 +216,6 @@
       <screen x="0" y="0" width="1366" height="740" />
     </state>
     <state x="362" y="198" key="com.intellij.ide.util.TipDialog/0.0.1366.740/1366.0.1920.1080@0.0.1366.740" timestamp="1629882500809" />
-=======
-    <state x="362" y="198" key="com.intellij.ide.util.TipDialog" timestamp="1629312865640">
-      <screen x="0" y="0" width="1366" height="740" />
-    </state>
-    <state x="362" y="198" key="com.intellij.ide.util.TipDialog/0.0.1366.740/1366.0.1920.1080@0.0.1366.740" timestamp="1629312865640" />
->>>>>>> parent of 3b2448f (package added)
     <state x="362" y="198" key="com.intellij.ide.util.TipDialog/0.0.1366.740@0.0.1366.740" timestamp="1624541486642" />
     <state x="475" y="291" width="410" height="160" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1629897610997">
       <screen x="0" y="0" width="1366" height="740" />
@@ -318,16 +224,11 @@
     <state x="386" y="0" width="588" height="740" key="refactoring.ChangeSignatureDialog" timestamp="1629898618566">
       <screen x="0" y="0" width="1366" height="740" />
     </state>
-<<<<<<< HEAD
     <state x="386" y="0" width="588" height="740" key="refactoring.ChangeSignatureDialog/0.0.1366.740/1366.0.1920.1080@0.0.1366.740" timestamp="1629898618566" />
     <state x="345" y="162" key="run.anything.popup" timestamp="1629466894879">
-=======
-    <state x="386" y="0" width="588" height="740" key="refactoring.ChangeSignatureDialog/0.0.1366.740/1366.0.1920.1080@0.0.1366.740" timestamp="1628517444468" />
-    <state x="345" y="162" key="run.anything.popup" timestamp="1628678336380">
->>>>>>> parent of 3b2448f (package added)
       <screen x="0" y="0" width="1366" height="740" />
     </state>
-    <state x="345" y="162" key="run.anything.popup/0.0.1366.740/1366.0.1920.1080@0.0.1366.740" timestamp="1628678336380" />
+    <state x="345" y="162" key="run.anything.popup/0.0.1366.740/1366.0.1920.1080@0.0.1366.740" timestamp="1629466894879" />
     <state x="345" y="162" key="run.anything.popup/0.0.1366.740@0.0.1366.740" timestamp="1623940983019" />
     <state x="346" y="61" width="672" height="678" key="search.everywhere.popup" timestamp="1629313112826">
       <screen x="0" y="0" width="1366" height="740" />
@@ -335,7 +236,6 @@
     <state x="346" y="61" width="672" height="678" key="search.everywhere.popup/0.0.1366.740/1366.0.1920.1080@0.0.1366.740" timestamp="1629313112826" />
     <state x="346" y="61" width="672" height="678" key="search.everywhere.popup/0.0.1366.740@0.0.1366.740" timestamp="1622456581072" />
   </component>
-<<<<<<< HEAD
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
@@ -347,6 +247,4 @@
       </breakpoints>
     </breakpoint-manager>
   </component>
-=======
->>>>>>> parent of 3b2448f (package added)
 </project>

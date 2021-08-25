@@ -1,8 +1,5 @@
-<<<<<<< HEAD:src/main/java/HelperClasses/Connector.java
 package HelperClasses;
 
-=======
->>>>>>> parent of 3b2448f (package added):src/main/java/Connector.java
 import HelperClasses.ConfigReader;
 import HelperClasses.Event;
 import HelperClasses.Logger;
