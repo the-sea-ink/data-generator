@@ -1,6 +1,7 @@
 package datagen;
 
 import HelperClasses.ConfigReader;
+import HelperClasses.Event;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;

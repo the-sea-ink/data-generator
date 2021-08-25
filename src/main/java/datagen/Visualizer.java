@@ -30,7 +30,7 @@ public class Visualizer extends JFrame {
     public static int source = 0;
 
     public static void main(String[] args) throws IOException, ParseException {
-        //datagen.Splitter.split();
+        //HelperClasses.Splitter.split();
         if (args.length > 0) {
             source = Integer.parseInt(args[0]);
         }
@@ -107,7 +107,7 @@ public class Visualizer extends JFrame {
 
         JFreeChart chart = ChartFactory.createScatterPlot(
                 title,
-                "datagen.Event ID",
+                "HelperClasses.Event ID",
                 "Delay",
                 dataset,
                 PlotOrientation.VERTICAL,
@@ -123,9 +123,14 @@ public class Visualizer extends JFrame {
 
     public static void histogram(int source) throws IOException, ParseException {
         String inputFile = "output/output.csv";
+        boolean skip = true;
         if (source != 0)
+        {
             inputFile = "output/output" + source + ".csv";
-        int size = Analyzer.getTotalEvents(inputFile);
+            skip = false;
+        }
+
+        int size = Analyzer.getTotalEvents(inputFile, skip);
         double[] delays = new double[size-1];
 
         //read output
@@ -190,7 +195,7 @@ public class Visualizer extends JFrame {
 
         XYSeriesCollection dataset = new XYSeriesCollection();
 
-        XYSeries series1 = new XYSeries("datagen.Event Time");
+        XYSeries series1 = new XYSeries("HelperClasses.Event Time");
         XYSeries series2 = new XYSeries("Processing Time");
 
         String currentInputFile = "output/output" + source +".csv";
@@ -209,7 +214,7 @@ public class Visualizer extends JFrame {
         String axisName = "";
         String[] names = new String[2];
         names[0] = "Processing Time";
-        names[1] = "datagen.Event Time";
+        names[1] = "HelperClasses.Event Time";
         SymbolAxis axis = new SymbolAxis(axisName, names);
         chart.getXYPlot().setRangeAxis(axis);
 
@@ -264,7 +269,7 @@ public class Visualizer extends JFrame {
     public static void threadPool() throws IOException {
         String title = "Name";
 
-        XYSeries firstSeries= new XYSeries("Thread pool");
+        XYSeries firstSeries= new XYSeries("Writing");
         firstSeries.add(0, 0);
         firstSeries.add(1, 4.576);
         firstSeries.add(2, 6.604);
@@ -274,7 +279,7 @@ public class Visualizer extends JFrame {
         firstSeries.add(8,19.422);
         firstSeries.add(10,24.960);
 
-        XYSeries secondSeries= new XYSeries("No thread pool");
+        XYSeries secondSeries= new XYSeries("No threads");
         secondSeries.add(0, 0);
         secondSeries.add(1, 4.547);
         secondSeries.add(2, 7.704);
@@ -284,7 +289,7 @@ public class Visualizer extends JFrame {
         secondSeries.add(8,27.065);
         secondSeries.add(10,33.456);
 
-        XYSeries thirdSeries= new XYSeries("Thread pool no writing");
+        XYSeries thirdSeries= new XYSeries("No writing");
         thirdSeries.add(0, 0);
         thirdSeries.add(1, 2.396);
         thirdSeries.add(2, 3.922);
@@ -294,7 +299,7 @@ public class Visualizer extends JFrame {
         thirdSeries.add(8,18.070);
         thirdSeries.add(10,24.024);
 
-        XYSeries fourthSet= new XYSeries("Thread pool no writing");
+        XYSeries fourthSet= new XYSeries("40 million events");
         fourthSet.add(0, 0);
         fourthSet.add(1, 34.312);
         fourthSet.add(2, 25.108);
@@ -311,12 +316,42 @@ public class Visualizer extends JFrame {
         fourthSet.add(13,23.333);
         fourthSet.add(20, 23.300);
 
+        XYSeries fifthSeries= new XYSeries("4 cores");
+        fifthSeries.add(0, 0);
+        fifthSeries.add(1, 4.576);
+        fifthSeries.add(2, 6.604);
+        fifthSeries.add(3, 8.121);
+        fifthSeries.add(4, 10.511);
+        fifthSeries.add(5, 12.600);
+        fifthSeries.add(6,15.623);
+        fifthSeries.add(7, 16.857);
+        fifthSeries.add(8,19.422);
+        fifthSeries.add(9, 20.350);
+        fifthSeries.add(10,24.960);
+        fifthSeries.add(11, 25.184);
+
+        XYSeries sixthSeries= new XYSeries("6 cores");
+        sixthSeries.add(0, 0);
+        sixthSeries.add(1, 4.211);
+        sixthSeries.add(2, 6.911);
+        sixthSeries.add(3, 8.133);
+        sixthSeries.add(4, 9.341);
+        sixthSeries.add(5, 10.639);
+        sixthSeries.add(6,14.204);
+        sixthSeries.add(7, 15.867);
+        sixthSeries.add(8,17.095);
+        sixthSeries.add(9, 18.311);
+        sixthSeries.add(10,20.007);
+        sixthSeries.add(11, 23.832);
+
 
         XYSeriesCollection dataset = new XYSeriesCollection();
         //dataset.addSeries(firstSeries);
         //dataset.addSeries(secondSeries);
         //dataset.addSeries(thirdSeries);
-        dataset.addSeries(fourthSet);
+        //dataset.addSeries(fourthSet);
+        dataset.addSeries(fifthSeries);
+        dataset.addSeries(sixthSeries);
 
         JFreeChart chart = ChartFactory.createScatterPlot(
                 title,

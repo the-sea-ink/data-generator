@@ -31,7 +31,7 @@ public class DataGen {
             sensors.add(newSensor);
         }
         log.setSensors(sensors);
-        boolean multithreaded = false;
+        boolean multithreaded = true;
 
         long startTime = System.nanoTime();
         if (multithreaded){

@@ -1,5 +1,7 @@
 package datagen;
 
+import HelperClasses.CsvQueueWriter;
+import HelperClasses.Event;
 import HelperClasses.TimeHandler;
 import org.json.simple.parser.ParseException;
 
@@ -19,7 +21,7 @@ public class Generator implements Runnable {
         this.csvWriter = csvWriter;
     }
 
-    private void generateRandomDistribution() throws IOException {
+    private void generateRandomDistribution() {
 
         List<Event> oooEvents = new ArrayList<>();
         while(!inputSensor.finished()){
@@ -42,9 +44,9 @@ public class Generator implements Runnable {
             for (Event event : oooEvents){
                 eventStrings.add(event.toString());
             }
-            csvWriter.queueEventsStrings(eventStrings);
+            csvWriter.queueEventList(eventStrings);
 
-            csvWriter.queueEventStrings(currentEvent.toString());
+            csvWriter.queueEvent(currentEvent.toString());
 
             oooEvents.clear();
         }
@@ -55,27 +57,25 @@ public class Generator implements Runnable {
         while(!inputSensor.finished()){
             Event currentEvent = inputSensor.generateNewEvent();
             delayer.conceptDrift(currentEvent, inputSensor);
-            csvWriter.queueEventStrings(currentEvent.toString());
+            csvWriter.queueEvent(currentEvent.toString());
         }
+        csvWriter.notifySensorIsDone();
     }
 
     private void generateConnectionLost() throws IOException, ParseException {
         while(!inputSensor.finished()){
             Event currentEvent = inputSensor.generateNewEvent();
             delayer.connectionLoss(currentEvent, inputSensor);
-            csvWriter.queueEventStrings(currentEvent.toString());
+            csvWriter.queueEvent(currentEvent.toString());
         }
+        csvWriter.notifySensorIsDone();
     }
 
     @Override
     public void run() {
         switch (delayer.pattern){
             case (1):
-                try {
-                    generateRandomDistribution();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                generateRandomDistribution();
                 break;
             case (2):
                 try {

@@ -1,0 +1,81 @@
+Source 1: 
+Amount of events: 999999
+Minimum delay: 1
+Maximum delay: 4997
+Out of order percentage: 0.4999994999995
+Out of order percentage: 0.4999994999995Source 2: 
+Amount of events: 1000001
+Minimum delay: 1
+Maximum delay: 2378
+Out of order percentage: 0.1000008999991
+Out of order percentage: 0.1000008999991Source 3: 
+Amount of events: 1000001
+Minimum delay: 1
+Maximum delay: 3262
+Out of order percentage: 0.3000006999993
+Out of order percentage: 0.3000006999993Source 4: 
+Amount of events: 1000001
+Minimum delay: 1
+Maximum delay: 10749
+Out of order percentage: 0.7000002999997
+Out of order percentage: 0.7000002999997Stream duration: 250000 seconds
+Total events: 4000002
+
+_____________________________________________________
+Source 1: 
+Amount of events: 1000001
+Minimum delay: 1
+Maximum delay: 5742
+Out of order percentage: 0.5000004999995
+Out of order percentage: 0.5000004999995
+___________________________________________________
+Source 2: 
+Amount of events: 1000001
+Minimum delay: 1
+Maximum delay: 2268
+Out of order percentage: 0.1000008999991
+Out of order percentage: 0.1000008999991
+___________________________________________________
+Source 3: 
+Amount of events: 1000001
+Minimum delay: 1
+Maximum delay: 3454
+Out of order percentage: 0.3000006999993
+Out of order percentage: 0.3000006999993
+___________________________________________________
+Source 4: 
+Amount of events: 1000001
+Minimum delay: 1
+Maximum delay: 10219
+Out of order percentage: 0.7000002999997
+Out of order percentage: 0.7000002999997
+___________________________________________________
+Stream duration: 250000 seconds
+Total events: 4000004
+Source 1: 
+Amount of events: 999998
+Minimum delay: 1
+Maximum delay: 5704
+Out of order percentage: 0.499998999998
+Out of order percentage: 0.499998999998
+Source 2: 
+Amount of events: 1000001
+Minimum delay: 1
+Maximum delay: 2283
+Out of order percentage: 0.1000008999991
+Out of order percentage: 0.1000008999991
+Source 3: 
+Amount of events: 1000001
+Minimum delay: 1
+Maximum delay: 3629
+Out of order percentage: 0.3000006999993
+Out of order percentage: 0.3000006999993
+Source 4: 
+Amount of events: 1000001
+Minimum delay: 1
+Maximum delay: 11004
+Out of order percentage: 0.7000002999997
+Out of order percentage: 0.7000002999997
+Stream duration: 250000 seconds
+Total events: 4000001
+___________________________________________________
