@@ -1,9 +1,6 @@
-package datagen;
-
 import javax.swing.JFrame;
 
 import HelperClasses.ConfigReader;
-import datagen.Analyzer;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.SymbolAxis;
@@ -30,16 +27,19 @@ public class Visualizer extends JFrame {
     public static int source = 0;
 
     public static void main(String[] args) throws IOException, ParseException {
+<<<<<<< HEAD:src/main/java/datagen/Visualizer.java
         //HelperClasses.Splitter.split();
+=======
+        Splitter.split();
+>>>>>>> parent of 3b2448f (package added):src/main/java/Visualizer.java
         if (args.length > 0) {
             source = Integer.parseInt(args[0]);
         }
         else source = 0;
 
-        //scatterChartDelays();
-        //histogram(source);
-        //scatterChartEventAndProcTimes(source);
-        threadPool();
+        scatterChartDelays();
+        histogram(source);
+        scatterChartEventAndProcTimes(source);
 
     }
 
@@ -103,11 +103,17 @@ public class Visualizer extends JFrame {
 
 
             dataset.addSeries(dataSeries.get(currentSource));
+
         }
+
 
         JFreeChart chart = ChartFactory.createScatterPlot(
                 title,
+<<<<<<< HEAD:src/main/java/datagen/Visualizer.java
                 "HelperClasses.Event ID",
+=======
+                "Event ID",
+>>>>>>> parent of 3b2448f (package added):src/main/java/Visualizer.java
                 "Delay",
                 dataset,
                 PlotOrientation.VERTICAL,
@@ -195,7 +201,11 @@ public class Visualizer extends JFrame {
 
         XYSeriesCollection dataset = new XYSeriesCollection();
 
+<<<<<<< HEAD:src/main/java/datagen/Visualizer.java
         XYSeries series1 = new XYSeries("HelperClasses.Event Time");
+=======
+        XYSeries series1 = new XYSeries("Event Time");
+>>>>>>> parent of 3b2448f (package added):src/main/java/Visualizer.java
         XYSeries series2 = new XYSeries("Processing Time");
 
         String currentInputFile = "output/output" + source +".csv";
@@ -214,7 +224,11 @@ public class Visualizer extends JFrame {
         String axisName = "";
         String[] names = new String[2];
         names[0] = "Processing Time";
+<<<<<<< HEAD:src/main/java/datagen/Visualizer.java
         names[1] = "HelperClasses.Event Time";
+=======
+        names[1] = "Event Time";
+>>>>>>> parent of 3b2448f (package added):src/main/java/Visualizer.java
         SymbolAxis axis = new SymbolAxis(axisName, names);
         chart.getXYPlot().setRangeAxis(axis);
 
@@ -265,6 +279,7 @@ public class Visualizer extends JFrame {
         ChartUtils.saveChartAsPNG(new File(title + ".png"), chart, 450, 400);
 
     }
+<<<<<<< HEAD:src/main/java/datagen/Visualizer.java
 
     public static void threadPool() throws IOException {
         String title = "Name";
@@ -370,4 +385,6 @@ public class Visualizer extends JFrame {
         renderer.setDefaultShapesVisible(true);
         ChartUtils.saveChartAsPNG(new File(title + ".png"), chart, 450, 400);
     }
+=======
+>>>>>>> parent of 3b2448f (package added):src/main/java/Visualizer.java
 }

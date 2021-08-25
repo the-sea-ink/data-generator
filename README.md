@@ -1,6 +1,6 @@
-# Out-of-Order Data Stream datagen.DataGen
+# Out-of-Order Data Stream DataGen
 
-This is a TU Berlin Bachelor's Thesis "Out-of-Order Data Stream datagen.DataGen". 
+This is a TU Berlin Bachelor's Thesis "Out-of-Order Data Stream DataGen". 
 
 ## Setup
 ### Installation
@@ -20,6 +20,6 @@ It contains following fields:
 | zebra stripes | are neat      |   
 
 ## Components
-### datagen.DataGen
-### datagen.Analyzer
-### datagen.Visualizer 
+### DataGen
+### Analyzer
+### Visualizer 

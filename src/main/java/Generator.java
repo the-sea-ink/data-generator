@@ -1,10 +1,14 @@
+<<<<<<< HEAD:src/main/java/datagen/Generator.java
 package datagen;
 
 import HelperClasses.CsvQueueWriter;
 import HelperClasses.Event;
+=======
+>>>>>>> parent of 3b2448f (package added):src/main/java/Generator.java
 import HelperClasses.TimeHandler;
 import org.json.simple.parser.ParseException;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,13 +44,19 @@ public class Generator implements Runnable {
                 delayedEvent.processingTime =  TimeHandler.addTimeMilliseconds(currentEvent.processingTime, delay);
             }
 
+            //csvWriter.queueEvents(oooEvents);
             List<String> eventStrings = new ArrayList<>();
             for (Event event : oooEvents){
                 eventStrings.add(event.toString());
             }
             csvWriter.queueEventList(eventStrings);
 
+<<<<<<< HEAD:src/main/java/datagen/Generator.java
             csvWriter.queueEvent(currentEvent.toString());
+=======
+            //csvWriter.queueEvent(currentEvent);
+            csvWriter.queueEventStrings(currentEvent.toString());
+>>>>>>> parent of 3b2448f (package added):src/main/java/Generator.java
 
             oooEvents.clear();
         }
