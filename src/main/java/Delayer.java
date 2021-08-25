@@ -1,5 +1,3 @@
-package datagen;
-
 import HelperClasses.ConfigReader;
 import HelperClasses.Event;
 import HelperClasses.TimeHandler;
@@ -25,18 +23,18 @@ public class Delayer {
     int gradualDriftHelper = 1;
     boolean init = false;
     int preGauss = -1;
-    long conceptDriftStartingEvent = -1;
+    int conceptDriftStartingEvent = -1;
     int networkAnomalyDuration;
 
     public boolean outlier;
     public double oooPercentage;
-    public long oooEvents;
-    public long ioEvents;
+    public int oooEvents;
+    public int ioEvents;
     public int pattern;
 
-    public long amountOfEventsToProcess;
+    public int amountOfEventsToProcess;
 
-    public Delayer(int id, long amountOfEventsToProcess) throws IOException, ParseException {
+    public Delayer(int id, int amountOfEventsToProcess) throws IOException, ParseException {
         this.id = id;
         if (ConfigReader.getOutlierPattern(this.id ) != -1){
             this.outlier = true;
@@ -189,7 +187,7 @@ public class Delayer {
    }
 
     public Event connectionLoss(Event event, InsulinSensor insulinSensor) throws IOException, ParseException {
-        long conceptDriftStartingEvent = this.ioEvents/2;
+        int conceptDriftStartingEvent = this.ioEvents/2;
 
         //io events before and after
         if (insulinSensor.currentEvent <= conceptDriftStartingEvent || insulinSensor.currentEvent >= conceptDriftStartingEvent + this.oooEvents) {
