@@ -1,3 +1,5 @@
+package datagen;
+
 import HelperClasses.ConfigReader;
 import HelperClasses.Event;
 import org.json.simple.parser.ParseException;
@@ -14,7 +16,7 @@ public class InsulinSensor {
     public int highestGluckoseAmount;
     public int oversugared = 0;
 
-    public int amountOfEventsToGenerate;
+    public long amountOfEventsToGenerate;
     public int currentEvent = 1;
     public int eventIDOutputFile = 1;
     public int id;
@@ -33,7 +35,7 @@ public class InsulinSensor {
         this.id = id;
         this.serialNumber = this.id +1;
 
-        amountOfEventsToGenerate = (ConfigReader.getStreamDuration()*1000 / ConfigReader.getTimeBetweenTransactions())+1;
+        amountOfEventsToGenerate = (ConfigReader.getStreamDuration()*(1000 / ConfigReader.getTimeBetweenTransactions()))+1;
 
         eventIDOutputFile = this.id;
         try {
