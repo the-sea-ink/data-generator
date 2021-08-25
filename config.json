@@ -2,12 +2,14 @@
   "outputFile" : "output/output.csv",
 
   "runtimeInSeconds" : 250000,
+  "runtimeInSeconds" : 769231,
   "startingTime": "2021-03-31 17:03:20.004",
   "milliSecondsBetweenEvents": 250,
   "shortestDelayInMilliseconds" : 1,
   "longestDelayInMilliseconds" : 1000,
   "delayPattern": 1,
   "oooPercentage": 50,
+
   "networkAnomalyDurationInSeconds": 1000,
 
   "amountOfSources": 4,
@@ -15,6 +17,13 @@
     {"sourceID":2, "pattern":1, "oooPercentage" : 10},
     {"sourceID":3, "pattern":1, "oooPercentage" : 30},
     {"sourceID":4, "pattern":1, "oooPercentage" : 70}
+    ],
+
+  "networkAnomalyDurationInSeconds": 10,
+
+  "amountOfSources": 13,
+  "outliers" : [
+
   ],
 
   "eventTimeColumn": 2,
