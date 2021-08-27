@@ -30,16 +30,16 @@ public class Visualizer extends JFrame {
     public static int source = 0;
 
     public static void main(String[] args) throws IOException, ParseException {
-        //HelperClasses.Splitter.split();
+        HelperClasses.Splitter.split();
         if (args.length > 0) {
             source = Integer.parseInt(args[0]);
         }
         else source = 0;
 
-        //scatterChartDelays();
-        //histogram(source);
-        //scatterChartEventAndProcTimes(source);
-        threadPool();
+        scatterChartDelays();
+        histogram(source);
+        scatterChartEventAndProcTimes(source);
+        //threadPool();
 
     }
 
@@ -107,7 +107,7 @@ public class Visualizer extends JFrame {
 
         JFreeChart chart = ChartFactory.createScatterPlot(
                 title,
-                "HelperClasses.Event ID",
+                "datagen.Event ID",
                 "Delay",
                 dataset,
                 PlotOrientation.VERTICAL,
@@ -195,7 +195,7 @@ public class Visualizer extends JFrame {
 
         XYSeriesCollection dataset = new XYSeriesCollection();
 
-        XYSeries series1 = new XYSeries("HelperClasses.Event Time");
+        XYSeries series1 = new XYSeries("datagen.Event Time");
         XYSeries series2 = new XYSeries("Processing Time");
 
         String currentInputFile = "output/output" + source +".csv";
@@ -214,7 +214,7 @@ public class Visualizer extends JFrame {
         String axisName = "";
         String[] names = new String[2];
         names[0] = "Processing Time";
-        names[1] = "HelperClasses.Event Time";
+        names[1] = "datagen.Event Time";
         SymbolAxis axis = new SymbolAxis(axisName, names);
         chart.getXYPlot().setRangeAxis(axis);
 

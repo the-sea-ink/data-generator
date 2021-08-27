@@ -152,7 +152,7 @@ public class ConfigReader {
             Long outlierLong = Long.valueOf( (Long) line.get("sourceID"));
             int outlier = outlierLong.intValue();
             Long pattern = Long.valueOf((Long)line.get("pattern"));
-            if(outlier == sourceID && pattern !=3 ) {
+            if(outlier == sourceID && pattern !=3 && pattern !=2 ) {
                 Long oooPercLong = Long.valueOf((Long)line.get("oooPercentage"));
                 return oooPercLong.intValue();
             }
@@ -184,7 +184,7 @@ public class ConfigReader {
             int outlier = outlierLong.intValue();
             Long pattern = Long.valueOf((Long)line.get("pattern"));
             if(outlier == sourceID && pattern == 3 ) {
-                Long connectionLossLong = Long.valueOf((Long)line.get("networkAnomalyDurationInSeconds"));
+                Long connectionLossLong = Long.valueOf((Long)line.get("networkAnomalyDuration"));
                 return connectionLossLong.intValue();
             }
         }

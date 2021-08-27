@@ -13,7 +13,6 @@ import java.util.concurrent.TimeUnit;
 public class DataGen {
 
     public static void main(String[] args) throws IOException, ParseException, java.text.ParseException, InterruptedException {
-
         Logger log = new Logger();
 
         int amountOfSources = ConfigReader.getAmountOfSources();
@@ -61,8 +60,6 @@ public class DataGen {
         long endTime = System.nanoTime();
         log.setStreamEnd();
     }
-
-
 
 }
 

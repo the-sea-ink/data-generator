@@ -1,8 +1,6 @@
 package HelperClasses;
 
-import HelperClasses.ConfigReader;
-import HelperClasses.Event;
-import HelperClasses.Logger;
+import datagen.Event;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
@@ -12,10 +10,6 @@ import java.util.Comparator;
 import java.util.List;
 
 public class Connector {
-
-    public static void main(String[] args) throws IOException, ParseException {
-        sortByProcessingTime();
-    }
 
     public static FileWriter exporterInit() throws IOException, ParseException {
         FileWriter csvWriter = new FileWriter(ConfigReader.getOutputFile());

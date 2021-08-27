@@ -1,7 +1,6 @@
 package datagen;
 
 import HelperClasses.ConfigReader;
-import HelperClasses.Event;
 import HelperClasses.TimeHandler;
 import org.json.simple.parser.ParseException;
 import java.io.IOException;
@@ -38,22 +37,23 @@ public class Delayer {
 
     public Delayer(int id, long amountOfEventsToProcess) throws IOException, ParseException {
         this.id = id;
-        if (ConfigReader.getOutlierPattern(this.id ) != -1){
+
+        if (ConfigReader.getOutlierPattern(this.id) != -1){
             this.outlier = true;
             this.pattern = ConfigReader.getOutlierPattern(this.id);
         }else{
             this.pattern = ConfigReader.getDelayPattern();
         }
 
-        if (ConfigReader.getOutlierOoo(this.id) != -1 && this.pattern == 1) {
+        if (this.outlier && this.pattern == 1) {
             this.oooPercentage = ConfigReader.getOutlierOoo(this.id);
         }else if ( this.pattern == 1) {
             this.oooPercentage = ConfigReader.getDelayPercentage();
         }
 
-        if (ConfigReader.getOutlierNetworkAnomalyDuration(this.id) ==-1)
+        if (this.pattern ==2 || this.pattern == 3 && ConfigReader.getOutlierNetworkAnomalyDuration(this.id) ==-1)
             this.networkAnomalyDuration = ConfigReader.getNetworkAnomalyDuration();
-        else
+        else if (this.pattern ==2 || this.pattern == 3)
             this.networkAnomalyDuration = ConfigReader.getOutlierNetworkAnomalyDuration(this.id);
 
         if ((this.pattern == 3 || this.pattern == 2) && this.outlier) {
@@ -202,7 +202,7 @@ public class Delayer {
             System.out.println(this.id);
             firstConnectionLossCheck = true;
             this.connectionLossDate = event.eventTime;
-            this.connectionRecoveryDate = TimeHandler.addTimeMilliseconds(event.eventTime, this.networkAnomalyDuration *1000);
+            this.connectionRecoveryDate = TimeHandler.addTimeMilliseconds(event.eventTime, this.networkAnomalyDuration );
             this.delay = (int) Math.floor(Math.random()*(maxDelay - minDelay+1)+minDelay);
             event.processingTime = TimeHandler.addTimeMilliseconds(this.connectionRecoveryDate, delay);
         }else {
@@ -216,6 +216,8 @@ public class Delayer {
     }
 
     public boolean distributionCalculation() {
+        if (this.amountOfEventsToProcess <= 1)
+            return false;
         int result = (int) Math.ceil((Math.random())*(this.amountOfEventsToProcess));
         this.amountOfEventsToProcess--;
         if (result > oooEvents) {

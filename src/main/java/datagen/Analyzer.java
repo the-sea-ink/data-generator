@@ -100,7 +100,7 @@ public class Analyzer {
         }
     }
 
-    public static void main(String[] args) throws IOException, ParseException, java.text.ParseException {
+    public static void main(String[] args) throws ParseException, java.text.ParseException, IOException {
         int totalEvents = 0;
         int sourcesAmount = ConfigReader.getAmountOfSources();
         FileWriter fileWriter = new FileWriter("output/analyzerOutput.csv", true);
@@ -133,7 +133,7 @@ public class Analyzer {
 
             if (ConfigReader.getOutlierPattern(currentSource+1) == 3 || ConfigReader.getDelayPattern() == 3 ){
                 line = "Out of order percentage: " + results.oooPercentage +
-                        ", connection loss duration: " + results.maxDelay + " seconds";
+                        ", longest connection loss duration: " + results.maxDelay + " seconds";
             }
 
             else{
@@ -144,7 +144,7 @@ public class Analyzer {
 
             //line = "Critical points: " + results.critPointsTotalAmount + ", at positions: " + results.criticalPoints + System.lineSeparator();
             System.out.println("Critical points: " + results.critPointsTotalAmount);
-            Connector.exporter(fileWriter, line+System.lineSeparator());
+            //Connector.exporter(fileWriter, line+System.lineSeparator());
             System.out.println();
 
             totalEvents += results.totalEvents;
@@ -161,6 +161,7 @@ public class Analyzer {
         fileWriter.flush();
         fileWriter.close();
     }
+
     public AnalzyerResults analyzeReverse(String inputFile) throws IOException, ParseException {
         BufferedReader br = new BufferedReader (new InputStreamReader (new ReverseLineInputStream(new File(inputFile))));
         String line;

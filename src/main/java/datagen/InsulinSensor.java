@@ -1,7 +1,6 @@
 package datagen;
 
 import HelperClasses.ConfigReader;
-import HelperClasses.Event;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -34,8 +33,8 @@ public class InsulinSensor {
         this.highestGluckoseAmount = 15;
         this.id = id;
         this.serialNumber = this.id +1;
-
-        amountOfEventsToGenerate = (ConfigReader.getStreamDuration()*(1000 / ConfigReader.getTimeBetweenTransactions()))+1;
+        long streamDuration = ConfigReader.getStreamDuration() * 1000;
+        amountOfEventsToGenerate =  Math.round(streamDuration/(double) ConfigReader.getTimeBetweenTransactions());
 
         eventIDOutputFile = this.id;
         try {
@@ -93,8 +92,9 @@ public class InsulinSensor {
     }
 
     public boolean finished(){
-        if (this.amountOfEventsToGenerate == 0)
+        if (this.amountOfEventsToGenerate == 0) {
             return true;
+        }
         return false;
 
     }
