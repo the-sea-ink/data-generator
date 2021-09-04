@@ -1,0 +1,24 @@
+{
+  "outputFile" : "output/output.csv",
+
+  "runtimeInSeconds" : 100,
+  "startingTime": "2021-03-31 17:03:20.004",
+  "milliSecondsBetweenEvents": 347,
+  "shortestDelayInMilliseconds" : 50,
+  "longestDelayInMilliseconds" : 974,
+  "delayPattern": 1,
+  "oooPercentage": 50,
+
+  "networkAnomalyDurationInSeconds": 50,
+
+  "amountOfSources": 4,
+  "outliers" : [
+    {"sourceID":2, "pattern":1, "oooPercentage" : 20},
+    {"sourceID":3, "pattern":2, "networkAnomalyDuration" : 30},
+    {"sourceID":4, "pattern":3, "networkAnomalyDuration" : 50}
+    ],
+
+  "eventTimeColumn": 2,
+  "processingTimeColumn" : 3,
+  "warningColumn": 6
+}
