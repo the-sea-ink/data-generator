@@ -16,14 +16,19 @@ To run the analyzer:
 ```
 $ java -cp data-generator.jar datagen.Analyzer
 ```
-To run the analyzer: 
+To run the visualizer: 
 ```
 $ java -cp data-generator.jar datagen.Visualizer 
 ```
+Visualizer builds a histogramm for the first sensor by default. If a histogram for any other existing source is wanted, simply give its ordinal number as an argument, for example: 
+```
+$ java -cp data-generator.jar datagen.Visualizer 3
+```
+
 
 ### Config File Setup
 In order to be able to use the tool properly it is necessary to setup the configuration file. 
-An example of a configuration:
+An example of a configuration file:
 ```
 ${
 $  "outputFile" : "output/output.csv",
@@ -50,7 +55,3 @@ $  "processingTimeColumn" : 3,
 $  "warningColumn": 6
 $} 
 ```
-## Components
-### Generator
-### Analyzer
-### Visualizer 
