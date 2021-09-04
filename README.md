@@ -9,16 +9,22 @@ $ git clone https://github.com/the-sea-ink/data-generator.git
 $ cd data-generator
 ```
 To run the generator: 
+```
 $ java -cp data-generator.jar datagen.DataGen
+```
 To run the analyzer: 
+```
 $ java -cp data-generator.jar datagen.Analyzer
+```
 To run the analyzer: 
+```
 $ java -cp data-generator.jar datagen.Visualizer 
+```
 
 ### Config File Setup
 In order to be able to use the tool properly it is necessary to setup the configuration file. 
 An example of a configuration:
-
+```
 ${
 $  "outputFile" : "output/output.csv",
 $
@@ -43,7 +49,7 @@ $  "eventTimeColumn": 2,
 $  "processingTimeColumn" : 3,
 $  "warningColumn": 6
 $} 
-
+```
 ## Components
 ### Generator
 ### Analyzer
