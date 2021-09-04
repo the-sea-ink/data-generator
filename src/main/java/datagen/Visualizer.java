@@ -48,7 +48,7 @@ public class Visualizer extends JFrame {
         //read output
         int sourcesAmount = ConfigReader.getAmountOfSources();
 
-        String title = "Scatter Plot";
+        String title = "scatter_plot";
 
         List<XYSeries> dataSeries  = new ArrayList<>();
         for (int i = 1; i <= sourcesAmount; i++) {
@@ -179,7 +179,7 @@ public class Visualizer extends JFrame {
 
     public static void scatterChartEventAndProcTimes (int source) throws IOException, ParseException {
 
-        String title = "Scatter Chart";
+        String title = "scatter_chart";
 
         XYSeriesCollection dataset = new XYSeriesCollection();
 

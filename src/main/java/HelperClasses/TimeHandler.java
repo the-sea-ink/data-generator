@@ -3,7 +3,7 @@ import java.util.Date;
 
 
 public class TimeHandler {
-    
+
     public static Date addTimeMilliseconds(Date date, int time) {
         Date newDate = new Date (date.getTime() + time);
         return newDate;
