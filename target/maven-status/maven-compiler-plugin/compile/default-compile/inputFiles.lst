@@ -1,0 +1,17 @@
+/home/xenia/Documents/Uni/Bachelorarbeit/NebulaStream/data-generator/src/main/java/HelperClasses/OutputReader.java
+/home/xenia/Documents/Uni/Bachelorarbeit/NebulaStream/data-generator/src/main/java/HelperClasses/Logger.java
+/home/xenia/Documents/Uni/Bachelorarbeit/NebulaStream/data-generator/src/main/java/datagen/InsulinSensor.java
+/home/xenia/Documents/Uni/Bachelorarbeit/NebulaStream/data-generator/src/main/java/HelperClasses/Connector.java
+/home/xenia/Documents/Uni/Bachelorarbeit/NebulaStream/data-generator/src/main/java/HelperClasses/Stream.java
+/home/xenia/Documents/Uni/Bachelorarbeit/NebulaStream/data-generator/src/main/java/datagen/Event.java
+/home/xenia/Documents/Uni/Bachelorarbeit/NebulaStream/data-generator/src/main/java/datagen/Delayer.java
+/home/xenia/Documents/Uni/Bachelorarbeit/NebulaStream/data-generator/src/main/java/HelperClasses/Splitter.java
+/home/xenia/Documents/Uni/Bachelorarbeit/NebulaStream/data-generator/src/main/java/HelperClasses/Converter.java
+/home/xenia/Documents/Uni/Bachelorarbeit/NebulaStream/data-generator/src/main/java/datagen/Analyzer.java
+/home/xenia/Documents/Uni/Bachelorarbeit/NebulaStream/data-generator/src/main/java/HelperClasses/ReverseLineInputStream.java
+/home/xenia/Documents/Uni/Bachelorarbeit/NebulaStream/data-generator/src/main/java/HelperClasses/TimeHandler.java
+/home/xenia/Documents/Uni/Bachelorarbeit/NebulaStream/data-generator/src/main/java/datagen/CsvQueueWriter.java
+/home/xenia/Documents/Uni/Bachelorarbeit/NebulaStream/data-generator/src/main/java/datagen/Generator.java
+/home/xenia/Documents/Uni/Bachelorarbeit/NebulaStream/data-generator/src/main/java/datagen/DataGen.java
+/home/xenia/Documents/Uni/Bachelorarbeit/NebulaStream/data-generator/src/main/java/datagen/Visualizer.java
+/home/xenia/Documents/Uni/Bachelorarbeit/NebulaStream/data-generator/src/main/java/HelperClasses/ConfigReader.java

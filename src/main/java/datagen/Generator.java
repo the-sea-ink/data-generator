@@ -94,6 +94,5 @@ public class Generator implements Runnable {
                 }
                 break;
         }
-        System.out.println("done " + inputSensor.id);
     }
 }

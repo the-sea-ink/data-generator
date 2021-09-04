@@ -30,16 +30,18 @@ public class Visualizer extends JFrame {
     public static int source = 0;
 
     public static void main(String[] args) throws IOException, ParseException {
+        System.out.println("Start building plots...");
         HelperClasses.Splitter.split();
         if (args.length > 0) {
-            source = Integer.parseInt(args[0]);
+            source = Integer.parseInt(args[0])-1;
         }
         else source = 0;
 
         scatterChartDelays();
         histogram(source);
         scatterChartEventAndProcTimes(source);
-        //threadPool();
+
+        System.out.println("Visualization successful.");
 
     }
 
@@ -47,13 +49,7 @@ public class Visualizer extends JFrame {
         //read output
         int sourcesAmount = ConfigReader.getAmountOfSources();
 
-        String title = "";
-        if (ConfigReader.getDelayPattern() == 1)
-            title = "Random Distribution";
-        else if (ConfigReader.getDelayPattern() == 2)
-            title = "Concept Drift";
-        else
-            title = "Connection Loss";
+        String title = "Scatter Plot";
 
         List<XYSeries> dataSeries  = new ArrayList<>();
         for (int i = 1; i <= sourcesAmount; i++) {
@@ -118,11 +114,11 @@ public class Visualizer extends JFrame {
         chart.getXYPlot().getRenderer().setSeriesShape( 0, new Rectangle2D.Double( -1.0, -1.0, 1.0, 5.0 ) );
         chart.getXYPlot().getRenderer().setSeriesShape( 1, new Rectangle2D.Double( -1.0, -1.0, 1.0, 5.0 ) );
 
-        ChartUtils.saveChartAsPNG(new File(title + ".png"), chart, 450, 400);
+        ChartUtils.saveChartAsPNG(new File("output/" + title + ".png"), chart, 450, 400);
     }
 
     public static void histogram(int source) throws IOException, ParseException {
-        String inputFile = "output/output.csv";
+        String inputFile = ConfigReader.getOutputFile();
         boolean skip = true;
         if (source != 0)
         {
@@ -135,7 +131,7 @@ public class Visualizer extends JFrame {
 
         //read output
         BufferedReader br = new BufferedReader(new FileReader(inputFile));
-        if (inputFile.equals("output/output.csv"))
+        if (inputFile.equals(ConfigReader.getOutputFile()))
             br.readLine();
 
         //init event/processing time columns/values
@@ -174,28 +170,21 @@ public class Visualizer extends JFrame {
         }
 
         HistogramDataset dataset = new HistogramDataset();
-        dataset.addSeries(ConfigReader.getOutlierOoo(source) + "% out-of-order", delays, 50);
+        dataset.addSeries("Processing Time Delays", delays, 50);
 
         JFreeChart histogram = ChartFactory.createHistogram("Distribution of processing time delay in milliseconds",
                 "delay", "frequency", dataset);
 
-        ChartUtils.saveChartAsPNG(new File(ConfigReader.getOutlierOoo(source) + "% out-of-order histogram.png"), histogram, 450, 400);
+        ChartUtils.saveChartAsPNG(new File("output/histogram.png"), histogram, 450, 400);
     }
 
     public static void scatterChartEventAndProcTimes (int source) throws IOException, ParseException {
 
-        String title;
-        if (ConfigReader.getDelayPattern() == 1)
-            title = "Scatter Chart - Random Distribution";
-        else if (ConfigReader.getDelayPattern() == 2)
-            title = "Scatter Chart - Concept Drift";
-        else
-            title = "Scatter Chart - Connection Loss";
-
+        String title = "Scatter Chart";
 
         XYSeriesCollection dataset = new XYSeriesCollection();
 
-        XYSeries series1 = new XYSeries("datagen.Event Time");
+        XYSeries series1 = new XYSeries("Event Time");
         XYSeries series2 = new XYSeries("Processing Time");
 
         String currentInputFile = "output/output" + source +".csv";
@@ -214,7 +203,7 @@ public class Visualizer extends JFrame {
         String axisName = "";
         String[] names = new String[2];
         names[0] = "Processing Time";
-        names[1] = "datagen.Event Time";
+        names[1] = "Event Time";
         SymbolAxis axis = new SymbolAxis(axisName, names);
         chart.getXYPlot().setRangeAxis(axis);
 
@@ -262,112 +251,9 @@ public class Visualizer extends JFrame {
         dataset.addSeries(series1);
         dataset.addSeries(series2);
 
-        ChartUtils.saveChartAsPNG(new File(title + ".png"), chart, 450, 400);
+        ChartUtils.saveChartAsPNG(new File("output/" +title + ".png"), chart, 450, 400);
 
     }
 
-    public static void threadPool() throws IOException {
-        String title = "Name";
 
-        XYSeries firstSeries= new XYSeries("Writing");
-        firstSeries.add(0, 0);
-        firstSeries.add(1, 4.576);
-        firstSeries.add(2, 6.604);
-        firstSeries.add(3, 8.121);
-        firstSeries.add(4, 10.511);
-        firstSeries.add(6,15.623);
-        firstSeries.add(8,19.422);
-        firstSeries.add(10,24.960);
-
-        XYSeries secondSeries= new XYSeries("No threads");
-        secondSeries.add(0, 0);
-        secondSeries.add(1, 4.547);
-        secondSeries.add(2, 7.704);
-        secondSeries.add(3, 11.291);
-        secondSeries.add(4, 13.950);
-        secondSeries.add(6,20.164);
-        secondSeries.add(8,27.065);
-        secondSeries.add(10,33.456);
-
-        XYSeries thirdSeries= new XYSeries("No writing");
-        thirdSeries.add(0, 0);
-        thirdSeries.add(1, 2.396);
-        thirdSeries.add(2, 3.922);
-        thirdSeries.add(3, 6.078);
-        thirdSeries.add(4, 9.929);
-        thirdSeries.add(6,13.973);
-        thirdSeries.add(8,18.070);
-        thirdSeries.add(10,24.024);
-
-        XYSeries fourthSet= new XYSeries("40 million events");
-        fourthSet.add(0, 0);
-        fourthSet.add(1, 34.312);
-        fourthSet.add(2, 25.108);
-        fourthSet.add(3, 22.780);
-        fourthSet.add(4, 24.690);
-        fourthSet.add(5, 23.841);
-        fourthSet.add(6,22.983);
-        fourthSet.add(7, 24.136);
-        fourthSet.add(8,23.080);
-        fourthSet.add(9, 23.087);
-        fourthSet.add(10,24.960);
-        fourthSet.add(11,23.089);
-        fourthSet.add(12,23.951);
-        fourthSet.add(13,23.333);
-        fourthSet.add(20, 23.300);
-
-        XYSeries fifthSeries= new XYSeries("4 cores");
-        fifthSeries.add(0, 0);
-        fifthSeries.add(1, 4.576);
-        fifthSeries.add(2, 6.604);
-        fifthSeries.add(3, 8.121);
-        fifthSeries.add(4, 10.511);
-        fifthSeries.add(5, 12.600);
-        fifthSeries.add(6,15.623);
-        fifthSeries.add(7, 16.857);
-        fifthSeries.add(8,19.422);
-        fifthSeries.add(9, 20.350);
-        fifthSeries.add(10,24.960);
-        fifthSeries.add(11, 25.184);
-
-        XYSeries sixthSeries= new XYSeries("6 cores");
-        sixthSeries.add(0, 0);
-        sixthSeries.add(1, 4.211);
-        sixthSeries.add(2, 6.911);
-        sixthSeries.add(3, 8.133);
-        sixthSeries.add(4, 9.341);
-        sixthSeries.add(5, 10.639);
-        sixthSeries.add(6,14.204);
-        sixthSeries.add(7, 15.867);
-        sixthSeries.add(8,17.095);
-        sixthSeries.add(9, 18.311);
-        sixthSeries.add(10,20.007);
-        sixthSeries.add(11, 23.832);
-
-
-        XYSeriesCollection dataset = new XYSeriesCollection();
-        //dataset.addSeries(firstSeries);
-        //dataset.addSeries(secondSeries);
-        //dataset.addSeries(thirdSeries);
-        //dataset.addSeries(fourthSet);
-        dataset.addSeries(fifthSeries);
-        dataset.addSeries(sixthSeries);
-
-        JFreeChart chart = ChartFactory.createScatterPlot(
-                title,
-                "Amount of sources",
-                "Duration in seconds",
-                dataset,
-                PlotOrientation.VERTICAL,
-                true,
-                true,
-                false
-        );
-        XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) chart.getXYPlot().getRenderer();
-
-        renderer.setDefaultLinesVisible(true);
-        renderer.setDefaultShapesFilled(true);
-        renderer.setDefaultShapesVisible(true);
-        ChartUtils.saveChartAsPNG(new File(title + ".png"), chart, 450, 400);
-    }
 }

@@ -1,32 +1,21 @@
 {
   "outputFile" : "output/output.csv",
 
-  "runtimeInSeconds" : 100000,
+  "runtimeInSeconds" : 100,
   "startingTime": "2021-03-31 17:03:20.004",
   "milliSecondsBetweenEvents": 347,
-  "shortestDelayInMilliseconds" : 1,
+  "shortestDelayInMilliseconds" : 50,
   "longestDelayInMilliseconds" : 974,
   "delayPattern": 1,
-  "oooPercentage": 10,
+  "oooPercentage": 50,
 
-  "networkAnomalyDurationInSeconds": 10000,
+  "networkAnomalyDurationInSeconds": 50,
 
-  "amountOfSources": 15,
+  "amountOfSources": 4,
   "outliers" : [
-    {"sourceID":2, "pattern":1, "oooPercentage" : 15},
-    {"sourceID":3, "pattern":1, "oooPercentage" : 20},
-    {"sourceID":4, "pattern":1, "oooPercentage" : 25},
-    {"sourceID":5, "pattern":1, "oooPercentage" : 30},
-    {"sourceID":6, "pattern":1, "oooPercentage" : 35},
-    {"sourceID":7, "pattern":1, "oooPercentage" : 40},
-    {"sourceID":8, "pattern":1, "oooPercentage" : 45},
-    {"sourceID":9, "pattern":1, "oooPercentage" : 50},
-    {"sourceID":10, "pattern":1, "oooPercentage" : 55},
-    {"sourceID":11, "pattern":1, "oooPercentage" : 60},
-    {"sourceID":12, "pattern":1, "oooPercentage" : 65},
-    {"sourceID":13, "pattern":1, "oooPercentage" : 70},
-    {"sourceID":14, "pattern":1, "oooPercentage" : 75},
-    {"sourceID":15, "pattern":1, "oooPercentage" : 80}
+    {"sourceID":2, "pattern":1, "oooPercentage" : 20},
+    {"sourceID":3, "pattern":2, "networkAnomalyDuration" : 30},
+    {"sourceID":4, "pattern":3, "networkAnomalyDuration" : 50}
     ],
 
   "eventTimeColumn": 2,

@@ -68,7 +68,7 @@ public class Analyzer {
                 minProcessingTime = event.processingTime;
         }
         public double getOooPercentage(){
-            return oooFound/(double)totalAmount;
+            return oooFound/(double)totalAmount*100;
         }
     }
 

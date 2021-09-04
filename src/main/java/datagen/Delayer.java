@@ -51,13 +51,16 @@ public class Delayer {
             this.oooPercentage = ConfigReader.getDelayPercentage();
         }
 
-        if (this.pattern ==2 || this.pattern == 3 && ConfigReader.getOutlierNetworkAnomalyDuration(this.id) ==-1)
+        if ((this.pattern ==2 || this.pattern == 3) && ConfigReader.getOutlierNetworkAnomalyDuration(this.id) ==-1) {
             this.networkAnomalyDuration = ConfigReader.getNetworkAnomalyDuration();
-        else if (this.pattern ==2 || this.pattern == 3)
+        }
+        else if (this.pattern ==2 || this.pattern == 3 ){
             this.networkAnomalyDuration = ConfigReader.getOutlierNetworkAnomalyDuration(this.id);
+        }
 
         if ((this.pattern == 3 || this.pattern == 2) && this.outlier) {
             this.oooPercentage =  (this.networkAnomalyDuration / (double) ConfigReader.getStreamDuration()) * 100;
+
         }else if (this.pattern == 3 ||  this.pattern == 2) {
             this.oooPercentage =  (this.networkAnomalyDuration / (double)  ConfigReader.getStreamDuration()) * 100;
         }
@@ -91,7 +94,6 @@ public class Delayer {
                 conceptDriftStartingEvent = 1;
             else {
                 conceptDriftStartingEvent = (this.ioEvents/2 - preGauss);
-                System.out.println(conceptDriftStartingEvent);
             }
 
         }
@@ -183,7 +185,6 @@ public class Delayer {
        }
 
        event.processingTime = TimeHandler.addTimeMilliseconds(event.eventTime, delay);
-       //System.out.println(amountOfEventsToProcess);
        amountOfEventsToProcess--;
        return event;
    }
@@ -199,16 +200,16 @@ public class Delayer {
         }
         //ooo events
         else if (!this.firstConnectionLossCheck) {
-            System.out.println(this.id);
             firstConnectionLossCheck = true;
             this.connectionLossDate = event.eventTime;
-            this.connectionRecoveryDate = TimeHandler.addTimeMilliseconds(event.eventTime, this.networkAnomalyDuration );
+            this.connectionRecoveryDate = TimeHandler.addTimeSeconds(event.eventTime, this.networkAnomalyDuration);
             this.delay = (int) Math.floor(Math.random()*(maxDelay - minDelay+1)+minDelay);
             event.processingTime = TimeHandler.addTimeMilliseconds(this.connectionRecoveryDate, delay);
         }else {
             delay = (int) Math.floor(Math.random()*(maxDelay - minDelay+1)+minDelay);
-            if (event.eventTime.getTime() < this.connectionRecoveryDate.getTime())
+            if (event.eventTime.before(this.connectionRecoveryDate) ) {
                 event.processingTime = TimeHandler.addTimeMilliseconds(this.connectionRecoveryDate, delay);
+            }
             else
                 event.processingTime = TimeHandler.addTimeMilliseconds(event.eventTime, delay);
         }
