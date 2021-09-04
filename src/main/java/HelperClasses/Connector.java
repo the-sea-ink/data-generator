@@ -11,17 +11,8 @@ import java.util.List;
 
 public class Connector {
 
-    public static FileWriter exporterInit() throws IOException, ParseException {
-        FileWriter csvWriter = new FileWriter(ConfigReader.getOutputFile());
-        return csvWriter;
-    }
-
     public static void exporter(FileWriter csvWriter, String dataString) throws IOException {
         csvWriter.append(dataString);
-    }
-
-    public static void closeFile (FileWriter csvWriter) throws IOException {
-        csvWriter.flush();
     }
 
     public static void sortByProcessingTime () throws IOException, ParseException {

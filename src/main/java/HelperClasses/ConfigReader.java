@@ -23,20 +23,6 @@ public class ConfigReader {
         return (String) jo.get("outputFile");
     }
 
-    public static int getTransactionsPerSecond () throws IOException, ParseException {
-        JSONObject jo = (JSONObject) configReader();
-        Long transactionsPerSecondLong = (Long) jo.get("transactionsPerSecond");
-        int transactionsPerSecond = transactionsPerSecondLong.intValue();
-        return transactionsPerSecond;
-    }
-
-    public static int getNumberOfSensors () throws IOException, ParseException {
-        JSONObject jo = (JSONObject) configReader();
-        Long numberOfSensorsLong = (Long) jo.get("numberOfSensors");
-        int numberOfSensors = numberOfSensorsLong.intValue();
-        return numberOfSensors;
-    };
-
     public static int getStreamDuration() throws IOException, ParseException {
         JSONObject jo = (JSONObject) configReader();
         Long runtimeLong = (Long) jo.get("runtimeInSeconds");
@@ -116,33 +102,6 @@ public class ConfigReader {
         return delayPattern;
     }
 
-    public static boolean getExceptionSource () throws IOException, ParseException {
-        JSONObject jo = (JSONObject) configReader();
-        //Long standOutSourceLong = (Long) jo.get("exceptionSource");
-        boolean standoutSource = (boolean) jo.get("exceptionSource");
-        return standoutSource;
-    }
-
-    public static int getExceptionSourceNumber () throws IOException, ParseException {
-        JSONObject jo = (JSONObject) configReader();
-        Long standOutSourceNumberLong = (Long) jo.get("exceptionSourceNumber");
-        int standOutSourceNumber = standOutSourceNumberLong.intValue();
-        return standOutSourceNumber;
-    }
-
-    public static int getExceptionSourcePattern () throws IOException, ParseException {
-        JSONObject jo = (JSONObject) configReader();
-        Long exceptionSourcePatternLong =  (Long) jo.get("exceptionSourcePattern");
-        int exceptionSourcePattern = exceptionSourcePatternLong.intValue();
-        return exceptionSourcePattern;
-    }
-
-    public static int getExceptionSourceDelay () throws IOException, ParseException {
-        JSONObject jo = (JSONObject) configReader();
-        Long exceptionSourceDelayLong = (Long) jo.get("exceptionSourceDelay");
-        int exceptionSourceDelay = exceptionSourceDelayLong.intValue();
-        return exceptionSourceDelay;
-    }
 
     public static int getOutlierOoo (int sourceID) throws IOException, ParseException {
         JSONObject jo = (JSONObject) configReader();

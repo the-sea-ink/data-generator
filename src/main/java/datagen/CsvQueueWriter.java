@@ -12,14 +12,15 @@ public class CsvQueueWriter implements Runnable {
 
     //FileWriter csvWriter;
     BufferedWriter csvWriter;
-    //private ConcurrentLinkedQueue<datagen.Event> eventsToWrite;
     private ConcurrentLinkedQueue<String> eventsToWrite;
     private AtomicInteger activeSensors;
 
-    public CsvQueueWriter(String outputFile, Integer activeSensors) {
-        new File(outputFile).delete();
+    public CsvQueueWriter(String outputFilePath, Integer activeSensors) {
+        File outputFile = new File(outputFilePath);
+        outputFile.mkdirs();
+        if (outputFile.exists())
+            outputFile.delete();
         try {
-            //this.csvWriter = new FileWriter(outputFile, true);
             FileWriter file = new FileWriter(outputFile);
             this.csvWriter = new BufferedWriter(file);
         } catch (IOException e) {
@@ -33,15 +34,6 @@ public class CsvQueueWriter implements Runnable {
         this.activeSensors.decrementAndGet();
     }
 
-    /*public void queueEvent(datagen.Event event){
-        this.eventsToWrite.add(event);
-    }
-
-    public void queueEvents(List<datagen.Event> events){
-        for (datagen.Event event : events){
-            this.eventsToWrite.add(event);
-        }
-    }*/
 
     public void queueEventList(List<String> events){
         for (String event : events){

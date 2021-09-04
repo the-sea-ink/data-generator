@@ -32,7 +32,6 @@ public class DataGen {
         log.setSensors(sensors);
         boolean multithreaded = true;
 
-        long startTime = System.nanoTime();
         if (multithreaded){
             ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
             executor.execute(csvWriter);
@@ -57,7 +56,6 @@ public class DataGen {
             writingThread.join();
         }
 
-        long endTime = System.nanoTime();
         log.setStreamEnd();
     }
 
