@@ -7,6 +7,7 @@ This is a TU Berlin Bachelor's Thesis "Out-of-Order Data Stream Generator".
 ```
 $ git clone https://github.com/the-sea-ink/data-generator.git
 $ cd data-generator
+```
 To run the generator: 
 $ java -cp data-generator.jar datagen.DataGen
 To run the analyzer: 
