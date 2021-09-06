@@ -20,7 +20,7 @@ To run the visualizer:
 ```
 $ java -cp data-generator.jar datagen.Visualizer 
 ```
-Visualizer builds a histogramm for the first sensor by default. If a histogram for any other existing source is wanted, simply give its ordinal number as an argument: 
+Visualizer builds a histogramm and a scatter chart for the first sensor by default. If a histogram or a scatter chart for any other existing source is wanted, simply give its ordinal number as an argument: 
 ```
 $ java -cp data-generator.jar datagen.Visualizer 3
 ```
