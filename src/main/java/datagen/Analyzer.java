@@ -145,9 +145,9 @@ public class Analyzer {
             System.out.println(line);
             Connector.exporter(fileWriter, line + System.lineSeparator());
 
-            //line = "Critical points: " + results.critPointsTotalAmount + ", at positions: " + results.criticalPoints + System.lineSeparator();
+            line = "Critical points: " + results.critPointsTotalAmount + ", at positions: " + results.criticalPoints + System.lineSeparator();
             System.out.println("Critical points: " + results.critPointsTotalAmount);
-            //Connector.exporter(fileWriter, line+System.lineSeparator());
+            Connector.exporter(fileWriter, line+System.lineSeparator());
             System.out.println();
 
             totalEvents += results.totalEvents;
